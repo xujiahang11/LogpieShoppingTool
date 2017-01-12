@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8"/>
+		<title>LOGPIE</title>
+		<link type="text/css" rel="stylesheet" href="/css/config.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/reset.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/header.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/aside.css"/>
+		<link type="text/css" rel="stylesheet" href="/css/main.css"/>
+	</head>
+	<body class="logpie-font-family font-median bg-light-grey">
+		<header class="grey bg-white">
+			<span class="header-nav">
+				<img src="/img/header_home.svg" width="20" height="20"/>
+				<span id="header-nav-company" class="black">LOGPIE米国小买手</span>
+				<span id="header-nav-title">&gt;&nbsp;订单管理</span>
+				<span id="header-nav-subtitle" class="blue">&gt;&nbsp;待发货</span>
+			</span>
+			<div class="header-search-admin">
+				<input type="text" name="search_box" placeholder="搜索"/ class="no-border bg-blue-grey">
+				<span id="search-img"></span>
+				<img src="/img/nav_permission_grey.svg" width="20" height="20"/>
+				<span>许嘉航&nbsp;-&nbsp;管理员</span>
+			</div>
+		</header>
+		<aside class="white bg-navy">
+			<nav>
+				<ul>
+					<a href="" class="selected"><li><img src="/img/nav_order.svg" width="24" height="24"/>订单管理</li></a>
+					<a href="../package/logpie_package.html" target="_parent"><li><img src="/img/nav_package.svg" width="24" height="24"/>物流管理</li></a>
+					<a href="../merchandise/logpie_merchandise.html" target="_parent"><li><img src="/img/nav_merchandise.svg" width="24" height="24"/>商品管理</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_customer.svg" width="24" height="24"/>用户管理</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_finance.svg" width="24" height="24"/>财务图表</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_coupon.svg" width="24" height="24"/>券码管理</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_permission.svg" width="24" height="24"/>权限管理</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_price.svg" width="24" height="24"/>定价工具</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_log.svg" width="24" height="24"/>系统日志</li></a>
+					<a href="" target="_parent"><li><img src="/img/nav_backup.svg" width="24" height="24"/>系统备份</li></a>
+				</ul>
+			</nav>
+			<div class="selected-mask" style="top: 0px;"></div>
+			<div class="selected-bar bg-blue" style="top: 10px;"></div>
+			<section class="nav-logout">
+				<hr/>
+				<a href=""><img src="/img/nav_logout.svg" width="20" height="20"/>登出</a>
+			</section>
+		</aside>
+		<div class="main">
+			<div id="main-tab" class="main-tab light-grey border bg-white">
+				<span id="to_be_shipped" class="blue">待发货</span><span id="to_be_forwarded">待转寄</span><span id="to_be_delivered">待收货</span><span id="to_be_closed">待结算</span><span id="all_stock">囤货区</span><span id="all_orders">全部订单</span>
+				<div id="btn-create-order" class="btn create-btn font-small white bg-blue">创建订单</div>
+				<div id="selected-bar" class="selected-bar bg-blue" style="width: 42px;"></div>
+			</div>
+			<div class="table-content border-left border-right bg-white" style="overflow-y: auto;">
+				<table class="font-small text-center">
+					<tr class="border-bottomn light-grey bg-light-grey">
+						<th class="text-left">订单号</th>
+						<th class="text-left">购买者</th>
+						<th>代理</th>
+						<th colspan="2">商品</th>
+						<th>数量</th>
+						<th>￥售价</th>
+						<th>￥付款</th>
+						<th>$购买成本</th>
+						<th>￥运费</th>
+						<th>￥总成本</th>
+						<th>￥当前利润</th>
+						<th>￥公司入账</th>
+						<th style="width: 80px;">物流信息</th>
+						<th>操作</th>
+					</tr>
+					<tr class="first-line">
+						<td class="text-left"><div class="tag tag-direct-mail font-extra-small purple bg-light-grey">直邮</div>1209364</td>
+						<td colspan="2" class="border-right text-left"><div class="text-omit font-median" style="width: 100px;">买买买的大哞哞</div></td>
+						<td colspan="2" class="text-left"><div class="text-omit font-median" style="width: 160px;">V领套头衫-藏青M码F2019385ZT</div></td>
+						<td rowspan="2" class="border-bottom">1</td>
+						<td rowspan="2" name="price" class="border-bottom blue">298</td>
+						<td rowspan="2" class="border-right border-bottom red">298</td>
+						<td rowspan="2" class="border-bottom">20.16</td>
+						<td>国际&nbsp;0</td>
+						<td rowspan="2" class="border-bottom">145.8</td>
+						<td rowspan="2" class="border-bottom">152.2</td>
+						<td rowspan="2" name="" class="border-right border-bottom red">0<span style="position: relative;"><div class="btn shortcut-btn toggle-btn font-extra-small white bg-yellow">一键入账</div></span></td>
+						<td class="text-left">暂无信息</td>
+						<td><div class="btn action-btn font-small white bg-green">装箱待寄</div></td>
+					</tr>
+					<tr class="second-line border-bottom grey">
+						<td colspan="2" class="text-left">2016-08-08</td>
+						<td class="border-right">杨秋菊</td>
+						<td class="text-left">Tommy</td>
+						<td>男装-毛衣</td>
+						<td class="black">国内&nbsp;0</td>
+						<td class="text-left"></td>
+						<td><div class="btn action-btn font-small white bg-grey">修改订单</div></td>
+					</tr>
+					<tr class="first-line">
+						<td class="text-left">1209364</td>
+						<td colspan="2" class="border-right text-left"><div class="text-omit font-median" style="width: 100px;">这是一只特别可爱的鲸鲸</div></td>
+						<td colspan="2" class="text-left"><div class="tag tag-stock font-extra-small green bg-light-grey">囤货</div><div class="text-omit font-median" style="width: 160px;">美白精华-50ml</div></td>
+						<td rowspan="2" class="border-bottom">1</td>
+						<td rowspan="2" name="price" class="border-bottom blue">298</td>
+						<td rowspan="2" class="border-right border-bottom red">0<span style="position: relative;"><div class="btn shortcut-btn toggle-btn font-extra-small white bg-yellow">一键入账</div></span></td>
+						<td rowspan="2" class="border-bottom">20.16</td>
+						<td>国际&nbsp;0</td>
+						<td rowspan="2" class="border-bottom">145.8</td>
+						<td rowspan="2" class="border-bottom">152.2</td>
+						<td rowspan="2" class="border-right border-bottom red">0<span style="position: relative;"><div class="btn shortcut-btn toggle-btn font-extra-small white bg-yellow">一键入账</div></span></td>
+						<td class="text-left" style="text-decoration: underline;">包裹2190<span style="position: relative;"><img src="/img/info.svg" class="tag-info"/><div class="hover-info">圆通快递：9801988635</div></span></td>
+						<td rowspan="2"><div class="btn action-btn font-small white bg-grey">修改订单</div></td>
+					</tr>
+					<tr class="second-line border-bottom grey">
+						<td colspan="2" class="text-left">2016-08-08</td>
+						<td class="border-right">乔梦颖</td>
+						<td class="text-left">Kiehls</td>
+						<td>护肤品-精华</td>
+						<td class="black">国内&nbsp;0</td>
+						<td class="text-left">顺运&nbsp;乔梦颖</td>
+					</tr>
+					<tr class="first-line">
+						<td class="text-left"><div class="tag tag-direct-mail font-extra-small purple bg-light-grey">直邮</div>1209364</td>
+						<td colspan="2" class="border-right text-left"><div class="text-omit font-median" style="width: 100px;">买买买的大哞哞</div></td>
+						<td colspan="2" class="text-left"><div class="tag tag-return font-extra-small red bg-light-grey">退货</div><div class="text-omit font-median" style="width: 160px;">V领套头衫-藏青M码F2019385ZT</div></td>
+						<td rowspan="2" class="border-bottom">1</td>
+						<td rowspan="2" name="price" class="border-bottom blue">298</td>
+						<td rowspan="2" class="border-right border-bottom red">298</td>
+						<td rowspan="2" class="border-bottom">20.16</td>
+						<td>国际&nbsp;0</td>
+						<td rowspan="2" class="border-bottom">145.8</td>
+						<td rowspan="2" class="border-bottom">152.2</td>
+						<td rowspan="2" class="border-right border-bottom red">0<span style="position: relative;"><div class="btn shortcut-btn toggle-btn font-extra-small white bg-yellow">一键入账</div></span></td>
+						<td class="text-left" style="text-decoration: underline;">包裹2194</td>
+						<td><div class="btn action-btn font-small white bg-green">客服转寄</div></td>
+					</tr>
+					<tr class="second-line border-bottom grey">
+						<td colspan="2" class="text-left">2016-08-08</td>
+						<td class="border-right">杨秋菊</td>
+						<td class="text-left">Tommy</td>
+						<td>男装-毛衣</td>
+						<td class="black">国内&nbsp;0</td>
+						<td class="text-left">飞碟&nbsp;杨秋菊</td>
+						<td><div class="btn action-btn font-small white bg-grey">修改订单</div></td>
+					</tr>
+				</table>
+			</div>
+			<div class="page-control font-small bg-white">
+				<img src="/img/first_page_disabled.svg" width="24" height="24"/>
+				<img src="/img/previous_disabled.svg" width="24" height="24"/>
+				<input type="number" name="page_number" min="1"/>
+				<span>of&nbsp;10</span>
+				<img src="/img/next.svg" width="24" height="24"/>
+				<img src="/img/last_page.svg" width="24" height="24" style="margin-right: 10px;"/>
+			</div>
+		</div>
+		<div id="popup-create-order" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom" style="width: 530px;">
+				<a class="selected">创建订单</a><a href="">创建包裹</a><a href="">创建商品</a><a href="">创建用户</a><img id="close-create-order" src="/img/close.svg" class="pointer" width="18" height="18" style="margin-left: 190px;"/>
+				<div class="selected-bar bg-blue" style="width: 56px;"></div>
+			</div>
+			<div class="popup-form">
+				<form>
+				<table class="no-border text-left" style="width: 510px;">
+					<tr>
+						<td>购买者<span class="required">*</span></td>
+						<td colspan="2" style="width: 200px;"><input type="text" name="customer_name" style="width: 175px; padding: 0px; padding-left: 18px;"/><span class="search-icon"></span></td>
+						<td class="font-extra-small"><input class="checkbox" type="checkbox" name="is_stock"/>囤货</td>
+						<td class="text-right" style="width: 110px">
+							<span style="margin-right: 10px;">代理</span>
+							<select>  
+	  							<option value ="" selected></option>  
+								<option value ="qiaomengying">乔梦颖</option>  
+								<option value="yangqiuju">杨秋菊</option>
+								<option value="zhonggang">仲钢</option>
+								<option value="yangxiaoshu">杨晓姝</option>  
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>商品名称<span class="required">*</span></td>
+						<td colspan="4" style="width: 410px;"><select style="width: 410px;"></select></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="2" style="width: 200px;">
+							<select class="light-grey" style="width: 200px">
+								<option value="" selected>按品牌筛选</option>
+								<option value="kiehls">Kiehls</option>
+								<option value="Coach">Coach</option>
+							</select>
+						</td>
+						<td colspan="2" style="width: 200px;">
+							<select class="light-grey" style="width: 185px; margin-left: 25px;">
+								<option value="" selected>按类别筛选</option>
+								<optgroup value="skincare" label="护肤品">
+									<option value="serum">精华</option>
+									<option value="moisture">面霜</option>
+								</optgroup>
+								<optgroup value="makeup" label="彩妆">
+									<option value="bbcream">BB霜</option>
+									<option value="lipstick">口红</option>
+								</optgroup>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>购买成本<span class="required">*</span></td>
+						<td><input type="text" name="cost" class="number-input" value="0.0"/><span class="unit-icon" style="padding-left: 2px;">$</span></td>
+						<td><div class="btn his-btn bg-blue">查看历史成本</div></td>
+						<td><span style="margin-left: 25px;">商品数量<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px;"><input type="text" name="number" min="1" class="number-input" value="1"/></td>
+					</tr>
+					<tr>
+						<td>最终售价<span class="required">*</span></td>
+						<td><input type="text" name="price" class="number-input" value="0"/><span class="unit-icon" style="top: 214px;">￥</span></td>
+						<td><div class="btn his-btn bg-blue">查看历史售价</div></td>
+						<td><span style="margin-left: 25px;">当前汇率<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px;"><input type="text" name="exchange-rate" min="1" class="number-input" value="6.67"/></td>
+					</tr>
+					<tr>
+						<td>用户付款<span class="required">*</span></td>
+						<td><input type="text" name="price" class="number-input" value="0"/><span class="unit-icon" style="top: 254px;">￥</span></td>
+						<td><span style="margin-left: 20px;">公司入账<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px;"><input type="text" name="revenue" min="1" class="number-input" value="0"/><span class="unit-icon" style="top: 254px; left: 330px;">￥</span></td>
+						<td><div class="btn shortcut-btn bg-yellow">一键收款入账</div></td>
+					</tr>
+					<tr>
+						<td>订单备注</td>
+						<td colspan="4" style="width: 410px;"><input type="text" name="comment" style="padding-left: 5px; width: 403px;"/></td>
+					</tr>
+				</table>
+				</form>
+				<div class="btn confirm-btn bg-green" style="width: 510px;">确定</div>
+			</div>
+		</div>
+		<div id="popup-modify-order" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom" style="width: 530px;">
+				<a class="selected">修改订单</a><img id="close-modify-order" src="/img/close.svg" class="pointer" width="18" height="18" style="margin-left: 415px;"/>
+				<div class="selected-bar bg-blue" style="width: 56px;"></div>
+			</div>
+			<div class="popup-form">
+				<table class="no-border text-left" style="width: 510px;">
+					<tr>
+						<td>购买者<span class="required">*</span></td>
+						<td colspan="2" style="width: 200px;"><input type="text" name="customer_name" style="width: 175px; padding: 0px; padding-left: 18px;"/><span class="search-icon"></span></td>
+						<td class="font-extra-small"><input class="checkbox" type="checkbox" name="is_stock"/>囤货</td>
+						<td class="text-right" style="width: 110px">
+							<span style="margin-right: 10px;">代理</span>
+							<select>  
+	  							<option value ="" selected></option>  
+								<option value ="qiaomengying">乔梦颖</option>  
+								<option value="yangqiuju">杨秋菊</option>
+								<option value="zhonggang">仲钢</option>
+								<option value="yangxiaoshu">杨晓姝</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>商品名称<span class="required">*</span></td>
+						<td colspan="4" style="width: 410px;">
+							<select style="width: 410px;"></select>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td colspan="2" style="width: 200px;">
+							<select class="light-grey" style="width: 200px;">
+								<option value="" selected>按品牌筛选</option>
+								<option value="kiehls">Kiehls</option>
+								<option value="Coach">Coach</option>
+							</select>
+						</td>
+						<td colspan="2" style="width: 200px;">
+							<select class="light-grey" style="width: 185px; margin-left: 25px;">
+								<option value="" selected>按类别筛选</option>
+								<optgroup value="skincare" label="护肤品">
+									<option value="serum">精华</option>
+									<option value="moisture">面霜</option>
+								</optgroup>
+								<optgroup value="makeup" label="彩妆">
+									<option value="bbcream">BB霜</option>
+									<option value="lipstick">口红</option>
+								</optgroup>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>购买成本<span class="required">*</span></td>
+						<td><input type="text" name="cost" class="number-input" style="width: 75px;" value="0.0"/><span class="unit-icon" style="padding-left: 2px;">$</span></td>
+						<td><div class="btn his-btn bg-blue">查看历史成本</div></td>
+						<td><span style="margin-left: 25px;">商品数量<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px"><input type="text" name="number" min="1" class="number-input" style="width: 75px;" value="1"/></td>
+					</tr>
+					<tr>
+						<td>最终售价<span class="required">*</span></td>
+						<td><input type="text" name="price" class="number-input" style="width: 75px;" value="0"/><span class="unit-icon" style="top: 214px;">￥</span></td>
+						<td><div class="btn his-btn bg-blue">查看历史售价</div></td>
+						<td><span style="margin-left: 25px;">当前汇率<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px;"><input type="text" name="exchange-rate" min="1" class="number-input" style="width: 75px;" value="6.67"/></td>
+					</tr>
+					<tr>
+						<td>用户付款<span class="required">*</span></td>
+						<td><input type="text" name="price" class="number-input" style="width: 75px;" value="0"/><span class="unit-icon" style="top: 254px;">￥</span></td>
+						<td><span style="margin-left: 20px;">公司入账<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px;"><input type="text" name="revenue" min="1" class="number-input" style="width: 75px;" value="0"/><span class="unit-icon" style="top: 254px; left: 330px;">￥</span></td>
+						<td><div class="btn shortcut-btn bg-yellow">一键收款入账</div></td>
+					</tr>
+					<tr>
+						<td>选择包裹<span class="required">*</span></td>
+						<td colspan="2" style="width: 200px;"><select style="width: 200px;"></select></td>
+						<td><span style="margin-left: 25px;">商品净重<span class="required">*</span></span>
+						<td class="text-right" style="width: 110px;"><input type="text" name="weight" min="1" class="number-input" style="width: 75px;"/><span class="unit-icon" style="top: 292px; left: 438px;">g</span></td>
+					</tr>
+					<tr>
+						<td>国际运费<span class="required">*</span></td>
+						<td><input type="text" name="international-shipping-fee" class="number-input" style="width: 75px;"/><span class="unit-icon" style="top: 334px;">￥</span></td>
+						<td><span style="margin-left: 20px;">国内运费<span class="required">*</span></span></td>
+						<td class="text-right" style="width: 110px;"><input type="text" name="domestic-shipping-fee" min="1" class="number-input" style="width: 75px;"/><span class="unit-icon" style="top: 334px; left: 330px;">￥</span></td>
+						<td class="font-extra-small text-right"><input class="checkbox" type="checkbox" name="is-auto-calculated" checked style="margin-left: 0px;"/>自动计算邮费</td>
+					</tr>
+					<tr>
+						<td>订单备注</td>
+						<td colspan="4" style="width: 410px;">
+							<input type="text" name="comment" style="padding-left: 5px; width: 403px;"/>
+						</td>
+					</tr>
+					<tr class="font-small">
+						<td><input class="checkbox" type="checkbox" name="split_order" style="margin-left: 0px;"/>拆分订单</td>
+						<td colspan="4">每单数量<select style="margin-left: 10px; width: 50px;"></select><img src="/img/add.svg" width="20" height="20"/><select style="margin-left: 10px; width: 50px;"></select><img src="/img/remove.svg" width="20" height="20"/></td>
+					</tr>
+				</table>
+				<div class="btn confirm-btn bg-green" style="width: 510px;">确定</div>
+			</div>
+		</div>
+		<div id="popup-ship-order" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom" style="width: 380px;">
+				<a class="selected">装箱待寄</a><img id="close-ship-order" src="/img/close.svg" class="pointer" width="18" height="18" style="margin-left: 272px;"/>
+				<div class="selected-bar bg-blue" style="width: 56px;"></div>
+			</div>
+			<div style="margin-top: 10px;">
+				<table class="no-border text-left" style="width: 400px;">
+					<tr>
+						<td style="padding-left: 20px;">选择包裹<span class="required">*</span></td>
+						<td colspan="2" style="width: 260px;">
+							<select style="width: 245px;"></select>
+						</td>
+					</tr>
+					<tr>
+						<td style="padding-left: 20px;">商品净重<span class="required">*</span></td>
+						<td><input type="text" name="weight" min="1" class="number-input" style="width: 115px;"/><span class="unit-icon" style="top: 92px; left: 134px;">g</span></td>
+						<td style="font-size: 12px;"><input id="is-auto-calculated" class="checkbox" type="checkbox" name="is-auto-calculated" checked/>自动计算邮费</td>
+					</tr>
+					<tr id="manually-calculate" class="bg-light-grey" style="display: none;">
+						<td class="red" style="padding-left: 20px;">国际运费<span class="required">*</span></td>
+						<td><input type="text" name="international-shipping-fee" min="1" class="number-input" style="width: 115px;"/><span class="unit-icon" style="top: 134px; left: 132px;">￥</span></td>
+						<td></td>
+					</tr>
+				</table>
+				<div style="margin-top: 10px; margin-left: 20px;">
+					<div class="btn cancel-btn bg-grey" style="display: inline-block;">创建新包裹</div>
+					<div class="btn confirm-btn bg-green" style="display: inline-block; margin-left: 150px;">确定装箱</div>
+				</div>
+			</div>
+		</div>
+		<div id="popup-forward-order" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom" style="width: 380px;">
+				<a class="selected">客服转寄</a><img id="close-forward-order" src="/img/close.svg" class="pointer" width="18" height="18" style="margin-left: 272px;"/>
+				<div class="selected-bar bg-blue" style="width: 56px;"></div>
+			</div>
+			<div class="popup-form">
+				<table class="no-border text-left" style="width: 340px;">
+					<tr>
+						<td>快递公司<span class="required">*</span></td>
+						<td>
+							<select style="width: 120px;"></select>
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>快递号<span class="required">*</span></td>
+						<td colspan="2" style="width: 240px;"><input type="text" name="tracking-number" style="width: 200px; padding-left: 6px;"/></td>
+					</tr>
+					<tr>
+						<td>转寄邮费<span class="required">*</span></td>
+						<td><input type="text" name="domestic-shipping-fee" min="1" class="number-input" style="width: 120px; padding-left: 6px;"/><span class="unit-icon" style="top: 134px; left: 138px;">￥</span></td>
+						<td></td>
+					</tr>
+				</table>
+				<div style="margin-top: 10px;">
+					<div class="btn cancel-btn bg-grey" style="display: inline-block;">取消</div>
+					<div class="btn confirm-btn bg-green" style="display: inline-block; margin-left: 150px;">确定</div>
+				</div>
+			</div>
+		</div>
+		<div id="mask"></div>
+		<!-- <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>-->
+		<script src="/script/jquery-3.1.1.min.js"></script>
+		<script src="/script/global.js" type="text/javascript"></script>
+		<script src="/script/order.js" type="text/javascript"></script>
+	</body>
+</html>
