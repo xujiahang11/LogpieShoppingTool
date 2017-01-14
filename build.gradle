@@ -1,10 +1,17 @@
-plugins {
-	id 'org.springframework.boot' version '1.4.3.RELEASE'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+    }
 }
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'war'
 apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
 
 mainClassName = 'com.logpie.shopping.tool.Application'
 
@@ -18,8 +25,12 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    testCompile("org.springframework.boot:spring-boot-starter-test")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-jdbc")
+	compile("mysql:mysql-connector-java")
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("junit:junit")
 }
 
 jar {
