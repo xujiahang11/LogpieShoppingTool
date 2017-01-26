@@ -13,20 +13,21 @@ public class BrandService {
 	@Autowired
 	private BrandRepository repository;
 
-	public void createBrand(String brandName) {
+	public void createBrand(final String brandName) {
 		if (brandName == null || brandName == "") {
 			return;
 		}
-		repository.create(brandName);
+		Brand brand = new Brand(brandName);
+		repository.create(brand);
 	}
 
 	public List<Brand> getAllBrands() {
-		return repository.queryAll();
+		return repository.queryAll(Brand.class);
 	}
 
-	public Brand getBrandById(String brandId) {
+	public Brand getBrandById(final String brandId) {
 		String[] args = new String[1];
 		args[0] = brandId;
-		return repository.queryByPrimaryKey(args);
+		return repository.queryByPrimaryKey(Brand.class, args);
 	}
 }

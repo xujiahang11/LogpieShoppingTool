@@ -1,6 +1,5 @@
 package com.logpie.shopping.tool.model;
 
-public interface LogpieModel {
+public class LogpieModel {
 
-	public String getPrimaryKey();
 }
