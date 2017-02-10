@@ -15,12 +15,17 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.logpie.framework.db.util.DatabaseUtil;
 import com.logpie.framework.db.util.SQLUtil;
+import com.logpie.framework.log.util.LogpieLogger;
+import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.LogpieModel;
 
 public abstract class LogpieRepository<T extends LogpieModel> implements
 		RowMapper<T> {
 	@Autowired
 	protected JdbcTemplate jdbcTemplate;
+
+	private LogpieLogger logger = LogpieLoggerFactory
+			.getLogger(LogpieRepository.class);
 
 	/**
 	 * insert a record of the model into database
@@ -30,7 +35,6 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 */
 	public void create(T model) {
 		String sql = SQLUtil.insertSQL(model);
-		System.out.println("SQL: " + sql);
 
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(
@@ -47,7 +51,9 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	}
 
 	public List<T> queryAll(Class<T> c) {
+		logger.trace("Database query started...");
 		String sql = SQLUtil.queryAllSQL(c);
+		logger.debug("'QueryAll' SQL: " + sql);
 		return jdbcTemplate.query(sql, this);
 	}
 

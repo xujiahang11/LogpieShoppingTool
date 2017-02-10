@@ -5,13 +5,20 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.logpie.framework.log.annotation.LogEnvironment;
+import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
+import com.logpie.framework.log.util.LogpieLogger;
+import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Brand;
 import com.logpie.shopping.tool.repository.BrandRepository;
 
 @Service
+@LogEnvironment(classLevel = LogLevel.TRACE)
 public class BrandService {
 	@Autowired
 	private BrandRepository repository;
+	private LogpieLogger logger = LogpieLoggerFactory
+			.getLogger(BrandService.class);
 
 	public void createBrand(final String brandName) {
 		if (brandName == null || brandName == "") {
@@ -22,6 +29,7 @@ public class BrandService {
 	}
 
 	public List<Brand> getAllBrands() {
+		logger.trace("QueryAllBrands service started...");
 		return repository.queryAll(Brand.class);
 	}
 
