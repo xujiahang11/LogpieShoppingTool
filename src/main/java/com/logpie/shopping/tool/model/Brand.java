@@ -35,10 +35,6 @@ public class Brand extends LogpieModel {
 		return mBrandId;
 	}
 
-	public void setBrandId(final String brandId) {
-		this.mBrandId = brandId;
-	}
-
 	@DatabaseColumn(name = BrandRepository.DB_KEY_BRAND_NAME, type = ColumnType.STRING)
 	public String getBrandName() {
 		return mBrandName;

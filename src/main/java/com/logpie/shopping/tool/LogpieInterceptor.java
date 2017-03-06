@@ -25,6 +25,7 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler) {
 		logger.trace("Interceptor starts to prehandle...");
 
+		// set up requestId
 		RequestContextHolder.getRequestAttributes().setAttribute("requestId",
 				UUID.randomUUID(), RequestAttributes.SCOPE_REQUEST);
 		String requestMsg = "Request id --- ".toUpperCase();
@@ -34,9 +35,12 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 						.getAttribute("requestId",
 								RequestAttributes.SCOPE_REQUEST).toString()));
 
+		// set up request start time for matrix
 		long startTime = System.currentTimeMillis();
 		RequestContextHolder.getRequestAttributes().setAttribute(
 				"requestStartTime", startTime, RequestAttributes.SCOPE_REQUEST);
+
+		logger.trace("Interceptor is done with prehandle...");
 		return true;
 	}
 
@@ -46,21 +50,23 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 			ModelAndView modelAndView) {
 		logger.trace("Interceptor starts to posthandle...");
 
-		String responseMsg = "Reponses id --- ".toUpperCase();
-		logger.info(responseMsg + LogColor.setPurple("2416-9381-2093-9800"));
-		// TODO
+		// TODO set up response id
+		String responseMsg = "Responses id --- ".toUpperCase();
+		// logger.info(responseMsg + LogColor.setPurple("2416-9381-2093-9800"));
 
+		// calculate request execution time for matrix
 		long endTime = System.currentTimeMillis();
 		long executeTime = endTime
 				- (long) RequestContextHolder.getRequestAttributes()
 						.getAttribute("requestStartTime",
 								RequestAttributes.SCOPE_REQUEST);
 		String performanceMsg = "Request execution time --- ".toUpperCase();
-
 		logger.info(performanceMsg
 				+ LogColor.setPurple(String.valueOf(executeTime) + "ms"));
 
-		LogpieLoggerFactory.output();
+		// output logs
+		LogpieLoggerFactory.outputLog();
 
+		logger.trace("Interceptor is done with posthandle...");
 	}
 }

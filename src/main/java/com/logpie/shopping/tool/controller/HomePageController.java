@@ -13,14 +13,14 @@ import com.logpie.framework.log.annotation.LogEnvironment;
 import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.Brand;
-import com.logpie.shopping.tool.service.BrandService;
+import com.logpie.shopping.tool.model.SubCategory;
+import com.logpie.shopping.tool.service.SubCategoryService;
 
 @Controller
 @LogEnvironment(classLevel = LogLevel.TRACE)
 public class HomePageController {
 	@Autowired
-	BrandService service;
+	private SubCategoryService service;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(HomePageController.class);
@@ -30,16 +30,39 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		List<Brand> list = service.getAllBrands();
-		logger.debug("QueryAllBrands is done...");
-		int i = 1;
-		for (Brand brand : list) {
-			logger.debug(i + ". " + brand.getBrandName());
-			i++;
-			Thread.sleep(500);
-		}
+		service.createSubCategory(name, "1");
+		logger.debug("Create is done...");
+
+		List<SubCategory> list = service.getAllSubCategoris();
+		logger.debug("QueryAll is done...");
+
+		logger.debug("SubCategory: " + list.get(0).getSubCategoryName());
+		logger.debug("Category: " + list.get(0).getCategory().getCategoryName());
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");
 		return "greeting";
+	}
+
+	class LogpieThread implements Runnable {
+		private LogpieLogger logger = LogpieLoggerFactory
+				.getLogger(LogpieThread.class);
+		private Thread preThread;
+
+		public LogpieThread(Thread t) {
+			preThread = t;
+		}
+
+		@Override
+		public void run() {
+			try {
+				LogpieLoggerFactory.mergeLog(preThread);
+				logger.info("A new sub thread started...");
+				Thread.currentThread().sleep(600);
+				logger.info("A new sub thread done...");
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }

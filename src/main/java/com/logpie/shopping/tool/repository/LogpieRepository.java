@@ -50,6 +50,11 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 		System.out.println("Key: " + key);
 	}
 
+	/**
+	 * 
+	 * @param c
+	 * @return
+	 */
 	public List<T> queryAll(Class<T> c) {
 		logger.trace("Database query started...");
 		String sql = SQLUtil.queryAllSQL(c);
