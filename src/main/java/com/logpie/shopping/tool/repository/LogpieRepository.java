@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -57,7 +59,7 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 */
 	public List<T> queryAll(Class<T> c) {
 		logger.trace("Database query started...");
-		String sql = SQLUtil.queryAllSQL(c);
+		String sql = SQLUtil.querySQL(c);
 		logger.debug("'QueryAll' SQL: " + sql);
 		return jdbcTemplate.query(sql, this);
 	}
@@ -68,8 +70,10 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @return model
 	 */
 	public T queryByPrimaryKey(Class<T> c, String[] args) {
-		String sql = "select * from " + DatabaseUtil.getTableName(c)
-				+ " where " + DatabaseUtil.getPrimaryKey(c) + " = ?";
+		Map<String, String> params = new HashMap<String, String>();
+		params.put(DatabaseUtil.getTableName(c),
+				DatabaseUtil.getPrimaryKeyName(c));
+		String sql = SQLUtil.querySQLByKey(c, params);
 		return jdbcTemplate.queryForObject(sql, args, this);
 	}
 

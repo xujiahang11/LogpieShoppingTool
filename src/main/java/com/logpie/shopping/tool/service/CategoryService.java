@@ -21,7 +21,7 @@ public class CategoryService {
 	public void createCategory(final String categoryName) {
 		logger.trace("createCategory service is started...");
 
-		if (categoryName == null || categoryName == "") {
+		if (categoryName == null || categoryName.isEmpty()) {
 			logger.error("cannot find brand name");
 			return;
 		}
@@ -38,7 +38,7 @@ public class CategoryService {
 	public Category getCategoryById(final String categoryId) {
 		logger.trace("QueryCategoryById service is started...");
 
-		if (categoryId == null || categoryId == "") {
+		if (categoryId == null || categoryId.isEmpty()) {
 			logger.error("cannot find category Id");
 			return null;
 		}

@@ -25,11 +25,11 @@ public class SubCategoryService {
 			final String categoryId) {
 		logger.trace("CreateSubCategory service is started...");
 
-		if (subCategoryName == null || subCategoryName == "") {
+		if (subCategoryName == null || subCategoryName.isEmpty()) {
 			logger.error("cannot find sub-category name");
 			return;
 		}
-		if (categoryId == null || categoryId == "") {
+		if (categoryId == null || categoryId.isEmpty()) {
 			logger.error("cannot find category id");
 			return;
 		}
@@ -38,7 +38,7 @@ public class SubCategoryService {
 		repository.create(subcategory);
 	}
 
-	public List<SubCategory> getAllSubCategoris() {
+	public List<SubCategory> getAllSubCategories() {
 		logger.trace("QueryAllSubCategories service is started...");
 
 		return repository.queryAll(SubCategory.class);
@@ -47,12 +47,25 @@ public class SubCategoryService {
 	public SubCategory getSubCategoryById(final String subCategoryId) {
 		logger.trace("QuerySubCategoryById service is started...");
 
-		if (subCategoryId == null || subCategoryId == "") {
+		if (subCategoryId == null || subCategoryId.isEmpty()) {
 			logger.error("cannot find sub-category Id");
 			return null;
 		}
 		String[] args = new String[1];
 		args[0] = subCategoryId;
 		return repository.queryByPrimaryKey(SubCategory.class, args);
+	}
+
+	public List<SubCategory> getSubCategoriesByCategoryId(
+			final String categoryId) {
+		logger.trace("QuerySubCategoryByCategoryId service is started...");
+
+		if (categoryId == null || categoryId.isEmpty()) {
+			logger.error("cannot find category Id");
+			return null;
+		}
+		String[] args = new String[1];
+		args[0] = categoryId;
+		return repository.queryByCategoryId(args);
 	}
 }

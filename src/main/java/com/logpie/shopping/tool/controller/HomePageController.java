@@ -30,14 +30,12 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		service.createSubCategory(name, "1");
-		logger.debug("Create is done...");
-
-		List<SubCategory> list = service.getAllSubCategoris();
-		logger.debug("QueryAll is done...");
-
-		logger.debug("SubCategory: " + list.get(0).getSubCategoryName());
-		logger.debug("Category: " + list.get(0).getCategory().getCategoryName());
+		List<SubCategory> list = service.getSubCategoriesByCategoryId("1");
+		logger.debug("Query is done...");
+		for (SubCategory s : list) {
+			logger.debug("SubCategory: " + s.getSubCategoryName()
+					+ ", Category: " + s.getCategory().getCategoryName());
+		}
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");
 		return "greeting";

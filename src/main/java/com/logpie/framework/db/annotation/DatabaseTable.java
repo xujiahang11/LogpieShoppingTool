@@ -9,7 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DatabaseEntity {
+public @interface DatabaseTable {
 
-	public String table();
+	public String name();
+
+	public String tableAlias() default "";
 }

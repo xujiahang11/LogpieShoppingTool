@@ -23,7 +23,7 @@ public class BrandService {
 	public void createBrand(final String brandName) {
 		logger.trace("createBrand service is started...");
 
-		if (brandName == null || brandName == "") {
+		if (brandName == null || brandName.isEmpty()) {
 			logger.error("cannot find brand name");
 			return;
 		}
@@ -40,7 +40,7 @@ public class BrandService {
 	public Brand getBrandById(final String brandId) {
 		logger.trace("QueryBrandById service is started...");
 
-		if (brandId == null || brandId == "") {
+		if (brandId == null || brandId.isEmpty()) {
 			logger.error("cannot find brand Id");
 			return null;
 		}

@@ -17,6 +17,10 @@ public class CategoryRepository extends LogpieRepository<Category> {
 
 	@Override
 	public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		String id = rs.getString(DB_KEY_CATEGORY_ID);
 		String name = rs.getString(DB_KEY_CATEGORY_NAME);
 		return new Category(id, name);

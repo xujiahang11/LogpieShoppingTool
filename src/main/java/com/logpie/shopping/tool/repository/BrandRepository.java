@@ -16,6 +16,10 @@ public class BrandRepository extends LogpieRepository<Brand> {
 
 	@Override
 	public Brand mapRow(ResultSet rs, int rowNum) throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		String id = rs.getString(DB_KEY_BRAND_ID);
 		String name = rs.getString(DB_KEY_BRAND_NAME);
 		return new Brand(id, name);
