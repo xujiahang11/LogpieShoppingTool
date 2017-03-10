@@ -20,7 +20,7 @@ public class BrandRepository extends LogpieRepository<Brand> {
 			return null;
 		}
 
-		String id = rs.getString(DB_KEY_BRAND_ID);
+		long id = rs.getLong(DB_KEY_BRAND_ID);
 		String name = rs.getString(DB_KEY_BRAND_NAME);
 		return new Brand(id, name);
 	}

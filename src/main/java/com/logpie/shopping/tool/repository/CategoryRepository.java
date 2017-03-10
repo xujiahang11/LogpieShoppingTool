@@ -21,7 +21,7 @@ public class CategoryRepository extends LogpieRepository<Category> {
 			return null;
 		}
 
-		String id = rs.getString(DB_KEY_CATEGORY_ID);
+		long id = rs.getLong(DB_KEY_CATEGORY_ID);
 		String name = rs.getString(DB_KEY_CATEGORY_NAME);
 		return new Category(id, name);
 	}

@@ -6,37 +6,33 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.logpie.framework.db.annotation.DatabaseKey.ColumnType;
-
 /**
  * specify the mapped database foreign key for a method
  * 
  * @author xujiahang
  *
  */
-@Target(ElementType.METHOD)
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface DatabaseForeignKey {
+public @interface ForeignEntity {
 	/**
 	 *
-	 * @return database key name
+	 * @return database foreign key name
 	 */
 	public String name();
-
-	public ColumnType type();
 
 	/**
 	 * 
 	 * @return referenced column name in another table
 	 */
-	public String referencedKey();
+	public String referencedColumn();
 
 	/**
 	 * 
-	 * @return referenced table entity
+	 * @return referenced table class
 	 */
-	public Class<?> referencedTableModel();
+	public Class<?> referencedTable();
 
 	/**
 	 * 

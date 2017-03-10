@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.logpie.framework.db.annotation.DatabaseForeignKey;
+import com.logpie.framework.db.annotation.ForeignEntity;
 
 public class SQLUtil {
 
@@ -17,11 +17,11 @@ public class SQLUtil {
 		return sql;
 	}
 
-	public static String querySQL(Class<?> model) {
+	public static String querySQL(Class<?> c) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("select ");
 
-		List<String> queryColumns = DatabaseUtil.getQueryColumns(model);
+		List<String> queryColumns = DatabaseUtil.getQueryColumns(c);
 		int i = 0;
 		for (String column : queryColumns) {
 			sql.append(column);
@@ -33,35 +33,34 @@ public class SQLUtil {
 			i++;
 		}
 
-		sql.append("from " + DatabaseUtil.getTableName(model) + " ");
-		if (DatabaseUtil.hasTableAlias(model)) {
-			sql.append(DatabaseUtil.getTableAlias(model) + " ");
+		sql.append("from " + DatabaseUtil.getTableName(c) + " ");
+		if (DatabaseUtil.hasTableAlias(c)) {
+			sql.append(DatabaseUtil.getTableAliasOrName(c) + " ");
 		}
 
-		List<DatabaseForeignKey> referencedColumns = DatabaseUtil
-				.getForeignKeyList(model);
+		List<ForeignEntity> referencedColumns = DatabaseUtil
+				.getForeignEntities(c);
 		if (!referencedColumns.isEmpty()) {
-			for (DatabaseForeignKey column : referencedColumns) {
+			for (ForeignEntity column : referencedColumns) {
 				sql.append("join ");
 				String tableName = DatabaseUtil.getTableName(column
-						.referencedTableModel());
+						.referencedTable());
 				sql.append(tableName + " ");
 				if (!column.referencedTableAlias().isEmpty()) {
 					tableName = column.referencedTableAlias();
 					sql.append(tableName + " ");
 				}
-				sql.append("on " + DatabaseUtil.getTableAlias(model) + "."
+				sql.append("on " + DatabaseUtil.getTableAliasOrName(c) + "."
 						+ column.name() + "=" + tableName + "."
-						+ column.referencedKey());
+						+ column.referencedColumn());
 			}
 		}
 
 		return sql.toString();
 	}
 
-	public static String querySQLByKey(Class<?> model,
-			Map<String, String> params) {
-		String sql = querySQL(model) + " where ";
+	public static String querySQLByKey(Class<?> c, Map<String, String> params) {
+		String sql = querySQL(c) + " where ";
 		int i = 0;
 		for (Entry<String, String> param : params.entrySet()) {
 			if (i > 0 && i < params.size() - 1) {

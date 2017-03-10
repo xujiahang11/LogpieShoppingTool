@@ -42,7 +42,7 @@ public class SubCategoryRepository extends LogpieRepository<SubCategory> {
 		if (rs == null) {
 			return null;
 		}
-		String id = rs.getString(DB_KEY_SUBCATEGORY_ID);
+		long id = rs.getLong(DB_KEY_SUBCATEGORY_ID);
 		String name = rs.getString(DB_KEY_SUBCATEGORY_NAME);
 		Category category = categoryRepository.mapRow(rs, rowNum);
 
