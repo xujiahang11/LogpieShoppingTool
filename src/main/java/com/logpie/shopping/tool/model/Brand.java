@@ -7,15 +7,15 @@ import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.Table;
 import com.logpie.shopping.tool.repository.BrandRepository;
 
-@Table(name = BrandRepository.DB_TABLE_NAME_BRAND)
+@Table(name = BrandRepository.DB_TABLE_BRAND)
 public class Brand extends LogpieModel {
 
 	@Column(name = BrandRepository.DB_KEY_BRAND_ID, type = DataType.LONG, isPrimaryKey = true)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	private long mBrandId;
+	private Long brandId;
 
 	@Column(name = BrandRepository.DB_KEY_BRAND_NAME, type = DataType.STRING)
-	private String mBrandName;
+	private String brandName;
 
 	/**
 	 * Constructor for creating a brand
@@ -23,7 +23,7 @@ public class Brand extends LogpieModel {
 	 * @param brandName
 	 */
 	public Brand(final String brandName) {
-		this.mBrandName = brandName;
+		this(null, brandName);
 	}
 
 	/**
@@ -31,20 +31,20 @@ public class Brand extends LogpieModel {
 	 * @param brandId
 	 * @param brandName
 	 */
-	public Brand(final long brandId, final String brandName) {
-		this.mBrandId = brandId;
-		this.mBrandName = brandName;
+	public Brand(final Long brandId, final String brandName) {
+		this.brandId = brandId;
+		this.brandName = brandName;
 	}
 
-	public long getBrandId() {
-		return mBrandId;
+	public Long getBrandId() {
+		return brandId;
 	}
 
 	public String getBrandName() {
-		return mBrandName;
+		return brandName;
 	}
 
 	public void setBrandName(final String brandName) {
-		this.mBrandName = brandName;
+		this.brandName = brandName;
 	}
 }

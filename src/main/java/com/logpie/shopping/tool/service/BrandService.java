@@ -22,7 +22,6 @@ public class BrandService {
 
 	public void createBrand(final String brandName) {
 		logger.trace("createBrand service is started...");
-
 		if (brandName == null || brandName.isEmpty()) {
 			logger.error("cannot find brand name");
 			return;
@@ -33,13 +32,11 @@ public class BrandService {
 
 	public List<Brand> getAllBrands() {
 		logger.trace("QueryAllBrands service is started...");
-
 		return repository.queryAll(Brand.class);
 	}
 
 	public Brand getBrandById(final String brandId) {
 		logger.trace("QueryBrandById service is started...");
-
 		if (brandId == null || brandId.isEmpty()) {
 			logger.error("cannot find brand Id");
 			return null;

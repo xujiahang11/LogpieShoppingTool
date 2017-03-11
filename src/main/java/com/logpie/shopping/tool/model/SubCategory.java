@@ -9,18 +9,18 @@ import com.logpie.framework.db.annotation.Table;
 import com.logpie.shopping.tool.repository.CategoryRepository;
 import com.logpie.shopping.tool.repository.SubCategoryRepository;
 
-@Table(name = SubCategoryRepository.DB_TABLE_NAME_SUBCATEGORY)
+@Table(name = SubCategoryRepository.DB_TABLE_SUBCATEGORY)
 public class SubCategory extends LogpieModel {
 
 	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_ID, type = DataType.LONG, isPrimaryKey = true)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	private long mSubCategoryId;
+	private Long subCategoryId;
 
 	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_NAME, type = DataType.STRING)
-	private String mSubCategoryName;
+	private String subCategoryName;
 
 	@ForeignEntity(name = SubCategoryRepository.DB_KEY_CATEGORY_ID, referencedTable = Category.class, referencedColumn = CategoryRepository.DB_KEY_CATEGORY_ID)
-	private Category mCategory;
+	private Category category;
 
 	/**
 	 * Constructor for creating a sub-category
@@ -28,8 +28,7 @@ public class SubCategory extends LogpieModel {
 	 * @param subCategoryName
 	 */
 	public SubCategory(final String subCategoryName, final Category category) {
-		this.mSubCategoryName = subCategoryName;
-		this.mCategory = category;
+		this(null, subCategoryName, category);
 	}
 
 	/**
@@ -37,31 +36,31 @@ public class SubCategory extends LogpieModel {
 	 * @param subCategoryId
 	 * @param subCategoryName
 	 */
-	public SubCategory(final long subCategoryId, final String subCategoryName,
+	public SubCategory(final Long subCategoryId, final String subCategoryName,
 			final Category category) {
-		this.mSubCategoryId = subCategoryId;
-		this.mSubCategoryName = subCategoryName;
-		this.mCategory = category;
+		this.subCategoryId = subCategoryId;
+		this.subCategoryName = subCategoryName;
+		this.category = category;
 	}
 
-	public long getSubCategoryId() {
-		return mSubCategoryId;
+	public Long getSubCategoryId() {
+		return subCategoryId;
 	}
 
 	public String getSubCategoryName() {
-		return mSubCategoryName;
+		return subCategoryName;
 	}
 
 	public Category getCategory() {
-		return mCategory;
+		return category;
 	}
 
 	public void setSubCategoryName(String subCategoryName) {
-		this.mSubCategoryName = subCategoryName;
+		this.subCategoryName = subCategoryName;
 	}
 
 	public void setCategory(Category category) {
-		this.mCategory = category;
+		this.category = category;
 	}
 
 }

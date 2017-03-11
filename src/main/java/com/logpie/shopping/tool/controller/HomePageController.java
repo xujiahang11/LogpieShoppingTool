@@ -1,7 +1,5 @@
 package com.logpie.shopping.tool.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,14 +11,14 @@ import com.logpie.framework.log.annotation.LogEnvironment;
 import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.SubCategory;
-import com.logpie.shopping.tool.service.SubCategoryService;
+import com.logpie.shopping.tool.model.Client;
+import com.logpie.shopping.tool.service.ClientService;
 
 @Controller
 @LogEnvironment(classLevel = LogLevel.TRACE)
 public class HomePageController {
 	@Autowired
-	private SubCategoryService service;
+	private ClientService service;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(HomePageController.class);
@@ -30,37 +28,24 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		List<SubCategory> list = service.getSubCategoriesByCategoryId("1");
-		logger.debug("Query is done...");
-		for (SubCategory s : list) {
-			logger.debug("SubCategory: " + s.getSubCategoryName()
-					+ ", Category: " + s.getCategory().getCategoryName());
-		}
+		logger.debug("create started...");
+		String clientName = "QiaoMengying";
+		String clientPhone = "18626158611";
+		service.createClient(clientName, clientPhone);
+		logger.debug("create done...");
+
+		logger.debug("get all client started...");
+		Client c1 = service.getAllClients().get(0);
+		logger.debug("client: " + c1.getClientName());
+		logger.debug("get all client done...");
+
+		logger.debug("get client by id started...");
+		Client c2 = service.getClientById(String.valueOf(4));
+		logger.debug("client: " + c2.getClientName());
+		logger.debug("get client by id done...");
+
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");
 		return "greeting";
-	}
-
-	class LogpieThread implements Runnable {
-		private LogpieLogger logger = LogpieLoggerFactory
-				.getLogger(LogpieThread.class);
-		private Thread preThread;
-
-		public LogpieThread(Thread t) {
-			preThread = t;
-		}
-
-		@Override
-		public void run() {
-			try {
-				LogpieLoggerFactory.mergeLog(preThread);
-				logger.info("A new sub thread started...");
-				Thread.currentThread().sleep(600);
-				logger.info("A new sub thread done...");
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 	}
 }

@@ -10,7 +10,7 @@ import com.logpie.shopping.tool.model.Category;
 @Repository
 public class CategoryRepository extends LogpieRepository<Category> {
 
-	public static final String DB_TABLE_NAME_CATEGORY = "Category";
+	public static final String DB_TABLE_CATEGORY = "Category";
 
 	public static final String DB_KEY_CATEGORY_ID = "CategoryId";
 	public static final String DB_KEY_CATEGORY_NAME = "CategoryName";
@@ -21,7 +21,7 @@ public class CategoryRepository extends LogpieRepository<Category> {
 			return null;
 		}
 
-		long id = rs.getLong(DB_KEY_CATEGORY_ID);
+		Long id = rs.getLong(DB_KEY_CATEGORY_ID);
 		String name = rs.getString(DB_KEY_CATEGORY_NAME);
 		return new Category(id, name);
 	}

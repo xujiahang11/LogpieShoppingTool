@@ -24,7 +24,6 @@ public class SubCategoryService {
 	public void createSubCategory(final String subCategoryName,
 			final String categoryId) {
 		logger.trace("CreateSubCategory service is started...");
-
 		if (subCategoryName == null || subCategoryName.isEmpty()) {
 			logger.error("cannot find sub-category name");
 			return;
@@ -40,13 +39,11 @@ public class SubCategoryService {
 
 	public List<SubCategory> getAllSubCategories() {
 		logger.trace("QueryAllSubCategories service is started...");
-
 		return repository.queryAll(SubCategory.class);
 	}
 
 	public SubCategory getSubCategoryById(final String subCategoryId) {
 		logger.trace("QuerySubCategoryById service is started...");
-
 		if (subCategoryId == null || subCategoryId.isEmpty()) {
 			logger.error("cannot find sub-category Id");
 			return null;
@@ -59,7 +56,6 @@ public class SubCategoryService {
 	public List<SubCategory> getSubCategoriesByCategoryId(
 			final String categoryId) {
 		logger.trace("QuerySubCategoryByCategoryId service is started...");
-
 		if (categoryId == null || categoryId.isEmpty()) {
 			logger.error("cannot find category Id");
 			return null;

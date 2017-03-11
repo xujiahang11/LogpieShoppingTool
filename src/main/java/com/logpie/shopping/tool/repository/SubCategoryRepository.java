@@ -17,7 +17,7 @@ import com.logpie.shopping.tool.model.SubCategory;
 
 @Repository
 public class SubCategoryRepository extends LogpieRepository<SubCategory> {
-	public static final String DB_TABLE_NAME_SUBCATEGORY = "SubCategory";
+	public static final String DB_TABLE_SUBCATEGORY = "SubCategory";
 
 	public static final String DB_KEY_SUBCATEGORY_ID = "SubCategoryId";
 	public static final String DB_KEY_SUBCATEGORY_NAME = "SubCategoryName";
@@ -31,7 +31,7 @@ public class SubCategoryRepository extends LogpieRepository<SubCategory> {
 
 	public List<SubCategory> queryByCategoryId(String[] args) {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(DB_TABLE_NAME_SUBCATEGORY, DB_KEY_CATEGORY_ID);
+		params.put(DB_TABLE_SUBCATEGORY, DB_KEY_CATEGORY_ID);
 		String sql = SQLUtil.querySQLByKey(SubCategory.class, params);
 		logger.debug("'QueryByCategoryId' SQL: " + sql);
 		return jdbcTemplate.query(sql, args, this);
@@ -42,7 +42,7 @@ public class SubCategoryRepository extends LogpieRepository<SubCategory> {
 		if (rs == null) {
 			return null;
 		}
-		long id = rs.getLong(DB_KEY_SUBCATEGORY_ID);
+		Long id = rs.getLong(DB_KEY_SUBCATEGORY_ID);
 		String name = rs.getString(DB_KEY_SUBCATEGORY_NAME);
 		Category category = categoryRepository.mapRow(rs, rowNum);
 

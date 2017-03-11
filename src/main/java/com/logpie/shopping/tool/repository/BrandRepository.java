@@ -10,7 +10,7 @@ import com.logpie.shopping.tool.model.Brand;
 @Repository
 public class BrandRepository extends LogpieRepository<Brand> {
 
-	public static final String DB_TABLE_NAME_BRAND = "Brand";
+	public static final String DB_TABLE_BRAND = "Brand";
 	public static final String DB_KEY_BRAND_ID = "BrandId";
 	public static final String DB_KEY_BRAND_NAME = "BrandName";
 
@@ -20,7 +20,7 @@ public class BrandRepository extends LogpieRepository<Brand> {
 			return null;
 		}
 
-		long id = rs.getLong(DB_KEY_BRAND_ID);
+		Long id = rs.getLong(DB_KEY_BRAND_ID);
 		String name = rs.getString(DB_KEY_BRAND_NAME);
 		return new Brand(id, name);
 	}

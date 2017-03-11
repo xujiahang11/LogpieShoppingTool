@@ -35,8 +35,11 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @param model
 	 * @return id of this record in the database
 	 */
-	public void create(T model) {
+	public Long create(T model) {
 		String sql = SQLUtil.insertSQL(model);
+		if (sql == null) {
+			logger.error("cannot get INSERT sql");
+		}
 
 		PreparedStatementCreator psc = new PreparedStatementCreator() {
 			public PreparedStatement createPreparedStatement(
@@ -46,10 +49,8 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 			}
 		};
 		KeyHolder holder = new GeneratedKeyHolder();
-		System.out.println(jdbcTemplate == null);
 		jdbcTemplate.update(psc, holder);
-		String key = holder.getKey().toString();
-		System.out.println("Key: " + key);
+		return holder.getKey().longValue();
 	}
 
 	/**
@@ -60,7 +61,9 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	public List<T> queryAll(Class<T> c) {
 		logger.trace("Database query started...");
 		String sql = SQLUtil.querySQL(c);
-		logger.debug("'QueryAll' SQL: " + sql);
+		if (sql == null) {
+			logger.error("cannot get QUERY sql");
+		}
 		return jdbcTemplate.query(sql, this);
 	}
 
@@ -74,6 +77,9 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 		params.put(DatabaseUtil.getTableName(c),
 				DatabaseUtil.getPrimaryKeyName(c));
 		String sql = SQLUtil.querySQLByKey(c, params);
+		if (sql == null) {
+			logger.error("cannot get QUERY sql");
+		}
 		return jdbcTemplate.queryForObject(sql, args, this);
 	}
 
