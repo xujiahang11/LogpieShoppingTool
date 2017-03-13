@@ -5,14 +5,15 @@ import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
 import com.logpie.shopping.tool.repository.CategoryRepository;
 import com.logpie.shopping.tool.repository.SubCategoryRepository;
 
 @Table(name = SubCategoryRepository.DB_TABLE_SUBCATEGORY)
 public class SubCategory extends LogpieModel {
-
-	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_ID, type = DataType.LONG, isPrimaryKey = true)
+	@ID
+	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_ID, type = DataType.LONG)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	private Long subCategoryId;
 

@@ -20,14 +20,14 @@ public class BrandService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public void createBrand(final String brandName) {
+	public Long createBrand(final String brandName) {
 		logger.trace("createBrand service is started...");
 		if (brandName == null || brandName.isEmpty()) {
 			logger.error("cannot find brand name");
-			return;
+			return null;
 		}
 		Brand brand = new Brand(brandName);
-		repository.create(brand);
+		return repository.create(brand);
 	}
 
 	public List<Brand> getAllBrands() {
@@ -41,8 +41,6 @@ public class BrandService {
 			logger.error("cannot find brand Id");
 			return null;
 		}
-		String[] args = new String[1];
-		args[0] = brandId;
-		return repository.queryByPrimaryKey(Brand.class, args);
+		return repository.queryByID(Brand.class, brandId);
 	}
 }

@@ -72,14 +72,15 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @param args
 	 * @return model
 	 */
-	public T queryByPrimaryKey(Class<T> c, String[] args) {
+	public T queryByID(Class<T> c, String primaryKey) {
 		Map<String, String> params = new HashMap<String, String>();
-		params.put(DatabaseUtil.getTableName(c),
-				DatabaseUtil.getPrimaryKeyName(c));
+		params.put(DatabaseUtil.getTableName(c), DatabaseUtil.getID(c));
 		String sql = SQLUtil.querySQLByKey(c, params);
 		if (sql == null) {
 			logger.error("cannot get QUERY sql");
 		}
+		String[] args = new String[1];
+		args[0] = primaryKey;
 		return jdbcTemplate.queryForObject(sql, args, this);
 	}
 

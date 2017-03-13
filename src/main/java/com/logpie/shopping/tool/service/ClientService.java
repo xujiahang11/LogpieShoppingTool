@@ -40,8 +40,6 @@ public class ClientService {
 			logger.error("cannot find brand Id");
 			return null;
 		}
-		String[] args = new String[1];
-		args[0] = clientId;
-		return repository.queryByPrimaryKey(Client.class, args);
+		return repository.queryByID(Client.class, clientId);
 	}
 }

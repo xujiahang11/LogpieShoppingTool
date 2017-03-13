@@ -48,14 +48,12 @@ public class SubCategoryService {
 			logger.error("cannot find sub-category Id");
 			return null;
 		}
-		String[] args = new String[1];
-		args[0] = subCategoryId;
-		return repository.queryByPrimaryKey(SubCategory.class, args);
+		return repository.queryByID(SubCategory.class, subCategoryId);
 	}
 
 	public List<SubCategory> getSubCategoriesByCategoryId(
 			final String categoryId) {
-		logger.trace("QuerySubCategoryByCategoryId service is started...");
+		logger.trace("QuerySubCategoriesByCategoryId service is started...");
 		if (categoryId == null || categoryId.isEmpty()) {
 			logger.error("cannot find category Id");
 			return null;

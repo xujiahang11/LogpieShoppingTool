@@ -39,8 +39,6 @@ public class CategoryService {
 			logger.error("cannot find category Id");
 			return null;
 		}
-		String[] args = new String[1];
-		args[0] = categoryId;
-		return repository.queryByPrimaryKey(Category.class, args);
+		return repository.queryByID(Category.class, categoryId);
 	}
 }

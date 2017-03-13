@@ -4,13 +4,14 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
 import com.logpie.shopping.tool.repository.CategoryRepository;
 
 @Table(name = CategoryRepository.DB_TABLE_CATEGORY)
 public class Category extends LogpieModel {
-
-	@Column(name = CategoryRepository.DB_KEY_CATEGORY_ID, type = DataType.LONG, isPrimaryKey = true)
+	@ID
+	@Column(name = CategoryRepository.DB_KEY_CATEGORY_ID, type = DataType.LONG)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	private Long categoryId;
 

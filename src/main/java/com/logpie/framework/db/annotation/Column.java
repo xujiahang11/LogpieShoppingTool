@@ -35,6 +35,4 @@ public @interface Column {
 	}
 
 	public DataType type();
-
-	public boolean isPrimaryKey() default false;
 }

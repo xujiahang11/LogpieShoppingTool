@@ -27,7 +27,7 @@ public class SQLUtil {
 		String sql = "insert into "
 				+ DatabaseUtil.getTableName(model.getClass()) + "("
 				+ map.get("column") + ") values (" + map.get("value") + ")";
-		logger.log(Level.FINE, sql);
+		logger.log(Level.INFO, sql);
 		return sql;
 	}
 
@@ -77,7 +77,7 @@ public class SQLUtil {
 						+ column.referencedColumn());
 			}
 		}
-		logger.log(Level.FINE, sql.toString());
+		logger.log(Level.INFO, sql.toString());
 		return sql.toString();
 	}
 
@@ -100,7 +100,7 @@ public class SQLUtil {
 			}
 			sql += param.getKey() + "." + param.getValue() + "=?";
 		}
-		logger.log(Level.FINE, sql);
+		logger.log(Level.INFO, sql);
 		return sql;
 	}
 

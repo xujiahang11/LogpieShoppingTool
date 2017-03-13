@@ -11,14 +11,14 @@ import com.logpie.framework.log.annotation.LogEnvironment;
 import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.Client;
-import com.logpie.shopping.tool.service.ClientService;
+import com.logpie.shopping.tool.model.Address;
+import com.logpie.shopping.tool.service.AddressService;
 
 @Controller
 @LogEnvironment(classLevel = LogLevel.TRACE)
 public class HomePageController {
 	@Autowired
-	private ClientService service;
+	private AddressService service;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(HomePageController.class);
@@ -28,21 +28,14 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		logger.debug("create started...");
-		String clientName = "QiaoMengying";
-		String clientPhone = "18626158611";
-		service.createClient(clientName, clientPhone);
-		logger.debug("create done...");
+		Address addr1 = service.getAddressById("2");
+		logger.debug("get address by id 1:" + addr1.getAddress());
 
-		logger.debug("get all client started...");
-		Client c1 = service.getAllClients().get(0);
-		logger.debug("client: " + c1.getClientName());
-		logger.debug("get all client done...");
+		Address addr2 = service.getAllAddresses().get(0);
+		logger.debug("get all address: index 0 " + addr2.getAddress());
 
-		logger.debug("get client by id started...");
-		Client c2 = service.getClientById(String.valueOf(4));
-		logger.debug("client: " + c2.getClientName());
-		logger.debug("get client by id done...");
+		Address addr3 = service.getAddressesByClientId("1").get(0);
+		logger.debug("get address by id 1:" + addr3.getAddress());
 
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");

@@ -6,14 +6,15 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
 import com.logpie.shopping.tool.repository.ClientRepository;
 
 @Table(name = ClientRepository.DB_TABLE_CLIENT)
 public class Client extends LogpieModel {
-
+	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = ClientRepository.DB_KEY_CLIENT_ID, type = DataType.LONG, isPrimaryKey = true)
+	@Column(name = ClientRepository.DB_KEY_CLIENT_ID, type = DataType.LONG)
 	private Long clientId;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_WECHAT_DIRECTED_ID, type = DataType.STRING)
