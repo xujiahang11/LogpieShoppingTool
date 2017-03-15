@@ -25,6 +25,22 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+    }
+
+    // For running unit test. You can do "./gradlew test -i [--tests <full test class>]"
+    // The test report page is in <your workspace>/LogpieShoppingTool/build/reports/tests/index.html
+    test {
+        java {
+            srcDirs 'tst/main/java'
+        }
+    }
+}
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -34,7 +50,7 @@ dependencies {
   	//compile("com.github.xujiahang11:LogUtilLib:v0.1-alpha")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
-    testCompile("junit:junit")
+    testCompile("junit:junit:4.11")
 }
 
 jar {
