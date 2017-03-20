@@ -28,14 +28,8 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		Address addr1 = service.getAddressById("2");
-		logger.debug("get address by id 1:" + addr1.getAddress());
-
-		Address addr2 = service.getAllAddresses().get(0);
-		logger.debug("get all address: index 0 " + addr2.getAddress());
-
-		Address addr3 = service.getAddressesByClientId("1").get(0);
-		logger.debug("get address by id 1:" + addr3.getAddress());
+		Address add = service.getAddressById(new Long(1));
+		logger.debug(add.getAddress());
 
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");

@@ -35,9 +35,9 @@ public class BrandService {
 		return repository.queryAll(Brand.class);
 	}
 
-	public Brand getBrandById(final String brandId) {
+	public Brand getBrandById(final Long brandId) {
 		logger.trace("QueryBrandById service is started...");
-		if (brandId == null || brandId.isEmpty()) {
+		if (brandId == null) {
 			logger.error("cannot find brand Id");
 			return null;
 		}

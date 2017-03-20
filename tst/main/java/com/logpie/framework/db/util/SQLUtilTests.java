@@ -32,7 +32,7 @@ public class SQLUtilTests extends TestCase
         String insertAddressSQL = SQLUtil.insertSQL(mTestAddress);
         assertEquals("insert into Brand(BrandName) values ('test_brand')", insertBrandSQL);
         assertEquals(
-                "insert into Address(AddressRecipientName, AddressClientId, Address, AddressRecipientPhone) values ('test_address_recipent', '1', 'test_address', 'test_recipent_phone')",
+                "insert into Address(AddressRecipientName, AddressClientId, Address, AddressRecipientPhone) values ('test_address_recipent', 1, 'test_address', 'test_recipent_phone')",
                 insertAddressSQL);
     }
 }

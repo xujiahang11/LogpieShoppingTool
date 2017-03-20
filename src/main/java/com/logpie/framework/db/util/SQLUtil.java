@@ -2,19 +2,19 @@ package com.logpie.framework.db.util;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.shopping.tool.model.LogpieModel;
 
 public class SQLUtil {
 
 	private static final Logger logger = Logger.getLogger(SQLUtil.class
 			.getName());
 
-	public static String insertSQL(Object model) {
-		Map<String, String> map = DatabaseUtil.getInsertColumnsAndValues(model,
+	public static String insertSQL(LogpieModel model) {
+		Map<String, String> map = DatabaseUtil.getColumnAndValuePairs(model,
 				false);
 		if (map == null || map.isEmpty()) {
 			logger.log(Level.SEVERE, "cannot get model map");
@@ -33,7 +33,7 @@ public class SQLUtil {
 
 	public static String querySQL(Class<?> c) {
 		StringBuffer sql = new StringBuffer();
-		List<String> queryColumns = DatabaseUtil.getQueryColumns(c);
+		List<String> queryColumns = DatabaseUtil.getAllColumns(c);
 		if (queryColumns == null || queryColumns.isEmpty()) {
 			logger.log(Level.SEVERE, "cannot get query column list");
 			return null;
@@ -61,7 +61,7 @@ public class SQLUtil {
 		}
 
 		List<ForeignEntity> referencedColumns = DatabaseUtil
-				.getForeignEntities(c);
+				.getForeignEntityAnnotations(c);
 		if (!referencedColumns.isEmpty()) {
 			for (ForeignEntity column : referencedColumns) {
 				sql.append(" join ");
@@ -74,34 +74,45 @@ public class SQLUtil {
 				}
 				sql.append("on " + DatabaseUtil.getTableAliasOrName(c) + "."
 						+ column.name() + "=" + tableName + "."
-						+ column.referencedColumn());
+						+ DatabaseUtil.getID(column.referencedTable()));
 			}
 		}
 		logger.log(Level.INFO, sql.toString());
 		return sql.toString();
 	}
 
-	public static String querySQLByKey(Class<?> c, Map<String, String> params) {
-		String sql = querySQL(c);
-		if (sql == null || sql.equals("")) {
-			logger.log(Level.SEVERE, "cannot get query sql");
+	/**
+	 * 
+	 * @param c
+	 * @param conditionColumns
+	 * @return
+	 */
+	public static String whereConditionSQL(Class<?> c,
+			List<String> conditionColumns) {
+		if (conditionColumns == null || conditionColumns.isEmpty()) {
+			logger.log(Level.SEVERE, "cannot find condition columns");
 			return null;
 		}
-		if (params == null || params.isEmpty()) {
-			logger.log(Level.SEVERE, "cannot find conditional parameters");
-			return null;
-		}
-
-		sql += " where ";
+		StringBuffer sql = new StringBuffer();
+		sql.append(" where ");
+		List<String> columns = DatabaseUtil.getAllColumns(c);
 		int i = 0;
-		for (Entry<String, String> param : params.entrySet()) {
-			if (i > 0 && i < params.size() - 1) {
-				sql += " and ";
+		for (String s : conditionColumns) {
+			if (i > 0 && i < conditionColumns.size() - 1) {
+				sql.append(" and ");
 			}
-			sql += param.getKey() + "." + param.getValue() + "=?";
+			for (int j = 0; j < columns.size(); j++) {
+				if (columns.get(j).endsWith(s)) {
+					sql.append(columns.get(j) + "=?");
+					break;
+				}
+				if (j == columns.size() - 1) {
+					logger.log(Level.SEVERE, "cannot find " + s + " column");
+					return null;
+				}
+			}
 		}
-		logger.log(Level.INFO, sql);
-		return sql;
+		logger.log(Level.INFO, sql.toString());
+		return sql.toString();
 	}
-
 }

@@ -2,9 +2,8 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -47,11 +46,14 @@ public class AddressRepository extends LogpieRepository<Address> {
 				addressZip, client);
 	}
 
-	public List<Address> queryByClientId(String[] args) {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(DB_TABLE_ADDRESS, DB_KEY_ADDRESS_ID);
-		String sql = SQLUtil.querySQLByKey(Address.class, params);
+	public List<Address> queryByClientId(Long arg) {
+		List<String> param = new ArrayList<String>();
+		param.add(DB_KEY_ADDRESS_CLIENT_ID);
+
+		String sql = SQLUtil.querySQL(Address.class)
+				+ SQLUtil.whereConditionSQL(Address.class, param);
 		logger.debug("'QueryByClientId' SQL: " + sql);
-		return jdbcTemplate.query(sql, args, this);
+
+		return jdbcTemplate.query(sql, new Long[] { arg }, this);
 	}
 }

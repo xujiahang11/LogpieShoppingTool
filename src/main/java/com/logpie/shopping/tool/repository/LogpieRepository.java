@@ -4,9 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -72,16 +71,11 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @param args
 	 * @return model
 	 */
-	public T queryByID(Class<T> c, String primaryKey) {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(DatabaseUtil.getTableName(c), DatabaseUtil.getID(c));
-		String sql = SQLUtil.querySQLByKey(c, params);
-		if (sql == null) {
-			logger.error("cannot get QUERY sql");
-		}
-		String[] args = new String[1];
-		args[0] = primaryKey;
-		return jdbcTemplate.queryForObject(sql, args, this);
-	}
+	public T queryByID(Class<T> c, Long arg) {
+		List<String> param = new ArrayList<String>();
+		param.add(DatabaseUtil.getID(c));
 
+		String sql = SQLUtil.querySQL(c) + SQLUtil.whereConditionSQL(c, param);
+		return jdbcTemplate.queryForObject(sql, new Long[] { arg }, this);
+	}
 }

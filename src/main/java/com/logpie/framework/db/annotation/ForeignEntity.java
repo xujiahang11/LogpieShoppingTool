@@ -24,12 +24,6 @@ public @interface ForeignEntity {
 
 	/**
 	 * 
-	 * @return referenced column name in another table
-	 */
-	public String referencedColumn();
-
-	/**
-	 * 
 	 * @return referenced table class
 	 */
 	public Class<?> referencedTable();

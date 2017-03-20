@@ -8,7 +8,6 @@ import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
 import com.logpie.shopping.tool.repository.AddressRepository;
-import com.logpie.shopping.tool.repository.ClientRepository;
 
 @Table(name = AddressRepository.DB_TABLE_ADDRESS)
 public class Address extends LogpieModel {
@@ -29,7 +28,7 @@ public class Address extends LogpieModel {
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ZIP, type = DataType.STRING)
 	private String addressZip;
 
-	@ForeignEntity(name = AddressRepository.DB_KEY_ADDRESS_CLIENT_ID, referencedColumn = ClientRepository.DB_KEY_CLIENT_ID, referencedTable = Client.class)
+	@ForeignEntity(name = AddressRepository.DB_KEY_ADDRESS_CLIENT_ID, referencedTable = Client.class)
 	private Client client;
 
 	/**

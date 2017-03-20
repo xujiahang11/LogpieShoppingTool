@@ -18,14 +18,14 @@ public class CategoryService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public void createCategory(final String categoryName) {
+	public Long createCategory(final String categoryName) {
 		logger.trace("createCategory service is started...");
 		if (categoryName == null || categoryName.isEmpty()) {
 			logger.error("cannot find brand name");
-			return;
+			return null;
 		}
 		Category category = new Category(categoryName);
-		repository.create(category);
+		return repository.create(category);
 	}
 
 	public List<Category> getAllCategoris() {
@@ -33,9 +33,9 @@ public class CategoryService {
 		return repository.queryAll(Category.class);
 	}
 
-	public Category getCategoryById(final String categoryId) {
+	public Category getCategoryById(final Long categoryId) {
 		logger.trace("QueryCategoryById service is started...");
-		if (categoryId == null || categoryId.isEmpty()) {
+		if (categoryId == null) {
 			logger.error("cannot find category Id");
 			return null;
 		}

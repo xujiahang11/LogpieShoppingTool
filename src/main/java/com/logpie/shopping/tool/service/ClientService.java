@@ -18,15 +18,15 @@ public class ClientService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public void createClient(final String ClientName, final String ClientPhone) {
+	public Long createClient(final String ClientName, final String ClientPhone) {
 		logger.trace("createClient service is started...");
 		if (ClientName == null || ClientName.isEmpty() || ClientPhone == null
 				|| ClientPhone.isEmpty()) {
 			logger.error("cannot find client name or client phone");
-			return;
+			return null;
 		}
 		Client client = new Client(ClientName, ClientPhone);
-		repository.create(client);
+		return repository.create(client);
 	}
 
 	public List<Client> getAllClients() {
@@ -34,9 +34,9 @@ public class ClientService {
 		return repository.queryAll(Client.class);
 	}
 
-	public Client getClientById(final String clientId) {
+	public Client getClientById(final Long clientId) {
 		logger.trace("QueryClientById service is started...");
-		if (clientId == null || clientId.isEmpty()) {
+		if (clientId == null) {
 			logger.error("cannot find brand Id");
 			return null;
 		}

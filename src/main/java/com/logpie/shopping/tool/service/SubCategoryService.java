@@ -21,20 +21,20 @@ public class SubCategoryService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public void createSubCategory(final String subCategoryName,
-			final String categoryId) {
+	public Long createSubCategory(final String subCategoryName,
+			final Long categoryId) {
 		logger.trace("CreateSubCategory service is started...");
 		if (subCategoryName == null || subCategoryName.isEmpty()) {
 			logger.error("cannot find sub-category name");
-			return;
+			return null;
 		}
-		if (categoryId == null || categoryId.isEmpty()) {
+		if (categoryId == null) {
 			logger.error("cannot find category id");
-			return;
+			return null;
 		}
 		Category category = categoryService.getCategoryById(categoryId);
 		SubCategory subcategory = new SubCategory(subCategoryName, category);
-		repository.create(subcategory);
+		return repository.create(subcategory);
 	}
 
 	public List<SubCategory> getAllSubCategories() {
@@ -42,24 +42,21 @@ public class SubCategoryService {
 		return repository.queryAll(SubCategory.class);
 	}
 
-	public SubCategory getSubCategoryById(final String subCategoryId) {
+	public SubCategory getSubCategoryById(final Long subCategoryId) {
 		logger.trace("QuerySubCategoryById service is started...");
-		if (subCategoryId == null || subCategoryId.isEmpty()) {
+		if (subCategoryId == null) {
 			logger.error("cannot find sub-category Id");
 			return null;
 		}
 		return repository.queryByID(SubCategory.class, subCategoryId);
 	}
 
-	public List<SubCategory> getSubCategoriesByCategoryId(
-			final String categoryId) {
+	public List<SubCategory> getSubCategoriesByCategoryId(final Long categoryId) {
 		logger.trace("QuerySubCategoriesByCategoryId service is started...");
-		if (categoryId == null || categoryId.isEmpty()) {
+		if (categoryId == null) {
 			logger.error("cannot find category Id");
 			return null;
 		}
-		String[] args = new String[1];
-		args[0] = categoryId;
-		return repository.queryByCategoryId(args);
+		return repository.queryByCategoryId(categoryId);
 	}
 }

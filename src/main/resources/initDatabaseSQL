@@ -1,0 +1,33 @@
+create database LogpieManagementToolV2;
+
+create table if not exists Shop(ShopId serial primary key, ShopName text not null, ShopSmallLogo text, ShopLargeLogo text, ShopExp int default 0 not null, ShopFoundationDate timestamp not null default CURRENT_TIMESTAMP, ShopPath text not null) character set = utf8;
+
+create table if not exists Admin(AdminId serial primary key, AdminName text not null, AdminUserName text not null, AdminPassword text not null, AdminPasswordVersion int default 1 not null, AdminWechat text, AdminPhone text, AdminProfitPercentage float default 1.0 not null, AdminSuperManagement boolean default false, AdminShop bigint unsigned, foreign key (AdminShop) references Shop(ShopId) on update cascade on delete cascade) character set = utf8;
+
+create table if not exists Permission(PermissionId serial primary key, PermissionName text not null, PermissionExplanation text) character set = utf8;
+
+create table if not exists PermissionOwner (PermissionOwnerId serial primary key, PermissionOwnerPermissionId bigint unsigned, PermissionOwnerAdminId bigint unsigned, foreign key (PermissionOwnerPermissionId) references Permission(PermissionId) on update cascade on delete cascade, foreign key (PermissionOwnerAdminId) references Admin(AdminId) on update cascade on delete cascade) character set = utf8;
+
+create table if not exists Address(AddressId serial primary key, Address text not null, AddressUserName text not null, AddressUserPhone text not null, AddressZip text) 
+
+create table if not exists Client(ClientId serial primary key, ClientWechatDirectedId text, ClientName text, ClientPhone text, ClientWechatId text, ClientWechatName text, ClientTaobaoName text, ClientNote text, ClientRegisterTime timestamp not null default current_timestamp) character set = utf8;
+
+create table if not exists Address(AddressId serial primary key, AddressClientId bigint unsigned, Address text not null, AddressRecipientName text not null, AddressRecipientPhone text not null, AddressZip text, foreign key (AddressClientId) references Client(ClientId) on update cascade on delete cascade) character set = utf8;
+
+create table if not exists Brand(BrandId serial primary key, BrandName text not null) character set = utf8;
+
+create table if not exists Category(CategoryId serial primary key, CategoryName text not null) character set = utf8;
+
+create table if not exists SubCategory(SubCategoryId serial primary key, SubCategoryName text not null, CategoryId bigint unsigned, foreign key (CategoryId) references Category(CategoryId) on update cascade on delete cascade) character set = utf8;
+
+create table if not exists Size(SizeId serial primary key, SizeName text not null) character set = utf8;
+
+create table if not exists Color(ColorId serial primary key, ColorName text not null) character set = utf8;
+
+create table if not exists Product(ProductId serial primary key, ProductName text not null, ProductWeight int unsigned, ProductPostDate timestamp not null default current_timestamp, ProductBrandId bigint unsigned, ProductSubCategoryId bigint unsigned, ProductSizeId bigint unsigned, ProductColorId bigint unsigned, ProductOriginalId text, foreign key (ProductBrandId) references Brand(BrandId) on update cascade on delete cascade, foreign key (ProductSubCategoryId) references SubCategory(SubCategoryId) on update cascade on delete cascade, foreign key (ProductSizeId) references Size(SizeId) on update cascade on delete cascade, foreign key (ProductColorId) references Color(ColorId) on update cascade on delete cascade) character set = utf8;
+
+create table if not exists Delivery(DeliveryId serial primary key, DeliveryName text not null, DeliveryIsInternational boolean not null default false) character set = utf8;
+
+create table if not exists Package(PackageId serial primary key, PackageIntDeliveryId bigint unsigned, PackageIntTrackingNumber text, PackageDomDeliveryId bigint unsigned, PackageDomTrackingNumber text, PackageClientId bigint unsigned, PackageReceiver text not null, PackageDestination text not null, PackageIsDirectDelivered boolean not null default false, PackageDate timestamp not null default current_timestamp, PackageWeight int not null default 0, PackageShippingFee float not null default 0, PackageAdditionalCustomTaxFee float not null default 0, PackageAdditionalInsuranceFee float not null default 0, PackageStatus text not null, PackageNote text, foreign key (PackageIntDeliveryId) references Delivery(DeliveryId) on update cascade on delete cascade, foreign key (PackageDomDeliveryId) references Delivery(DeliveryId) on update cascade on delete cascade, foreign key (PackageClientId) references Client(ClientId) on update cascade on delete cascade) character set = utf8
+
+create table if not exists Orders(OrderId serial primary key, OrderDate timestamp not null default current_timestamp, OrderProductId bigint unsigned not null, OrderIsStocked boolean not null default false, OrderIsReturned boolean not null default false, OrderProductCount int not null, OrderClientId bigint unsigned, OrderBuyerName text not null, OrderProxyId bigint unsigned, OrderProductWeight int unsigned not null default 0, OrderActualCost float default 0, OrderCurrencyRate float not null, OrderSellingPrice float not null, OrderCustomerPaidMoney float default 0, OrderCompanyReceivedMoney float default 0, OrderPackageId bigint unsigned, OrderShippingFee float default 0, OrderTransferDeliveryId bigint unsigned, OrderTransferFee float default 0, OrderStatus text not null, OrderNote text, foreign key (OrderClientId) references Client(ClientId) on update cascade on delete cascade, foreign key (OrderPackageId) references Package(PackageId) on update cascade on delete cascade, foreign key (OrderProxyId) references Admin(AdminId) on update cascade on delete cascade, foreign key (OrderProductId) references Product(ProductId) on update cascade on delete cascade, foreign key (OrderTransferDeliveryId) references Delivery(DeliveryId) on update cascade on delete cascade) character set = utf8;

@@ -24,7 +24,7 @@ public class AddressService {
 			.getLogger(this.getClass());
 
 	public Long createAddress(final String address, final String recipentName,
-			final String recipentPhone, final String clientId) {
+			final String recipentPhone, final Long clientId) {
 		logger.trace("createAddress service is started...");
 		if (address == null || address.isEmpty()) {
 			logger.error("cannot find address");
@@ -34,33 +34,35 @@ public class AddressService {
 			logger.error("cannot find recipent name");
 			return null;
 		}
+		if (clientId == null) {
+			logger.error("cannot find client id");
+			return null;
+		}
 		Client client = clientRepository.queryByID(Client.class, clientId);
 		Address addr = new Address(address, recipentName, recipentPhone, client);
 		return repository.create(addr);
 	}
 
 	public List<Address> getAllAddresses() {
-		logger.trace("QueryAllSubCategories service is started...");
+		logger.trace("QueryAllAddresses service is started...");
 		return repository.queryAll(Address.class);
 	}
 
-	public Address getAddressById(final String addressId) {
+	public Address getAddressById(final Long addressId) {
 		logger.trace("QueryAddressById service is started...");
-		if (addressId == null || addressId.isEmpty()) {
+		if (addressId == null) {
 			logger.error("cannot find address Id");
 			return null;
 		}
 		return repository.queryByID(Address.class, addressId);
 	}
 
-	public List<Address> getAddressesByClientId(final String clientId) {
-		logger.trace("QueryAddressesByCategoryId service is started...");
-		if (clientId == null || clientId.isEmpty()) {
-			logger.error("cannot find category Id");
+	public List<Address> getAddressesByClientId(final Long clientId) {
+		logger.trace("QueryAddressesByClientId service is started...");
+		if (clientId == null) {
+			logger.error("cannot find client Id");
 			return null;
 		}
-		String[] args = new String[1];
-		args[0] = clientId;
-		return repository.queryByClientId(args);
+		return repository.queryByClientId(clientId);
 	}
 }

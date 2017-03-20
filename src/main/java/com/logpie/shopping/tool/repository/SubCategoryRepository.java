@@ -2,9 +2,8 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,12 +28,14 @@ public class SubCategoryRepository extends LogpieRepository<SubCategory> {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public List<SubCategory> queryByCategoryId(String[] args) {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put(DB_TABLE_SUBCATEGORY, DB_KEY_CATEGORY_ID);
-		String sql = SQLUtil.querySQLByKey(SubCategory.class, params);
+	public List<SubCategory> queryByCategoryId(Long arg) {
+		List<String> param = new ArrayList<String>();
+		param.add(DB_KEY_CATEGORY_ID);
+
+		String sql = SQLUtil.querySQL(SubCategory.class)
+				+ SQLUtil.whereConditionSQL(SubCategory.class, param);
 		logger.debug("'QueryByCategoryId' SQL: " + sql);
-		return jdbcTemplate.query(sql, args, this);
+		return jdbcTemplate.query(sql, new Long[] { arg }, this);
 	}
 
 	@Override
