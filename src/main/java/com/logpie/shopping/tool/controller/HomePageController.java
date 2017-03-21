@@ -11,7 +11,6 @@ import com.logpie.framework.log.annotation.LogEnvironment;
 import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.service.AddressService;
 
 @Controller
@@ -27,9 +26,6 @@ public class HomePageController {
 	public String greeting(@PathVariable("name") String name, Model model)
 			throws InterruptedException {
 		logger.trace("Request started...");
-
-		Address add = service.getAddressById(new Long(1));
-		logger.debug(add.getAddress());
 
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");

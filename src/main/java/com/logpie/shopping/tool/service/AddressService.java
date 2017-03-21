@@ -40,7 +40,7 @@ public class AddressService {
 		}
 		Client client = clientRepository.queryByID(Client.class, clientId);
 		Address addr = new Address(address, recipentName, recipentPhone, client);
-		return repository.create(addr);
+		return repository.insert(addr);
 	}
 
 	public List<Address> getAllAddresses() {

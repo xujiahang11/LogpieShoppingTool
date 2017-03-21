@@ -8,6 +8,7 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.util.LogpieModel;
 import com.logpie.shopping.tool.repository.ClientRepository;
 
 @Table(name = ClientRepository.DB_TABLE_CLIENT)

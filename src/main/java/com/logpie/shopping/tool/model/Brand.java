@@ -6,6 +6,7 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.util.LogpieModel;
 import com.logpie.shopping.tool.repository.BrandRepository;
 
 @Table(name = BrandRepository.DB_TABLE_BRAND)

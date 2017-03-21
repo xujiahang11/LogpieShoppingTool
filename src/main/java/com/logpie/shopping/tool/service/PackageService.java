@@ -37,7 +37,7 @@ public class PackageService {
 			return null;
 		}
 		Package p = new Package(packageReceiver, packageDestination);
-		return repository.create(p);
+		return repository.insert(p);
 	}
 
 	public Long createPackage(Delivery packageIntDelivery,
@@ -68,7 +68,7 @@ public class PackageService {
 				packageWeight, packageShippingFee,
 				packageAdditionalCustomTaxFee, packageAdditionalInsuranceFee,
 				packageStatus, packageNote);
-		return repository.create(p);
+		return repository.insert(p);
 	}
 
 	public Long createPackage(Long packageIntDeliveryId,

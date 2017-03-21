@@ -27,7 +27,7 @@ public class BrandService {
 			return null;
 		}
 		Brand brand = new Brand(brandName);
-		return repository.create(brand);
+		return repository.insert(brand);
 	}
 
 	public List<Brand> getAllBrands() {

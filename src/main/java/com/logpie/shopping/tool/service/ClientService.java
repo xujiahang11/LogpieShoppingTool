@@ -26,7 +26,7 @@ public class ClientService {
 			return null;
 		}
 		Client client = new Client(ClientName, ClientPhone);
-		return repository.create(client);
+		return repository.insert(client);
 	}
 
 	public List<Client> getAllClients() {

@@ -25,7 +25,7 @@ public class CategoryService {
 			return null;
 		}
 		Category category = new Category(categoryName);
-		return repository.create(category);
+		return repository.insert(category);
 	}
 
 	public List<Category> getAllCategoris() {

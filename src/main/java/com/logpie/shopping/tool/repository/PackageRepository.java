@@ -3,15 +3,11 @@ package com.logpie.shopping.tool.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.util.SQLUtil;
-import com.logpie.framework.log.util.LogpieLogger;
-import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.model.Delivery;
 import com.logpie.shopping.tool.model.Package;
@@ -38,23 +34,14 @@ public class PackageRepository extends LogpieRepository<Package> {
 	public static final String DB_KEY_PACKAGE_STATUS = "PackageStatus";
 	public static final String DB_KEY_PACKAGE_NOTE = "PackageNote";
 
-	private LogpieLogger logger = LogpieLoggerFactory
-			.getLogger(this.getClass());
-
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 	@Autowired
 	private ClientRepository clientRepository;
 
 	public List<Package> queryByClientId(final Long arg) {
-		List<String> param = new ArrayList<String>();
-		param.add(DB_KEY_PACKAGE_CLIENT_ID);
-
-		String sql = SQLUtil.querySQL(Package.class)
-				+ SQLUtil.whereConditionSQL(Package.class, param);
-		logger.debug("'QueryByCategoryId' SQL: " + sql);
-
-		return jdbcTemplate.query(sql, new Long[] { arg }, this);
+		return super.queryByForeignKey(Package.class, DB_KEY_PACKAGE_CLIENT_ID,
+				arg);
 	}
 
 	public List<Package> queryAllOrderBy(final String arg) {

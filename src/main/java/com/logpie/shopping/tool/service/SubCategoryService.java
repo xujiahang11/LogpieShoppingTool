@@ -34,7 +34,7 @@ public class SubCategoryService {
 		}
 		Category category = categoryService.getCategoryById(categoryId);
 		SubCategory subcategory = new SubCategory(subCategoryName, category);
-		return repository.create(subcategory);
+		return repository.insert(subcategory);
 	}
 
 	public List<SubCategory> getAllSubCategories() {

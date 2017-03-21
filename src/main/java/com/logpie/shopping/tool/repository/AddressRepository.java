@@ -2,15 +2,11 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.util.SQLUtil;
-import com.logpie.framework.log.util.LogpieLogger;
-import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Client;
 
@@ -28,8 +24,10 @@ public class AddressRepository extends LogpieRepository<Address> {
 	public static final String DB_KEY_ADDRESS_ZIP = "AddressZip";
 	public static final String DB_KEY_ADDRESS_CLIENT_ID = "AddressClientId";
 
-	private LogpieLogger logger = LogpieLoggerFactory
-			.getLogger(this.getClass());
+	public List<Address> queryByClientId(Long arg) {
+		return super.queryByForeignKey(Address.class, DB_KEY_ADDRESS_CLIENT_ID,
+				arg);
+	}
 
 	@Override
 	public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -44,16 +42,5 @@ public class AddressRepository extends LogpieRepository<Address> {
 		Client client = repository.mapRow(rs, rowNum);
 		return new Address(addressId, address, recipentName, recipentPhone,
 				addressZip, client);
-	}
-
-	public List<Address> queryByClientId(Long arg) {
-		List<String> param = new ArrayList<String>();
-		param.add(DB_KEY_ADDRESS_CLIENT_ID);
-
-		String sql = SQLUtil.querySQL(Address.class)
-				+ SQLUtil.whereConditionSQL(Address.class, param);
-		logger.debug("'QueryByClientId' SQL: " + sql);
-
-		return jdbcTemplate.query(sql, new Long[] { arg }, this);
 	}
 }

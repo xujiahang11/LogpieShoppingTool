@@ -25,7 +25,7 @@ public class DeliveryService {
 			return null;
 		}
 		Delivery delivery = new Delivery(deliveryName, isInternational);
-		return repository.create(delivery);
+		return repository.insert(delivery);
 	}
 
 	public List<Delivery> getAllDeliverys() {
