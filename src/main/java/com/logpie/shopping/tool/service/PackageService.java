@@ -103,7 +103,7 @@ public class PackageService {
 
 	public List<Package> getAllPackages() {
 		logger.trace("QueryAllPackages service is started...");
-		return repository.queryAll(Package.class);
+		return repository.query(Package.class, null);
 	}
 
 	public Package getPackageById(final Long packageId) {

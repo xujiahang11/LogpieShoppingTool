@@ -39,7 +39,7 @@ public class SubCategoryService {
 
 	public List<SubCategory> getAllSubCategories() {
 		logger.trace("QueryAllSubCategories service is started...");
-		return repository.queryAll(SubCategory.class);
+		return repository.query(SubCategory.class, null);
 	}
 
 	public SubCategory getSubCategoryById(final Long subCategoryId) {

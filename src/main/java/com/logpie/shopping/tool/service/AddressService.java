@@ -43,9 +43,23 @@ public class AddressService {
 		return repository.insert(addr);
 	}
 
+	public void updateAddress(Address addr) {
+		logger.trace("updateAddress service is started...");
+		if (addr == null) {
+			logger.error("cannot find address object");
+			return;
+		}
+		repository.update(addr);
+	}
+
 	public List<Address> getAllAddresses() {
 		logger.trace("QueryAllAddresses service is started...");
-		return repository.queryAll(Address.class);
+		return repository.query(Address.class, null);
+	}
+
+	public List<Address> getAllAddressesOrderByClientId(Boolean isASC) {
+		logger.trace("QueryAllAddressesOrderByClientId service is started...");
+		return repository.queryAllOrderByClientId(isASC);
 	}
 
 	public Address getAddressById(final Long addressId) {

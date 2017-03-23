@@ -2,11 +2,14 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.logpie.framework.db.basic.SQLClause;
+import com.logpie.framework.db.util.SQLUtil;
 import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Client;
 
@@ -27,6 +30,12 @@ public class AddressRepository extends LogpieRepository<Address> {
 	public List<Address> queryByClientId(Long arg) {
 		return super.queryByForeignKey(Address.class, DB_KEY_ADDRESS_CLIENT_ID,
 				arg);
+	}
+
+	public List<Address> queryAllOrderByClientId(final Boolean isASC) {
+		List<SQLClause> args = new ArrayList<SQLClause>();
+		args.add(SQLClause.createOrderByClause(DB_KEY_ADDRESS_CLIENT_ID, isASC));
+		return super.query(Address.class, SQLUtil.orderBySQL(args));
 	}
 
 	@Override

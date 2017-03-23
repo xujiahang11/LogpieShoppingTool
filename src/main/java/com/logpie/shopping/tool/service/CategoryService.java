@@ -30,7 +30,7 @@ public class CategoryService {
 
 	public List<Category> getAllCategoris() {
 		logger.trace("QueryAllCategories service is started...");
-		return repository.queryAll(Category.class);
+		return repository.query(Category.class, null);
 	}
 
 	public Category getCategoryById(final Long categoryId) {

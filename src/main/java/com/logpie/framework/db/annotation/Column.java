@@ -31,7 +31,7 @@ public @interface Column {
 	 *
 	 */
 	public enum DataType {
-		STRING, BOOLEAN, INT, LONG, FLOAT, TIMESTAMP
+		STRING, BOOLEAN, INTEGER, LONG, FLOAT, TIMESTAMP
 	}
 
 	public DataType type();

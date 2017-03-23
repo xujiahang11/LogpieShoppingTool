@@ -9,7 +9,7 @@ import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.util.LogpieModel;
+import com.logpie.framework.db.basic.LogpieModel;
 import com.logpie.shopping.tool.repository.PackageRepository;
 
 @Table(name = PackageRepository.DB_TABLE_PACKAGE)
@@ -37,7 +37,7 @@ public class Package extends LogpieModel {
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_DATE, type = DataType.TIMESTAMP)
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	private Timestamp packageDate;
-	@Column(name = PackageRepository.DB_KEY_PACKAGE_WEIGHT, type = DataType.INT)
+	@Column(name = PackageRepository.DB_KEY_PACKAGE_WEIGHT, type = DataType.INTEGER)
 	private Integer packageWeight;
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_SHIPPING_FEE, type = DataType.FLOAT)
 	private Float packageShippingFee;
@@ -222,18 +222,33 @@ public class Package extends LogpieModel {
 	}
 
 	public enum PackageStatus {
-		TO_BE_SHIPPED("国际待发"), INT_SHIPPING("国际在途"), DOM_SHIPPING("国内在途"), DELIVERED(
-				"已到包裹");
+		TO_BE_SHIPPED("1", "国际待发"), INT_SHIPPING("2", "国际在途"), DOM_SHIPPING(
+				"3", "国内在途"), DELIVERED("4", "已到包裹");
 
+		private final String code;
 		private final String text;
 
-		private PackageStatus(final String text) {
+		private PackageStatus(final String code, final String text) {
 			this.text = text;
+			this.code = code;
 		}
 
 		@Override
 		public String toString() {
+			return code;
+		}
+
+		public String getText() {
 			return text;
+		}
+
+		public static PackageStatus fromCode(String code) {
+			for (PackageStatus status : PackageStatus.values()) {
+				if (status.toString().equals(code)) {
+					return status;
+				}
+			}
+			return null;
 		}
 	}
 }

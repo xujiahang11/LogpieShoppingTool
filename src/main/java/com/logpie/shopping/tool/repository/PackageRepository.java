@@ -3,11 +3,14 @@ package com.logpie.shopping.tool.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.logpie.framework.db.basic.SQLClause;
+import com.logpie.framework.db.util.SQLUtil;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.model.Delivery;
 import com.logpie.shopping.tool.model.Package;
@@ -44,9 +47,20 @@ public class PackageRepository extends LogpieRepository<Package> {
 				arg);
 	}
 
-	public List<Package> queryAllOrderBy(final String arg) {
+	public List<Package> queryByIntDeliveryId(final Long arg) {
+		return super.queryByForeignKey(Package.class,
+				DB_KEY_PACKAGE_INT_DELIVERY_ID, arg);
+	}
 
-		return null;
+	public List<Package> queryByDomDeliveryId(final Long arg) {
+		return super.queryByForeignKey(Package.class,
+				DB_KEY_PACKAGE_DOM_DELIVERY_ID, arg);
+	}
+
+	public List<Package> queryAllOrderByClientId(final Boolean isASC) {
+		List<SQLClause> args = new ArrayList<SQLClause>();
+		args.add(SQLClause.createOrderByClause(DB_KEY_PACKAGE_CLIENT_ID, isASC));
+		return super.query(Package.class, SQLUtil.orderBySQL(args));
 	}
 
 	@Override
@@ -69,7 +83,7 @@ public class PackageRepository extends LogpieRepository<Package> {
 		Float customFee = rs.getFloat(DB_KEY_PACKAGE_ADDITIONAL_CUSTOM_TAX_FEE);
 		Float insuranceFee = rs
 				.getFloat(DB_KEY_PACKAGE_ADDITIONAL_INSURANCE_FEE);
-		PackageStatus status = PackageStatus.valueOf(rs
+		PackageStatus status = PackageStatus.fromCode(rs
 				.getString(DB_KEY_PACKAGE_STATUS));
 		String note = rs.getString(DB_KEY_PACKAGE_NOTE);
 

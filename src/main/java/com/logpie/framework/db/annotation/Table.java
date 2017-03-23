@@ -12,6 +12,4 @@ import java.lang.annotation.Target;
 public @interface Table {
 
 	public String name();
-
-	public String tableAlias() default "";
 }
