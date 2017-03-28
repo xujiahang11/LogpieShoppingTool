@@ -26,7 +26,8 @@ public class PackageService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createPackage(String packageReceiver, String packageDestination) {
+	public Long createPackage(final String packageReceiver,
+			final String packageDestination) {
 		logger.trace("createPackage service is started...");
 		if (packageReceiver == null || packageReceiver.isEmpty()) {
 			logger.error("cannot find receiver of package");
@@ -40,55 +41,17 @@ public class PackageService {
 		return repository.insert(p);
 	}
 
-	public Long createPackage(Delivery packageIntDelivery,
-			String packageIntTrackingNumber, Delivery packageDomDelivery,
-			String packageDomTrackingNumber, Client packageClient,
-			String packageReceiver, String packageDestination,
-			Boolean packageIsDirectDelivered, Timestamp packageDate,
-			Integer packageWeight, Float packageShippingFee,
-			Float packageAdditionalCustomTaxFee,
-			Float packageAdditionalInsuranceFee, PackageStatus packageStatus,
-			String packageNote) {
-		logger.trace("createPackage service is started...");
-		if (packageReceiver == null || packageReceiver.isEmpty()) {
-			logger.error("cannot find receiver of package");
-			return null;
-		}
-		if (packageDestination == null || packageDestination.isEmpty()) {
-			logger.error("cannot find destination of package");
-			return null;
-		}
-		if (packageStatus == null) {
-			packageStatus = PackageStatus.TO_BE_SHIPPED;
-		}
-		Package p = new Package(null, packageIntDelivery,
-				packageIntTrackingNumber, packageDomDelivery,
-				packageDomTrackingNumber, packageClient, packageReceiver,
-				packageDestination, packageIsDirectDelivered, packageDate,
-				packageWeight, packageShippingFee,
-				packageAdditionalCustomTaxFee, packageAdditionalInsuranceFee,
-				packageStatus, packageNote);
-		return repository.insert(p);
-	}
-
-	public Long createPackage(Long packageIntDeliveryId,
-			String packageIntTrackingNumber, Long packageDomDeliveryId,
-			String packageDomTrackingNumber, Long packageClientId,
-			String packageReceiver, String packageDestination,
-			Boolean packageIsDirectDelivered, Timestamp packageDate,
-			Integer packageWeight, Float packageShippingFee,
-			Float packageAdditionalCustomTaxFee,
-			Float packageAdditionalInsuranceFee, PackageStatus packageStatus,
-			String packageNote) {
-		if (packageIntDeliveryId != null) {
-			logger.error("cannot find international delivery id");
-		}
-		if (packageDomDeliveryId != null) {
-			logger.error("cannot find domestic delivery id");
-		}
-		if (packageClientId != null) {
-			logger.error("cannot find client id");
-		}
+	public Long createPackage(final Long packageIntDeliveryId,
+			final String packageIntTrackingNumber,
+			final Long packageDomDeliveryId,
+			final String packageDomTrackingNumber, final Long packageClientId,
+			final String packageReceiver, final String packageDestination,
+			final Boolean packageIsDirectDelivered,
+			final Timestamp packageDate, final Integer packageWeight,
+			final Float packageShippingFee,
+			final Float packageAdditionalCustomTaxFee,
+			final Float packageAdditionalInsuranceFee,
+			final PackageStatus packageStatus, final String packageNote) {
 		return createPackage(
 				deliveryService.getDeliveryById(packageIntDeliveryId),
 				packageIntTrackingNumber,
@@ -99,6 +62,38 @@ public class PackageService {
 				packageWeight, packageShippingFee,
 				packageAdditionalCustomTaxFee, packageAdditionalInsuranceFee,
 				packageStatus, packageNote);
+	}
+
+	public Long createPackage(final Delivery packageIntDelivery,
+			final String packageIntTrackingNumber,
+			final Delivery packageDomDelivery,
+			final String packageDomTrackingNumber, final Client packageClient,
+			final String packageReceiver, final String packageDestination,
+			final Boolean packageIsDirectDelivered,
+			final Timestamp packageDate, final Integer packageWeight,
+			final Float packageShippingFee,
+			final Float packageAdditionalCustomTaxFee,
+			final Float packageAdditionalInsuranceFee,
+			final PackageStatus packageStatus, final String packageNote) {
+		logger.trace("createPackage service is started...");
+		if (packageReceiver == null || packageReceiver.isEmpty()) {
+			logger.error("cannot find receiver of package");
+			return null;
+		}
+		if (packageDestination == null || packageDestination.isEmpty()) {
+			logger.error("cannot find destination of package");
+			return null;
+		}
+		PackageStatus status = packageStatus == null ? PackageStatus.TO_BE_SHIPPED
+				: packageStatus;
+		Package p = new Package(null, packageIntDelivery,
+				packageIntTrackingNumber, packageDomDelivery,
+				packageDomTrackingNumber, packageClient, packageReceiver,
+				packageDestination, packageIsDirectDelivered, packageDate,
+				packageWeight, packageShippingFee,
+				packageAdditionalCustomTaxFee, packageAdditionalInsuranceFee,
+				status, packageNote);
+		return repository.insert(p);
 	}
 
 	public List<Package> getAllPackages() {

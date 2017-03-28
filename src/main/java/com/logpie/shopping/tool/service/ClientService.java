@@ -37,7 +37,7 @@ public class ClientService {
 	public Client getClientById(final Long clientId) {
 		logger.trace("QueryClientById service is started...");
 		if (clientId == null) {
-			logger.error("cannot find brand Id");
+			logger.error("cannot find client Id");
 			return null;
 		}
 		return repository.queryByID(Client.class, clientId);

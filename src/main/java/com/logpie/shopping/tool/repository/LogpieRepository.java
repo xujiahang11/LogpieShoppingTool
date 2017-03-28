@@ -16,8 +16,8 @@ import org.springframework.jdbc.support.KeyHolder;
 
 import com.logpie.framework.db.basic.LogpieModel;
 import com.logpie.framework.db.basic.SQLClause;
-import com.logpie.framework.db.util.DatabaseUtil;
 import com.logpie.framework.db.util.SQLUtil;
+import com.logpie.framework.db.util.TableUtil;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 
@@ -126,7 +126,7 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 		}
 
 		List<SQLClause> conditionArgs = new ArrayList<SQLClause>();
-		conditionArgs.add(SQLClause.createWhereClause(DatabaseUtil.getID(c),
+		conditionArgs.add(SQLClause.createWhereClause(TableUtil.getId(c),
 				null));
 		String whereSql = SQLUtil.whereSQL(c, conditionArgs);
 		if (whereSql == null) {

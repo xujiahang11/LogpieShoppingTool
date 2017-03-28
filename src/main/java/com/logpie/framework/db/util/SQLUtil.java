@@ -2,11 +2,12 @@ package com.logpie.framework.db.util;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.basic.ForeignKey;
+import com.logpie.framework.db.basic.KVP;
 import com.logpie.framework.db.basic.LogpieModel;
 import com.logpie.framework.db.basic.SQLClause;
 
@@ -16,66 +17,71 @@ public class SQLUtil {
 			.getName());
 
 	public static String insertSQL(final LogpieModel model) {
-		List<String> keyValuePair = DatabaseUtil.getColumnValuePairs(model,
-				false);
-		if (keyValuePair == null || keyValuePair.isEmpty()) {
-			logger.log(Level.SEVERE, "cannot get model map for INSERT");
-			return null;
-		}
-		if (DatabaseUtil.getTableName(model.getClass()) == null) {
+		if (TableUtil.getTableName(model.getClass()) == null) {
 			logger.log(Level.SEVERE, "cannot find the table");
 			return null;
 		}
+
+		List<KVP> keyValuePairs = ModelUtil.getModelKVP(model, false);
+		if (keyValuePairs == null || keyValuePairs.isEmpty()) {
+			logger.log(Level.SEVERE, "cannot get model map for INSERT");
+			return null;
+		}
+
 		StringBuffer keys = new StringBuffer();
 		StringBuffer values = new StringBuffer();
-		for (String s : keyValuePair) {
+		for (KVP keyValuePair : keyValuePairs) {
+			if (keyValuePair.getValue() == null) {
+				continue;
+			}
 			if (keys.length() > 0) {
 				keys.append(", ");
 				values.append(", ");
 			}
-			String[] pair = s.split(",");
-			keys.append(pair[0]);
-			values.append(pair[1]);
+			keys.append(keyValuePair.getKey());
+			values.append(keyValuePair.valueToString());
 		}
 
-		String sql = "insert into "
-				+ DatabaseUtil.getTableName(model.getClass()) + "("
-				+ keys.toString() + ") values (" + values.toString() + ")";
+		String sql = "insert into " + TableUtil.getTableName(model.getClass())
+				+ "(" + keys.toString() + ") values (" + values.toString()
+				+ ")";
 		logger.log(Level.INFO, "INSERT SQL: " + sql);
 		return sql;
 	}
 
 	public static String updateSQL(final LogpieModel model) {
-		List<String> keyValuePair = DatabaseUtil.getColumnValuePairs(model,
-				false);
-		if (keyValuePair == null || keyValuePair.isEmpty()) {
-			logger.log(Level.SEVERE, "cannot get model map for UPDATE");
-			return null;
-		}
-		if (DatabaseUtil.getTableName(model.getClass()) == null) {
+		if (TableUtil.getTableName(model.getClass()) == null) {
 			logger.log(Level.SEVERE, "cannot find the table");
 			return null;
 		}
 
-		StringBuffer sql = new StringBuffer();
-		sql.append("update " + DatabaseUtil.getTableName(model.getClass())
-				+ " set ");
-		int i = 0;
-		for (String s : keyValuePair) {
-			if (i++ > 0 && i <= keyValuePair.size()) {
-				sql.append(", ");
-			}
-			String[] pair = s.split(",");
-			sql.append(pair[0] + " = " + pair[1]);
+		List<KVP> keyValuePairs = ModelUtil.getModelKVP(model, false);
+		if (keyValuePairs == null || keyValuePairs.isEmpty()) {
+			logger.log(Level.SEVERE, "cannot get model map for UPDATE");
+			return null;
 		}
 
-		Map<String, Object> modelMap = DatabaseUtil.getModelMap(model, true);
-		String id = DatabaseUtil.getID(model.getClass());
-		if (!modelMap.containsKey(id)) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("update " + TableUtil.getTableName(model.getClass())
+				+ " set ");
+		int i = 0;
+		for (KVP keyValuePair : keyValuePairs) {
+			if (keyValuePair.getValue() == null) {
+				continue;
+			}
+			if (i++ > 0) {
+				sql.append(", ");
+			}
+			sql.append(keyValuePair.getKey() + " = "
+					+ keyValuePair.valueToString());
+		}
+
+		String id = TableUtil.getId(model.getClass());
+		Long idValue = ModelUtil.getIdValue(model);
+		if (id == null || idValue == null) {
 			logger.log(Level.SEVERE, "cannot find id");
 			return null;
 		}
-		Long idValue = (Long) modelMap.get(id);
 		List<SQLClause> conditionArgs = new ArrayList<SQLClause>();
 		conditionArgs.add(SQLClause.createWhereClause(id, idValue));
 		sql.append(whereSQL(model.getClass(), conditionArgs));
@@ -93,7 +99,7 @@ public class SQLUtil {
 		}
 
 		StringBuffer sql = new StringBuffer();
-		sql.append("update " + DatabaseUtil.getTableName(c) + " set ");
+		sql.append("update " + TableUtil.getTableName(c) + " set ");
 		int i = 0;
 		for (SQLClause obj : updateArgs) {
 			if (i++ > 0 && i <= updateArgs.size()) {
@@ -120,14 +126,9 @@ public class SQLUtil {
 		StringBuffer sql = new StringBuffer();
 
 		List<String> queryColumns = new ArrayList<String>();
-		queryColumns.addAll(DatabaseUtil.getBasicColumns(c, true));
-		queryColumns.addAll(DatabaseUtil.getLinkedBasicColumns(c));
+		queryColumns.addAll(TableUtil.getAllColumns(c, null));
 		if (queryColumns == null || queryColumns.isEmpty()) {
 			logger.log(Level.SEVERE, "cannot get query column list");
-			return null;
-		}
-		if (DatabaseUtil.getTableName(c) == null) {
-			logger.log(Level.SEVERE, "cannot find the table");
 			return null;
 		}
 
@@ -142,25 +143,24 @@ public class SQLUtil {
 			}
 		}
 
-		sql.append("from " + DatabaseUtil.getTableName(c));
+		sql.append("from " + TableUtil.getTableName(c));
 
-		List<ForeignEntity> referencedColumns = DatabaseUtil
-				.getForeignEntityAnnotations(c);
-		if (!referencedColumns.isEmpty()) {
-			for (ForeignEntity column : referencedColumns) {
-				sql.append(" left join ");
-				String tableName = DatabaseUtil.getTableName(column
-						.referencedTable());
-				sql.append(tableName + " ");
-				if (!column.referencedTableAlias().isEmpty()) {
-					tableName = column.referencedTableAlias();
-					sql.append(tableName + " ");
-				}
-				sql.append("on " + DatabaseUtil.getTableName(c) + "."
-						+ column.name() + "=" + tableName + "."
-						+ DatabaseUtil.getID(column.referencedTable()));
+		List<ForeignKey> referencedKeys = TableUtil.getAllForeignKeys(c, null);
+		for (ForeignKey key : referencedKeys) {
+			sql.append(" left join ");
+			ForeignEntity entity = key.getForeignEntity();
+			String referencedTable = TableUtil.getTableName(entity
+					.referencedTable());
+			sql.append(referencedTable + " ");
+			if (!entity.referencedTableAlias().isEmpty()) {
+				referencedTable = entity.referencedTableAlias();
+				sql.append(referencedTable + " ");
 			}
+			sql.append("on " + key.getTable() + "." + entity.name() + "="
+					+ referencedTable + "."
+					+ TableUtil.getId(entity.referencedTable()));
 		}
+
 		logger.log(Level.INFO, "QUERY SQL: " + sql.toString());
 		return sql.toString();
 	}
@@ -194,8 +194,7 @@ public class SQLUtil {
 		sql.append(" where ");
 
 		List<String> columns = new ArrayList<String>();
-		columns.addAll(DatabaseUtil.getColumns(c, true));
-		columns.addAll(DatabaseUtil.getLinkedBasicColumns(c));
+		columns.addAll(TableUtil.getColumns(c, true, true, null));
 
 		int i = 0;
 		for (SQLClause obj : args) {

@@ -57,7 +57,7 @@ public class AddressService {
 		return repository.query(Address.class, null);
 	}
 
-	public List<Address> getAllAddressesOrderByClientId(Boolean isASC) {
+	public List<Address> getAllAddressesOrderByClientId(final Boolean isASC) {
 		logger.trace("QueryAllAddressesOrderByClientId service is started...");
 		return repository.queryAllOrderByClientId(isASC);
 	}
