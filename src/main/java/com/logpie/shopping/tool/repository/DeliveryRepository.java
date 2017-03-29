@@ -15,7 +15,8 @@ public class DeliveryRepository extends LogpieRepository<Delivery> {
 	public static final String DB_KEY_IS_INTERNATIONAL = "DeliveryIsInternational";
 
 	@Override
-	public Delivery mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Delivery mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		if (rs == null) {
 			return null;
 		}

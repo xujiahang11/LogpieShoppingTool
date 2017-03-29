@@ -22,6 +22,7 @@ public class Product extends LogpieModel {
 	private String productName;
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_WEIGHT, type = DataType.INTEGER)
 	private Integer productWeight;
+	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_POST_DATE, type = DataType.TIMESTAMP)
 	private Timestamp productPostDate;
 	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_BRAND_ID, referencedTable = Brand.class)

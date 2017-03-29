@@ -16,7 +16,8 @@ public class CategoryRepository extends LogpieRepository<Category> {
 	public static final String DB_KEY_CATEGORY_NAME = "CategoryName";
 
 	@Override
-	public Category mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Category mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		if (rs == null) {
 			return null;
 		}

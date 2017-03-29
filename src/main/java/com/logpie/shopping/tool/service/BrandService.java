@@ -32,7 +32,7 @@ public class BrandService {
 
 	public List<Brand> getAllBrands() {
 		logger.trace("QueryAllBrands service is started...");
-		return repository.query(Brand.class, null);
+		return repository.queryAll(Brand.class, null);
 	}
 
 	public Brand getBrandById(final Long brandId) {

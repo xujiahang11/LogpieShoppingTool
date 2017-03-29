@@ -14,7 +14,8 @@ public class SizeRepository extends LogpieRepository<Size> {
 	public static final String DB_KEY_SIZE_NAME = "SizeName";
 
 	@Override
-	public Size mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Size mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		Long sizeId = rs.getLong(DB_KEY_SIZE_ID);
 		String sizeName = rs.getString(DB_KEY_SIZE_NAME);
 		return new Size(sizeId, sizeName);

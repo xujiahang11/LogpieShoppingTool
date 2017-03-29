@@ -26,7 +26,7 @@ public class Package extends LogpieModel {
 	private Delivery packageDomDelivery;
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_DOM_TRACKING_NUMBER, type = DataType.STRING)
 	private String packageDomTrackingNumber;
-	@ForeignEntity(name = PackageRepository.DB_KEY_PACKAGE_CLIENT_ID, referencedTable = Client.class)
+	@ForeignEntity(name = PackageRepository.DB_KEY_PACKAGE_CLIENT_ID, referencedTable = Client.class, referencedTableAlias = "packageClient")
 	private Client packageClient;
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_RECEIVER, type = DataType.STRING)
 	private String packageReceiver;
@@ -63,8 +63,7 @@ public class Package extends LogpieModel {
 	 */
 	public Package(String packageReceiver, String packageDestination) {
 		this(null, null, null, null, null, null, packageReceiver,
-				packageDestination, new Boolean(false), null, new Integer(0),
-				new Float(0), new Float(0), new Float(0),
+				packageDestination, false, null, 0, 0.0F, 0.0F, 0.0F,
 				PackageStatus.TO_BE_SHIPPED, null);
 	}
 

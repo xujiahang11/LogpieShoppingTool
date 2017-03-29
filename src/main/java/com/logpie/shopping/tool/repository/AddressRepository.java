@@ -16,10 +16,8 @@ import com.logpie.shopping.tool.model.Client;
 @Repository
 public class AddressRepository extends LogpieRepository<Address> {
 
-	@Autowired
-	private ClientRepository repository;
-
 	public static final String DB_TABLE_ADDRESS = "Address";
+
 	public static final String DB_KEY_ADDRESS_ID = "AddressId";
 	public static final String DB_KEY_ADDRESS = "Address";
 	public static final String DB_KEY_ADDRESS_RECIPENT_NAME = "AddressRecipientName";
@@ -27,19 +25,23 @@ public class AddressRepository extends LogpieRepository<Address> {
 	public static final String DB_KEY_ADDRESS_ZIP = "AddressZip";
 	public static final String DB_KEY_ADDRESS_CLIENT_ID = "AddressClientId";
 
-	public List<Address> queryByClientId(Long arg) {
+	@Autowired
+	private ClientRepository repository;
+
+	public List<Address> queryByClientId(final Long arg) {
 		return super.queryByForeignKey(Address.class, DB_KEY_ADDRESS_CLIENT_ID,
-				arg);
+				arg, null);
 	}
 
 	public List<Address> queryAllOrderByClientId(final Boolean isASC) {
 		List<SQLClause> args = new ArrayList<SQLClause>();
 		args.add(SQLClause.createOrderByClause(DB_KEY_ADDRESS_CLIENT_ID, isASC));
-		return super.query(Address.class, SQLUtil.orderBySQL(args));
+		return super.queryAll(Address.class, SQLUtil.orderBySQL(args));
 	}
 
 	@Override
-	public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Address mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		if (rs == null) {
 			return null;
 		}

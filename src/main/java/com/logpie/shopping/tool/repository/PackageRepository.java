@@ -43,28 +43,41 @@ public class PackageRepository extends LogpieRepository<Package> {
 	private ClientRepository clientRepository;
 
 	public List<Package> queryByClientId(final Long arg) {
+
 		return super.queryByForeignKey(Package.class, DB_KEY_PACKAGE_CLIENT_ID,
-				arg);
+				arg, getOrderByDateSQL(false));
 	}
 
 	public List<Package> queryByIntDeliveryId(final Long arg) {
 		return super.queryByForeignKey(Package.class,
-				DB_KEY_PACKAGE_INT_DELIVERY_ID, arg);
+				DB_KEY_PACKAGE_INT_DELIVERY_ID, arg, getOrderByDateSQL(false));
 	}
 
 	public List<Package> queryByDomDeliveryId(final Long arg) {
 		return super.queryByForeignKey(Package.class,
-				DB_KEY_PACKAGE_DOM_DELIVERY_ID, arg);
+				DB_KEY_PACKAGE_DOM_DELIVERY_ID, arg, getOrderByDateSQL(false));
 	}
 
-	public List<Package> queryAllOrderByClientId(final Boolean isASC) {
-		List<SQLClause> args = new ArrayList<SQLClause>();
-		args.add(SQLClause.createOrderByClause(DB_KEY_PACKAGE_CLIENT_ID, isASC));
-		return super.query(Package.class, SQLUtil.orderBySQL(args));
+	public List<Package> queryByPackageStatus(final PackageStatus arg,
+			final boolean isAscendingDate) {
+		List<SQLClause> whereArgs = new ArrayList<SQLClause>();
+		whereArgs.add(SQLClause.createWhereClause(DB_KEY_PACKAGE_STATUS,
+				arg.toString()));
+
+		String sql = SQLUtil.querySQL(Package.class)
+				+ getOrderByDateSQL(isAscendingDate)
+				+ SQLUtil.whereSQL(Package.class, whereArgs);
+		return super.query(sql);
+	}
+
+	public List<Package> queryAll(final boolean isAscendingDate) {
+		return super
+				.queryAll(Package.class, getOrderByDateSQL(isAscendingDate));
 	}
 
 	@Override
-	public Package mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Package mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		if (rs == null) {
 			return null;
 		}
@@ -90,5 +103,12 @@ public class PackageRepository extends LogpieRepository<Package> {
 		return new Package(id, intDelivery, intTracking, domDelivery,
 				domTracking, client, receiver, destination, isDirect, date,
 				weight, shippingFee, customFee, insuranceFee, status, note);
+	}
+
+	private String getOrderByDateSQL(final boolean isAscendingDate) {
+		List<SQLClause> orderByArgs = new ArrayList<SQLClause>();
+		orderByArgs.add(SQLClause.createOrderByClause(DB_KEY_PACKAGE_DATE,
+				isAscendingDate));
+		return SQLUtil.orderBySQL(orderByArgs);
 	}
 }

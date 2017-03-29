@@ -21,13 +21,14 @@ public class SubCategoryRepository extends LogpieRepository<SubCategory> {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	public List<SubCategory> queryByCategoryId(Long arg) {
+	public List<SubCategory> queryByCategoryId(final Long arg) {
 		return super.queryByForeignKey(SubCategory.class, DB_KEY_CATEGORY_ID,
-				arg);
+				arg, null);
 	}
 
 	@Override
-	public SubCategory mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public SubCategory mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		if (rs == null) {
 			return null;
 		}

@@ -30,7 +30,7 @@ public class DeliveryService {
 
 	public List<Delivery> getAllDeliverys() {
 		logger.trace("QueryAllDeliverys service is started...");
-		return repository.query(Delivery.class, null);
+		return repository.queryAll(Delivery.class, null);
 	}
 
 	public Delivery getDeliveryById(final Long deliveryId) {

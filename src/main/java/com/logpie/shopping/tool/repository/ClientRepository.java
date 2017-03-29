@@ -23,7 +23,8 @@ public class ClientRepository extends LogpieRepository<Client> {
 	public static final String DB_KEY_CLIENT_REGISTER_TIME = "ClientRegisterTime";
 
 	@Override
-	public Client mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Client mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		Long ClientId = rs.getLong(DB_KEY_CLIENT_ID);
 		String ClientWechatDirectedId = rs
 				.getString(DB_KEY_CLIENT_WECHAT_DIRECTED_ID);

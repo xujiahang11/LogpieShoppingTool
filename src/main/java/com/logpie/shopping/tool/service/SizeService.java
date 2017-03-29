@@ -29,7 +29,7 @@ public class SizeService {
 
 	public List<Size> getAllSizes() {
 		logger.trace("QueryAllSizes service is started...");
-		return repository.query(Size.class, null);
+		return repository.queryAll(Size.class, null);
 	}
 
 	public Size getSizeById(final Long sizeId) {

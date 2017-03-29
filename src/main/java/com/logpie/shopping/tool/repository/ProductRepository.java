@@ -39,7 +39,7 @@ public class ProductRepository extends LogpieRepository<Product> {
 
 	public List<Product> queryByBrandId(final Long arg) {
 		return super.queryByForeignKey(Product.class, DB_KEY_PRODUCT_BRAND_ID,
-				arg);
+				arg, null);
 	}
 
 	public List<Product> queryByCategoryId(final Long arg) {
@@ -48,13 +48,14 @@ public class ProductRepository extends LogpieRepository<Product> {
 		for (SubCategory subcategory : list) {
 			res.addAll(super.queryByForeignKey(Product.class,
 					DB_KEY_PRODUCT_SUBCATEGORY_ID,
-					subcategory.getSubCategoryId()));
+					subcategory.getSubCategoryId(), null));
 		}
 		return res;
 	}
 
 	@Override
-	public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Product mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		Long id = rs.getLong(DB_KEY_PRODUCT_ID);
 		String name = rs.getString(DB_KEY_PRODUCT_NAME);
 		Integer weight = rs.getInt(DB_KEY_PRODUCT_WEIGHT);

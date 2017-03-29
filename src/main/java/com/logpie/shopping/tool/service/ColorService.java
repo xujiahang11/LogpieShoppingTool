@@ -29,7 +29,7 @@ public class ColorService {
 
 	public List<Color> getAllColors() {
 		logger.trace("QueryAllColors service is started...");
-		return repository.query(Color.class, null);
+		return repository.queryAll(Color.class, null);
 	}
 
 	public Color getColorById(final Long colorId) {

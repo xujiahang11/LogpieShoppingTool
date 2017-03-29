@@ -9,10 +9,10 @@ public class SQLClause {
 
 	private Operator operator;
 	private Function function;
-	private Boolean isASC;
+	private boolean isASC;
 
 	private SQLClause(String key, Object value, Operator operator,
-			Function function, Boolean isASC) {
+			Function function, boolean isASC) {
 		this.key = key;
 		this.value = value;
 		this.operator = operator;
@@ -33,7 +33,7 @@ public class SQLClause {
 		return new SQLClause(key, value, operator, null, true);
 	}
 
-	public static SQLClause createOrderByClause(String key, Boolean isASC) {
+	public static SQLClause createOrderByClause(String key, boolean isASC) {
 		return new SQLClause(key, null, Operator.EQUAL, null, isASC);
 	}
 
@@ -94,9 +94,6 @@ public class SQLClause {
 	}
 
 	public String getOrderString() {
-		if (isASC == null) {
-			return null;
-		}
 		return isASC == true ? "ASC" : "DESC";
 	}
 }

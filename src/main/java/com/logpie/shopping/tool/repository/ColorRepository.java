@@ -15,7 +15,8 @@ public class ColorRepository extends LogpieRepository<Color> {
 	public static final String DB_KEY_COLOR_NAME = "ColorName";
 
 	@Override
-	public Color mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Color mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		Long colorId = rs.getLong(DB_KEY_COLOR_ID);
 		String colorName = rs.getString(DB_KEY_COLOR_NAME);
 		return new Color(colorId, colorName);

@@ -1,6 +1,5 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,29 +25,13 @@ public class PackageService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createPackage(final String packageReceiver,
-			final String packageDestination) {
-		logger.trace("createPackage service is started...");
-		if (packageReceiver == null || packageReceiver.isEmpty()) {
-			logger.error("cannot find receiver of package");
-			return null;
-		}
-		if (packageDestination == null || packageDestination.isEmpty()) {
-			logger.error("cannot find destination of package");
-			return null;
-		}
-		Package p = new Package(packageReceiver, packageDestination);
-		return repository.insert(p);
-	}
-
 	public Long createPackage(final Long packageIntDeliveryId,
 			final String packageIntTrackingNumber,
 			final Long packageDomDeliveryId,
 			final String packageDomTrackingNumber, final Long packageClientId,
 			final String packageReceiver, final String packageDestination,
 			final Boolean packageIsDirectDelivered,
-			final Timestamp packageDate, final Integer packageWeight,
-			final Float packageShippingFee,
+			final Integer packageWeight, final Float packageShippingFee,
 			final Float packageAdditionalCustomTaxFee,
 			final Float packageAdditionalInsuranceFee,
 			final PackageStatus packageStatus, final String packageNote) {
@@ -58,10 +41,9 @@ public class PackageService {
 				deliveryService.getDeliveryById(packageDomDeliveryId),
 				packageDomTrackingNumber,
 				clientService.getClientById(packageClientId), packageReceiver,
-				packageDestination, packageIsDirectDelivered, packageDate,
-				packageWeight, packageShippingFee,
-				packageAdditionalCustomTaxFee, packageAdditionalInsuranceFee,
-				packageStatus, packageNote);
+				packageDestination, packageIsDirectDelivered, packageWeight,
+				packageShippingFee, packageAdditionalCustomTaxFee,
+				packageAdditionalInsuranceFee, packageStatus, packageNote);
 	}
 
 	public Long createPackage(final Delivery packageIntDelivery,
@@ -70,13 +52,13 @@ public class PackageService {
 			final String packageDomTrackingNumber, final Client packageClient,
 			final String packageReceiver, final String packageDestination,
 			final Boolean packageIsDirectDelivered,
-			final Timestamp packageDate, final Integer packageWeight,
-			final Float packageShippingFee,
+			final Integer packageWeight, final Float packageShippingFee,
 			final Float packageAdditionalCustomTaxFee,
 			final Float packageAdditionalInsuranceFee,
 			final PackageStatus packageStatus, final String packageNote) {
 		logger.trace("createPackage service is started...");
-		if (packageReceiver == null || packageReceiver.isEmpty()) {
+		if (packageClient == null
+				&& (packageReceiver == null || packageReceiver.isEmpty())) {
 			logger.error("cannot find receiver of package");
 			return null;
 		}
@@ -84,21 +66,24 @@ public class PackageService {
 			logger.error("cannot find destination of package");
 			return null;
 		}
+		// pre-handle initial values of some properties
+		String receiver = packageClient == null ? packageReceiver
+				: packageClient.getClientName();
 		PackageStatus status = packageStatus == null ? PackageStatus.TO_BE_SHIPPED
 				: packageStatus;
 		Package p = new Package(null, packageIntDelivery,
 				packageIntTrackingNumber, packageDomDelivery,
-				packageDomTrackingNumber, packageClient, packageReceiver,
-				packageDestination, packageIsDirectDelivered, packageDate,
+				packageDomTrackingNumber, packageClient, receiver,
+				packageDestination, packageIsDirectDelivered, null,
 				packageWeight, packageShippingFee,
 				packageAdditionalCustomTaxFee, packageAdditionalInsuranceFee,
 				status, packageNote);
 		return repository.insert(p);
 	}
 
-	public List<Package> getAllPackages() {
+	public List<Package> getAllPackages(final boolean isAscendingDate) {
 		logger.trace("QueryAllPackages service is started...");
-		return repository.query(Package.class, null);
+		return repository.queryAll(isAscendingDate);
 	}
 
 	public Package getPackageById(final Long packageId) {

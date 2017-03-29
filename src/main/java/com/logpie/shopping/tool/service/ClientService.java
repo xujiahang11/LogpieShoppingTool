@@ -31,7 +31,7 @@ public class ClientService {
 
 	public List<Client> getAllClients() {
 		logger.trace("QueryAllClients service is started...");
-		return repository.query(Client.class, null);
+		return repository.queryAll(Client.class, null);
 	}
 
 	public Client getClientById(final Long clientId) {

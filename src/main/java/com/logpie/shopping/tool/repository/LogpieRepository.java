@@ -35,7 +35,7 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @param model
 	 * @return id of this record in the database
 	 */
-	public Long insert(T model) {
+	public Long insert(final T model) {
 		String sql = SQLUtil.insertSQL(model);
 		if (sql == null) {
 			logger.error("cannot get INSERT sql");
@@ -58,7 +58,7 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * 
 	 * @param model
 	 */
-	public void update(T model) {
+	public void update(final T model) {
 		String sql = SQLUtil.updateSQL(model);
 		if (sql == null) {
 			logger.error("cannot get UPDATE sql");
@@ -75,14 +75,21 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @param whereArgs
 	 *            where clause arguments; can be null
 	 */
-	public void update(Class<T> c, List<SQLClause> updateArgs,
-			List<SQLClause> whereArgs) {
+	public void update(final Class<T> c, final List<SQLClause> updateArgs,
+			final List<SQLClause> whereArgs) {
 		String sql = SQLUtil.updateSQL(c, updateArgs, whereArgs);
 		if (sql == null) {
 			logger.error("cannot get UPDATE sql");
 		}
 
 		jdbcTemplate.execute(sql);
+	}
+
+	public List<T> query(final String sql) {
+		if (sql == null || sql.isEmpty()) {
+			logger.error("cannot get SQL");
+		}
+		return jdbcTemplate.query(sql, this);
 	}
 
 	/**
@@ -93,8 +100,7 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 *            sort in ascending or descending order; can be null
 	 * @return result set
 	 */
-	public List<T> query(Class<T> c, String orderBySql) {
-		logger.trace("Database queryAll started...");
+	public List<T> queryAll(final Class<T> c, final String orderBySql) {
 		String sql = SQLUtil.querySQL(c);
 		if (sql == null) {
 			logger.error("cannot get QUERY sql");
@@ -114,7 +120,6 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @return model where id is arg
 	 */
 	public T queryByID(final Class<T> c, final Long arg) {
-		logger.trace("Database queryById started...");
 		if (arg == null) {
 			logger.error("cannot get id");
 			return null;
@@ -126,8 +131,8 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 		}
 
 		List<SQLClause> conditionArgs = new ArrayList<SQLClause>();
-		conditionArgs.add(SQLClause.createWhereClause(TableUtil.getId(c),
-				null));
+		conditionArgs
+				.add(SQLClause.createWhereClause(TableUtil.getId(c), null));
 		String whereSql = SQLUtil.whereSQL(c, conditionArgs);
 		if (whereSql == null) {
 			logger.error("cannot get WHERE CLAUSE sql");
@@ -146,7 +151,7 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 	 * @return result set
 	 */
 	List<T> queryByForeignKey(final Class<T> c, final String foreignKey,
-			final Long arg) {
+			final Long arg, final String orderBySql) {
 		logger.trace("Database queryByForeignKey started...");
 		if (foreignKey == null) {
 			logger.error("cannot get foreign key");
@@ -156,6 +161,10 @@ public abstract class LogpieRepository<T extends LogpieModel> implements
 		if (sql == null) {
 			logger.error("cannot get QUERY sql");
 			return null;
+		}
+
+		if (orderBySql != null && !orderBySql.isEmpty()) {
+			sql += orderBySql;
 		}
 
 		List<SQLClause> conditionArgs = new ArrayList<SQLClause>();

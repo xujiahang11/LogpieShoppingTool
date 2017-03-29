@@ -11,11 +11,13 @@ import com.logpie.shopping.tool.model.Brand;
 public class BrandRepository extends LogpieRepository<Brand> {
 
 	public static final String DB_TABLE_BRAND = "Brand";
+
 	public static final String DB_KEY_BRAND_ID = "BrandId";
 	public static final String DB_KEY_BRAND_NAME = "BrandName";
 
 	@Override
-	public Brand mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Brand mapRow(final ResultSet rs, final int rowNum)
+			throws SQLException {
 		if (rs == null) {
 			return null;
 		}

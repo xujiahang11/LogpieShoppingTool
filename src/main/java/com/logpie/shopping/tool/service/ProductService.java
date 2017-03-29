@@ -84,7 +84,7 @@ public class ProductService {
 
 	public List<Product> getAllProducts() {
 		logger.trace("QueryAllProducts service is started...");
-		return repository.query(Product.class, null);
+		return repository.queryAll(Product.class, null);
 	}
 
 	public Product getProductById(final Long productId) {

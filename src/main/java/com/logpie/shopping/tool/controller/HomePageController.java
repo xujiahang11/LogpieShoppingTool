@@ -13,11 +13,11 @@ import com.logpie.framework.log.annotation.LogEnvironment;
 import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.Product;
+import com.logpie.shopping.tool.model.Order;
+import com.logpie.shopping.tool.service.AdminService;
 import com.logpie.shopping.tool.service.BrandService;
-import com.logpie.shopping.tool.service.ColorService;
+import com.logpie.shopping.tool.service.OrderService;
 import com.logpie.shopping.tool.service.ProductService;
-import com.logpie.shopping.tool.service.SizeService;
 import com.logpie.shopping.tool.service.SubCategoryService;
 
 @Controller
@@ -26,9 +26,9 @@ public class HomePageController {
 	@Autowired
 	private ProductService productService;
 	@Autowired
-	private ColorService colorService;
+	private AdminService adminService;
 	@Autowired
-	private SizeService sizeService;
+	private OrderService orderService;
 	@Autowired
 	private BrandService brandService;
 	@Autowired
@@ -42,13 +42,13 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		productService.createProduct("test_product", 1L, 1L);
-
-		List<Product> list = productService.getProductsByBrandId(1L);
-		logger.debug("Brand id is 1: " + list.size());
-
-		List<Product> list2 = productService.getProductsByCategoryId(1L);
-		logger.debug("Category id is 1: " + list2.size());
+		List<Order> list = orderService.getAllOrders(false);
+		for (Order order : list) {
+			logger.debug("order: " + order.getOrderId() + ", "
+					+ order.getOrderProduct().getProductName() + ", "
+					+ order.getOrderProductWeight() + "g, "
+					+ order.getOrderProxy().getAdminName());
+		}
 
 		model.addAttribute("name", "world");
 		logger.trace("Request done...");
