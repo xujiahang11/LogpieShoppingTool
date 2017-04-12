@@ -1,5 +1,5 @@
 package com.logpie.framework.db.basic;
 
-public enum Function {
+public enum SqlFunction {
 	MAX, MIN, COUNT, AVG, SUM
 }

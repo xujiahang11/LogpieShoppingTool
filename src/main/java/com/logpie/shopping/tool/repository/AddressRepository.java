@@ -2,16 +2,15 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.SQLClause;
-import com.logpie.framework.db.util.SQLUtil;
 import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Client;
+import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class AddressRepository extends LogpieRepository<Address> {
@@ -24,19 +23,23 @@ public class AddressRepository extends LogpieRepository<Address> {
 	public static final String DB_KEY_ADDRESS_RECIPENT_PHONE = "AddressRecipientPhone";
 	public static final String DB_KEY_ADDRESS_ZIP = "AddressZip";
 	public static final String DB_KEY_ADDRESS_CLIENT_ID = "AddressClientId";
+	public static final String DB_KEY_ADDRESS_SHOP_ID = "AddressShopId";
 
 	@Autowired
-	private ClientRepository repository;
+	private ClientRepository clientRepository;
+	@Autowired
+	private ShopRepository shopRepository;
 
-	public List<Address> queryByClientId(final Long arg) {
-		return super.queryByForeignKey(Address.class, DB_KEY_ADDRESS_CLIENT_ID,
-				arg, null);
+	public List<Address> queryByShopId(final Long shopId)
+			throws DataAccessException {
+		return super.queryByForeignKey(Address.class, DB_KEY_ADDRESS_SHOP_ID,
+				shopId, null);
 	}
 
-	public List<Address> queryAllOrderByClientId(final Boolean isASC) {
-		List<SQLClause> args = new ArrayList<SQLClause>();
-		args.add(SQLClause.createOrderByClause(DB_KEY_ADDRESS_CLIENT_ID, isASC));
-		return super.queryAll(Address.class, SQLUtil.orderBySQL(args));
+	public List<Address> queryByClientId(final Long clientId)
+			throws DataAccessException {
+		return super.queryByForeignKey(Address.class, DB_KEY_ADDRESS_CLIENT_ID,
+				clientId, null);
 	}
 
 	@Override
@@ -45,13 +48,14 @@ public class AddressRepository extends LogpieRepository<Address> {
 		if (rs == null) {
 			return null;
 		}
-		Long addressId = rs.getLong(DB_KEY_ADDRESS_ID);
+		Long id = rs.getLong(DB_KEY_ADDRESS_ID);
 		String address = rs.getString(DB_KEY_ADDRESS);
 		String recipentName = rs.getString(DB_KEY_ADDRESS_RECIPENT_NAME);
 		String recipentPhone = rs.getString(DB_KEY_ADDRESS_RECIPENT_PHONE);
 		String addressZip = rs.getString(DB_KEY_ADDRESS_ZIP);
-		Client client = repository.mapRow(rs, rowNum);
-		return new Address(addressId, address, recipentName, recipentPhone,
-				addressZip, client);
+		Client client = clientRepository.mapRow(rs, rowNum);
+		Shop shop = shopRepository.mapRow(rs, rowNum);
+		return new Address(id, address, recipentName, recipentPhone,
+				addressZip, client, shop);
 	}
 }

@@ -1,8 +1,10 @@
 package com.logpie.shopping.tool.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.annotation.LogEnvironment;
@@ -20,14 +22,28 @@ public class BrandService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createBrand(final String brandName) {
+	public Long createBrand(final Brand brand) {
 		logger.trace("createBrand service is started...");
-		if (brandName == null || brandName.isEmpty()) {
-			logger.error("cannot find brand name");
+		if (brand == null) {
+			logger.error("cannot find brand");
 			return null;
 		}
-		Brand brand = new Brand(brandName);
-		return repository.insert(brand);
+		try {
+			return repository.insert(brand);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void updateBrand(final Brand brand) {
+		logger.trace("updateBrand service is started...");
+		if (brand == null) {
+			logger.error("cannot find brand");
+			return;
+		}
+		repository.update(brand);
 	}
 
 	public List<Brand> getAllBrands() {
@@ -35,12 +51,21 @@ public class BrandService {
 		return repository.queryAll(Brand.class, null);
 	}
 
-	public Brand getBrandById(final Long brandId) {
+	public Brand getBrandById(final Long id) {
 		logger.trace("QueryBrandById service is started...");
-		if (brandId == null) {
-			logger.error("cannot find brand Id");
+		if (id == null) {
+			logger.error("cannot find brand id");
 			return null;
 		}
-		return repository.queryByID(Brand.class, brandId);
+		return repository.queryById(Brand.class, id);
+	}
+
+	public List<Brand> getBrandsByShopId(final Long shopId) {
+		logger.trace("QueryBrandsByShopId service is started...");
+		if (shopId == null) {
+			logger.error("cannot find shop id");
+			return null;
+		}
+		return repository.queryByShopId(shopId);
 	}
 }

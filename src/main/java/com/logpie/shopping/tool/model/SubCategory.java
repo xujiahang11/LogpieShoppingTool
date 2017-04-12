@@ -7,61 +7,74 @@ import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.basic.LogpieModel;
+import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.SubCategoryRepository;
 
 @Table(name = SubCategoryRepository.DB_TABLE_SUBCATEGORY)
-public class SubCategory extends LogpieModel {
+public class SubCategory extends Model {
 	@ID
-	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_ID, type = DataType.LONG)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	private Long subCategoryId;
+	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_ID, type = DataType.LONG)
+	private Long id;
 
 	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_NAME, type = DataType.STRING)
-	private String subCategoryName;
+	private String name;
 
-	@ForeignEntity(name = SubCategoryRepository.DB_KEY_CATEGORY_ID, referencedTable = Category.class)
+	@ForeignEntity(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_CATEGORY_ID, referencedTable = Category.class)
 	private Category category;
 
-	/**
-	 * Constructor for creating a sub-category
-	 * 
-	 * @param subCategoryName
-	 */
-	public SubCategory(final String subCategoryName, final Category category) {
-		this(null, subCategoryName, category);
+	@ForeignEntity(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_SHOP_ID, referencedTable = Shop.class)
+	private Shop shop;
+
+	public SubCategory() {
+
 	}
 
 	/**
 	 * 
-	 * @param subCategoryId
-	 * @param subCategoryName
+	 * @param id
+	 * @param name
+	 * @param category
+	 * @param shop
 	 */
-	public SubCategory(final Long subCategoryId, final String subCategoryName,
-			final Category category) {
-		this.subCategoryId = subCategoryId;
-		this.subCategoryName = subCategoryName;
+	public SubCategory(final Long id, final String name,
+			final Category category, final Shop shop) {
+		this.id = id;
+		this.name = name;
 		this.category = category;
+		this.shop = shop;
 	}
 
-	public Long getSubCategoryId() {
-		return subCategoryId;
+	public Long getId() {
+		return id;
 	}
 
-	public String getSubCategoryName() {
-		return subCategoryName;
+	public String getName() {
+		return name;
 	}
 
 	public Category getCategory() {
 		return category;
 	}
 
-	public void setSubCategoryName(String subCategoryName) {
-		this.subCategoryName = subCategoryName;
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 }

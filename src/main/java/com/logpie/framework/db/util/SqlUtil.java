@@ -1,22 +1,23 @@
 package com.logpie.framework.db.util;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.basic.ForeignKey;
 import com.logpie.framework.db.basic.KVP;
-import com.logpie.framework.db.basic.LogpieModel;
-import com.logpie.framework.db.basic.SQLClause;
+import com.logpie.framework.db.basic.Model;
+import com.logpie.framework.db.basic.SqlClause;
 
-public class SQLUtil {
+public class SqlUtil {
 
-	private static final Logger logger = Logger.getLogger(SQLUtil.class
+	private static final Logger logger = Logger.getLogger(SqlUtil.class
 			.getName());
 
-	public static String insertSQL(final LogpieModel model) {
+	public static String insertSQL(final Model model) {
 		if (TableUtil.getTableName(model.getClass()) == null) {
 			logger.log(Level.SEVERE, "cannot find the table");
 			return null;
@@ -49,7 +50,7 @@ public class SQLUtil {
 		return sql;
 	}
 
-	public static String updateSQL(final LogpieModel model) {
+	public static String updateSQL(final Model model) {
 		if (TableUtil.getTableName(model.getClass()) == null) {
 			logger.log(Level.SEVERE, "cannot find the table");
 			return null;
@@ -79,11 +80,13 @@ public class SQLUtil {
 		String id = TableUtil.getId(model.getClass());
 		Long idValue = ModelUtil.getIdValue(model);
 		if (id == null || idValue == null) {
+			logger.log(Level.SEVERE, id + "," + idValue);
 			logger.log(Level.SEVERE, "cannot find id");
 			return null;
 		}
-		List<SQLClause> conditionArgs = new ArrayList<SQLClause>();
-		conditionArgs.add(SQLClause.createWhereClause(id, idValue));
+		List<SqlClause> conditionArgs = new ArrayList<SqlClause>();
+		conditionArgs.add(SqlClause.createUpdateClause(model.getClass(), id,
+				idValue));
 		sql.append(whereSQL(model.getClass(), conditionArgs));
 
 		logger.log(Level.INFO, "UPDATE SQL: " + sql);
@@ -91,8 +94,8 @@ public class SQLUtil {
 	}
 
 	public static String updateSQL(final Class<?> c,
-			final List<SQLClause> updateArgs,
-			final List<SQLClause> conditionArgs) {
+			final List<SqlClause> updateArgs,
+			final List<SqlClause> conditionArgs) {
 		if (updateArgs == null || updateArgs.isEmpty()) {
 			logger.log(Level.SEVERE, "cannot find update columns and values");
 			return null;
@@ -101,11 +104,11 @@ public class SQLUtil {
 		StringBuffer sql = new StringBuffer();
 		sql.append("update " + TableUtil.getTableName(c) + " set ");
 		int i = 0;
-		for (SQLClause obj : updateArgs) {
+		for (SqlClause obj : updateArgs) {
 			if (i++ > 0 && i <= updateArgs.size()) {
 				sql.append(", ");
 			}
-			sql.append(obj.getKey() + " = ");
+			sql.append(obj.getColumn() + " = ");
 			if (obj.getValue() == null) {
 				sql.append("?");
 			} else {
@@ -122,50 +125,44 @@ public class SQLUtil {
 		return sql.toString();
 	}
 
+	/**
+	 * a query sql without any conditional sql, using left join connections
+	 * 
+	 * @param c
+	 * @return
+	 */
 	public static String querySQL(final Class<?> c) {
 		StringBuffer sql = new StringBuffer();
+		sql.append("select * from " + TableUtil.getTableName(c));
 
-		List<String> queryColumns = new ArrayList<String>();
-		queryColumns.addAll(TableUtil.getAllColumns(c, null));
-		if (queryColumns == null || queryColumns.isEmpty()) {
-			logger.log(Level.SEVERE, "cannot get query column list");
-			return null;
-		}
-
-		sql.append("select ");
-		int i = 0;
-		for (String column : queryColumns) {
-			sql.append(column);
-			if (++i < queryColumns.size()) {
-				sql.append(", ");
-			} else {
-				sql.append(" ");
-			}
-		}
-
-		sql.append("from " + TableUtil.getTableName(c));
-
-		List<ForeignKey> referencedKeys = TableUtil.getAllForeignKeys(c, null);
-		for (ForeignKey key : referencedKeys) {
+		Set<String> aliasSet = new HashSet<String>();
+		List<ForeignKey> foreignKeys = TableUtil.getAllForeignKeys(c, null);
+		for (ForeignKey key : foreignKeys) {
 			sql.append(" left join ");
-			ForeignEntity entity = key.getForeignEntity();
-			String referencedTable = TableUtil.getTableName(entity
-					.referencedTable());
-			sql.append(referencedTable + " ");
-			if (!entity.referencedTableAlias().isEmpty()) {
-				referencedTable = entity.referencedTableAlias();
-				sql.append(referencedTable + " ");
-			}
-			sql.append("on " + key.getTable() + "." + entity.name() + "="
-					+ referencedTable + "."
-					+ TableUtil.getId(entity.referencedTable()));
-		}
 
+			String alias = key.getAlias() == null || key.getAlias().equals("") ? key
+					.getTable() : key.getAlias();
+			String foreignTable = TableUtil.getTableName(key.getForeignEntity()
+					.referencedTable());
+			String foreignAlias = TableUtil.getAliasOfForeignTable(key);
+
+			// check if alias of referenced table is unique
+			if (aliasSet.contains(foreignAlias.toLowerCase())) {
+				logger.log(Level.SEVERE, "foreign table alias duplicates");
+				return null;
+			}
+			aliasSet.add(foreignAlias);
+
+			sql.append(foreignTable + " " + foreignAlias + " on " + alias + "."
+					+ key.getForeignEntity().name() + " = " + foreignAlias
+					+ "."
+					+ TableUtil.getId(key.getForeignEntity().referencedTable()));
+		}
 		logger.log(Level.INFO, "QUERY SQL: " + sql.toString());
 		return sql.toString();
 	}
 
-	public static String orderBySQL(List<SQLClause> args) {
+	public static String orderBySQL(List<SqlClause> args) {
 		if (args == null || args.isEmpty()) {
 			logger.log(Level.SEVERE, "cannot find order by clause");
 			return null;
@@ -173,11 +170,8 @@ public class SQLUtil {
 		StringBuffer sql = new StringBuffer();
 		sql.append(" order by ");
 		int i = 0;
-		for (SQLClause obj : args) {
-			sql.append(obj.getKey());
-			if (obj.getIsASC() != null) {
-				sql.append(" " + obj.getOrderString());
-			}
+		for (SqlClause obj : args) {
+			sql.append(obj.getColumn() + " " + obj.getOrderString());
 			if (++i < args.size()) {
 				sql.append(", ");
 			}
@@ -185,7 +179,7 @@ public class SQLUtil {
 		return sql.toString();
 	}
 
-	public static String whereSQL(final Class<?> c, final List<SQLClause> args) {
+	public static String whereSQL(final Class<?> c, final List<SqlClause> args) {
 		if (args == null || args.isEmpty()) {
 			logger.log(Level.SEVERE, "cannot find where clause args");
 			return null;
@@ -194,28 +188,19 @@ public class SQLUtil {
 		sql.append(" where ");
 
 		List<String> columns = new ArrayList<String>();
-		columns.addAll(TableUtil.getColumns(c, true, true, null));
+		columns.addAll(TableUtil.getAllColumns(c));
 
 		int i = 0;
-		for (SQLClause obj : args) {
+		for (SqlClause obj : args) {
 			if (i++ > 0 && i <= args.size()) {
 				sql.append(" and ");
 			}
-			for (int j = 0; j < columns.size(); j++) {
-				if (columns.get(j).endsWith(obj.getKey())) {
-					sql.append(columns.get(j) + " = ");
-					if (obj.getValue() == null) {
-						sql.append("?");
-					} else {
-						sql.append(obj.getValueString());
-					}
-					break;
-				}
-				if (j == columns.size() - 1) {
-					logger.log(Level.SEVERE, "cannot find " + obj.getKey()
-							+ " column");
-					return null;
-				}
+			sql.append(obj.getAlias() + "." + obj.getColumn() + " "
+					+ obj.getOperatorString() + " ");
+			if (obj.getValue() == null) {
+				sql.append("?");
+			} else {
+				sql.append(obj.getValueString());
 			}
 		}
 

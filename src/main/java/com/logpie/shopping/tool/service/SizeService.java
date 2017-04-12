@@ -1,8 +1,10 @@
 package com.logpie.shopping.tool.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.util.LogpieLogger;
@@ -17,14 +19,19 @@ public class SizeService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createSize(final String sizeName) {
+	public Long createSize(final Size size) {
 		logger.trace("createSize service is started...");
-		if (sizeName == null || sizeName.isEmpty()) {
-			logger.error("cannot find size name");
+		if (size == null) {
+			logger.error("cannot find size");
 			return null;
 		}
-		Size size = new Size(sizeName);
-		return repository.insert(size);
+		try {
+			return repository.insert(size);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public List<Size> getAllSizes() {
@@ -32,12 +39,21 @@ public class SizeService {
 		return repository.queryAll(Size.class, null);
 	}
 
-	public Size getSizeById(final Long sizeId) {
+	public Size getSizeById(final Long id) {
 		logger.trace("QuerySizeById service is started...");
-		if (sizeId == null) {
-			logger.error("cannot find size Id");
+		if (id == null) {
+			logger.error("cannot find size id");
 			return null;
 		}
-		return repository.queryByID(Size.class, sizeId);
+		return repository.queryById(Size.class, id);
+	}
+
+	public List<Size> getSizesByShopId(final Long shopId) {
+		logger.trace("QuerySizesByShopId service is started...");
+		if (shopId == null) {
+			logger.error("cannot find shop Id");
+			return null;
+		}
+		return repository.queryByShopId(shopId);
 	}
 }

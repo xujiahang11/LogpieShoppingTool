@@ -4,146 +4,102 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.basic.LogpieModel;
+import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.AdminRepository;
 
 @Table(name = AdminRepository.DB_TABLE_ADMIN)
-public class Admin extends LogpieModel {
+public class Admin extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	@Column(name = AdminRepository.DB_KEY_ADMIN_ID, type = DataType.LONG)
-	private Long adminId;
-
-	@Column(name = AdminRepository.DB_KEY_ADMIN_USER_NAME, type = DataType.STRING)
-	private String adminUserName;
-
-	@Column(name = AdminRepository.DB_KEY_ADMIN_PASSWORD, type = DataType.STRING)
-	private String adminPassword;
-
-	@Column(name = AdminRepository.DB_KEY_ADMIN_PASSWORD_VERSION, type = DataType.INTEGER)
-	private Integer adminPasswordVersion;
+	private Long id;
 
 	@Column(name = AdminRepository.DB_KEY_ADMIN_NAME, type = DataType.STRING)
-	private String adminName;
+	private String name;
 
 	@Column(name = AdminRepository.DB_KEY_ADMIN_PHONE, type = DataType.STRING)
-	private String adminPhone;
+	private String phone;
 
 	@Column(name = AdminRepository.DB_KEY_ADMIN_WECHAT, type = DataType.STRING)
-	private String adminWechat;
+	private String wechat;
 
 	@Column(name = AdminRepository.DB_KEY_ADMIN_PROFIT_PERCENTAGE, type = DataType.FLOAT)
-	private Float adminProfitPercentage;
+	private Float profitPercentage;
 
-	@Column(name = AdminRepository.DB_KEY_ADMIN_IS_SUPER_MANAGER, type = DataType.BOOLEAN)
-	private Boolean adminIsSuperManager;
+	@ForeignEntity(name = AdminRepository.DB_KEY_ADMIN_SHOP_ID, referencedTable = Shop.class)
+	private Shop shop;
+
+	public Admin() {
+
+	}
 
 	/**
-	 * constructor for creating an admin
 	 * 
-	 * @param userName
-	 * @param password
+	 * @param id
 	 * @param name
+	 * @param phone
+	 * @param wechat
+	 * @param profitPercentage
+	 * @param shop
 	 */
-	public Admin(String userName, String password, String name) {
-		this(null, userName, password, 1, name, null, null, 1.0F, false);
+	public Admin(Long id, String name, String phone, String wechat,
+			Float profitPercentage, Shop shop) {
+		this.id = id;
+		this.name = name;
+		this.phone = phone;
+		this.wechat = wechat;
+		this.profitPercentage = profitPercentage;
+		this.shop = shop;
 	}
 
-	/**
-	 * 
-	 * @param adminId
-	 * @param adminUserName
-	 * @param adminPassword
-	 * @param adminPasswordVersion
-	 * @param adminName
-	 * @param adminPhone
-	 * @param adminWechat
-	 * @param adminProfitPercentage
-	 * @param adminIsSuperManager
-	 */
-	public Admin(Long adminId, String adminUserName, String adminPassword,
-			Integer adminPasswordVersion, String adminName, String adminPhone,
-			String adminWechat, Float adminProfitPercentage,
-			Boolean adminIsSuperManager) {
-		this.adminId = adminId;
-		this.adminUserName = adminUserName;
-		this.adminPassword = adminPassword;
-		this.adminPasswordVersion = adminPasswordVersion;
-		this.adminName = adminName;
-		this.adminPhone = adminPhone;
-		this.adminWechat = adminWechat;
-		this.adminProfitPercentage = adminProfitPercentage;
-		this.adminIsSuperManager = adminIsSuperManager;
+	public Long getId() {
+		return id;
 	}
 
-	public Long getAdminId() {
-		return adminId;
+	public String getName() {
+		return name;
 	}
 
-	public String getAdminUserName() {
-		return adminUserName;
+	public String getPhone() {
+		return phone;
 	}
 
-	public String getAdminPassword() {
-		return adminPassword;
+	public String getWechat() {
+		return wechat;
 	}
 
-	public Integer getAdminPasswordVersion() {
-		return adminPasswordVersion;
+	public Float getProfitPercentage() {
+		return profitPercentage;
 	}
 
-	public String getAdminName() {
-		return adminName;
+	public Shop getShop() {
+		return shop;
 	}
 
-	public String getAdminPhone() {
-		return adminPhone;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getAdminWechat() {
-		return adminWechat;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Float getAdminProfitPercentage() {
-		return adminProfitPercentage;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	public Boolean getAdminIsSuperManager() {
-		return adminIsSuperManager;
+	public void setWechat(String wechat) {
+		this.wechat = wechat;
 	}
 
-	public void setAdminUserName(String adminUserName) {
-		this.adminUserName = adminUserName;
+	public void setProfitPercentage(Float profitPercentage) {
+		this.profitPercentage = profitPercentage;
 	}
 
-	public void setAdminPassword(String adminPassword) {
-		this.adminPassword = adminPassword;
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
-
-	public void setAdminPasswordVersion(Integer adminPasswordVersion) {
-		this.adminPasswordVersion = adminPasswordVersion;
-	}
-
-	public void setAdminName(String adminName) {
-		this.adminName = adminName;
-	}
-
-	public void setAdminPhone(String adminPhone) {
-		this.adminPhone = adminPhone;
-	}
-
-	public void setAdminWechat(String adminWechat) {
-		this.adminWechat = adminWechat;
-	}
-
-	public void setAdminProfitPercentage(Float adminProfitPercentage) {
-		this.adminProfitPercentage = adminProfitPercentage;
-	}
-
-	public void setAdminIsSuperManager(Boolean adminIsSuperManager) {
-		this.adminIsSuperManager = adminIsSuperManager;
-	}
-
 }

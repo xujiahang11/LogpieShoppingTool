@@ -1,8 +1,10 @@
 package com.logpie.shopping.tool.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.util.LogpieLogger;
@@ -17,15 +19,28 @@ public class DeliveryService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createDelivery(final String deliveryName,
-			final Boolean isInternational) {
+	public Long createDelivery(final Delivery delivery) {
 		logger.trace("createDelivery service is started...");
-		if (deliveryName == null || deliveryName.isEmpty()) {
-			logger.error("cannot find delivery name");
+		if (delivery == null) {
+			logger.error("cannot find delivery");
 			return null;
 		}
-		Delivery delivery = new Delivery(deliveryName, isInternational);
-		return repository.insert(delivery);
+		try {
+			return repository.insert(delivery);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void updateDelivery(final Delivery delivery) {
+		logger.trace("updateDelivery service is started...");
+		if (delivery == null) {
+			logger.error("cannot find delivery");
+			return;
+		}
+		repository.update(delivery);
 	}
 
 	public List<Delivery> getAllDeliverys() {
@@ -33,12 +48,21 @@ public class DeliveryService {
 		return repository.queryAll(Delivery.class, null);
 	}
 
-	public Delivery getDeliveryById(final Long deliveryId) {
+	public Delivery getDeliveryById(final Long id) {
 		logger.trace("QueryDeliveryById service is started...");
-		if (deliveryId == null) {
-			logger.error("cannot find delivery Id");
+		if (id == null) {
+			logger.error("cannot find delivery id");
 			return null;
 		}
-		return repository.queryByID(Delivery.class, deliveryId);
+		return repository.queryById(Delivery.class, id);
+	}
+
+	public List<Delivery> getDeliverysByShopId(final Long shopId) {
+		logger.trace("QueryDeliverysByShopId service is started...");
+		if (shopId == null) {
+			logger.error("cannot find shop Id");
+			return null;
+		}
+		return repository.queryByShopId(shopId);
 	}
 }

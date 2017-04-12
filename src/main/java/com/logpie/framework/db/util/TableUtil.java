@@ -87,47 +87,91 @@ public class TableUtil {
 	 * @param tableAlias
 	 * @return column names with table alias or name
 	 */
-	public static List<String> getAllColumns(final Class<?> c,
-			final String tableAlias) {
+	public static List<String> getAllColumns(final Class<?> c) {
 		List<String> res = new ArrayList<String>();
-		res.addAll(getColumns(c, true, true, tableAlias));
+		res.addAll(getColumns(c, true, true, null));
 
-		List<ForeignEntity> foreignKeys = getForeignEntityAnnotations(c);
-		if (foreignKeys == null || foreignKeys.isEmpty()) {
-			return res;
+		List<ForeignKey> foreignKeys = getAllForeignKeys(c, null);
+		for (ForeignKey key : foreignKeys) {
+			ForeignEntity entity = key.getForeignEntity();
+			Class<?> foreignTable = entity.referencedTable();
+			String foreignAlias = getAliasOfForeignTable(key);
+			res.addAll(getColumns(foreignTable, true, true, foreignAlias));
 		}
-		for (ForeignEntity foreignKey : foreignKeys) {
-			res.addAll(getAllColumns(foreignKey.referencedTable(),
-					foreignKey.referencedTableAlias()));
-		}
+
 		return res;
 	}
 
 	/**
 	 * 
 	 * @param c
-	 * @param tableAlias
+	 * @param alias
+	 *            set alias of table c
 	 * @return
 	 */
 	public static List<ForeignKey> getAllForeignKeys(final Class<?> c,
-			final String tableAlias) {
+			final String alias) {
 		List<ForeignKey> res = new ArrayList<ForeignKey>();
-
-		if (getTableName(c) == null || getTableName(c).isEmpty()) {
+		String table = getTableName(c);
+		if (table == null || table.isEmpty()) {
 			return null;
 		}
 
+		List<ForeignKey> foreignKeys = new ArrayList<ForeignKey>();
+		// add foreign keys of original table c
 		List<ForeignEntity> foreignEntities = getForeignEntityAnnotations(c);
 		for (ForeignEntity entity : foreignEntities) {
-			String table = (tableAlias == null || tableAlias.equals("")) ? getTableName(c)
-					: tableAlias;
-			res.add(new ForeignKey(table, entity));
-			if (hasForeignEntityAnnotation(entity.referencedTable())) {
-				res.addAll(getAllForeignKeys(entity.referencedTable(),
-						entity.referencedTableAlias()));
-			}
+			foreignKeys.add(new ForeignKey(table, alias, entity));
 		}
+
+		// check if each foreign table has more foreign keys
+		while (!foreignKeys.isEmpty()) {
+			List<ForeignKey> moreKeys = new ArrayList<ForeignKey>();
+			for (ForeignKey key : foreignKeys) {
+				Class<?> referencedTable = key.getForeignEntity()
+						.referencedTable();
+				if (hasForeignEntityAnnotation(referencedTable)) {
+					String referencedAlias = getAliasOfForeignTable(key);
+					List<ForeignEntity> moreEntities = getForeignEntityAnnotations(referencedTable);
+					for (ForeignEntity entity : moreEntities) {
+						moreKeys.add(new ForeignKey(
+								getTableName(referencedTable), referencedAlias,
+								entity));
+					}
+				}
+				res.add(key);
+			}
+			foreignKeys = moreKeys;
+		}
+
 		return res;
+	}
+
+	/**
+	 * get an alias of a foreign key's table or auto generate one if it does not
+	 * have any alias.
+	 * 
+	 * Auto-generated Alias Format
+	 * 
+	 * if the original table has an alias, use original_table_alias +
+	 * foreign_table_name, otherwise use original_table_name +
+	 * foreign_table_name;
+	 * 
+	 * e.g "OrderShop" means an alias for a Shop table which is referred by an
+	 * Order table
+	 * 
+	 * @param key
+	 * @return
+	 */
+	public static String getAliasOfForeignTable(final ForeignKey key) {
+		String originalAlias = key.getForeignEntity().referencedTableAlias();
+		if (originalAlias == null || originalAlias.equals("")) {
+			String tmp = getTableName(key.getForeignEntity().referencedTable());
+			return key.getAlias() == null || key.getAlias().equals("") ? key
+					.getTable() + tmp : key.getAlias() + tmp;
+		} else {
+			return originalAlias;
+		}
 	}
 
 	public static Class<?> getColumnTypeByName(final Class<?> c,

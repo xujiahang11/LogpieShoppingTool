@@ -7,96 +7,112 @@ import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.basic.LogpieModel;
+import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.AddressRepository;
 
 @Table(name = AddressRepository.DB_TABLE_ADDRESS)
-public class Address extends LogpieModel {
+public class Address extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ID, type = DataType.LONG)
-	private Long addressId;
+	private Long id;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS, type = DataType.STRING)
 	private String address;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPENT_NAME, type = DataType.STRING)
-	private String addressRecipentName;
+	private String recipentName;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPENT_PHONE, type = DataType.STRING)
-	private String addressRecipentPhone;
+	private String recipentPhone;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ZIP, type = DataType.STRING)
-	private String addressZip;
+	private String zip;
 
 	@ForeignEntity(name = AddressRepository.DB_KEY_ADDRESS_CLIENT_ID, referencedTable = Client.class)
 	private Client client;
 
+	@ForeignEntity(name = AddressRepository.DB_KEY_ADDRESS_SHOP_ID, referencedTable = Shop.class)
+	private Shop shop;
+
+	public Address() {
+
+	}
+
 	/**
-	 * constructor for creating an address
 	 * 
+	 * @param id
 	 * @param address
 	 * @param recipentName
 	 * @param recipentPhone
+	 * @param zip
 	 * @param client
+	 * @param shop
 	 */
-	public Address(String address, String recipentName, String recipentPhone,
-			Client client) {
-		this(null, address, recipentName, recipentPhone, null, client);
-	}
-
-	public Address(Long addressId, String address, String recipentName,
-			String recipentPhone, String addressZip, Client client) {
-		this.addressId = addressId;
+	public Address(Long id, String address, String recipentName,
+			String recipentPhone, String zip, Client client, Shop shop) {
+		this.id = id;
 		this.address = address;
-		this.addressRecipentName = recipentName;
-		this.addressRecipentPhone = recipentPhone;
-		this.addressZip = addressZip;
+		this.recipentName = recipentName;
+		this.recipentPhone = recipentPhone;
+		this.zip = zip;
 		this.client = client;
+		this.shop = shop;
 	}
 
-	public Long getAddressId() {
-		return addressId;
+	public Long getId() {
+		return id;
 	}
 
 	public String getAddress() {
 		return address;
 	}
 
-	public String getAddressRecipentName() {
-		return addressRecipentName;
+	public String getRecipentName() {
+		return recipentName;
 	}
 
-	public String getAddressRecipentPhone() {
-		return addressRecipentPhone;
+	public String getRecipentPhone() {
+		return recipentPhone;
 	}
 
-	public String getAddressZip() {
-		return addressZip;
+	public String getZip() {
+		return zip;
 	}
 
 	public Client getClient() {
 		return client;
 	}
 
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
 
-	public void setAddressRecipentName(String addressRecipentName) {
-		this.addressRecipentName = addressRecipentName;
+	public void setRecipentName(String recipentName) {
+		this.recipentName = recipentName;
 	}
 
-	public void setAddressRecipentPhone(String addressRecipentPhone) {
-		this.addressRecipentPhone = addressRecipentPhone;
+	public void setRecipentPhone(String recipentPhone) {
+		this.recipentPhone = recipentPhone;
 	}
 
-	public void setAddressZip(String addressZip) {
-		this.addressZip = addressZip;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 	public void setClient(Client client) {
 		this.client = client;
 	}
 
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
 }

@@ -1,8 +1,10 @@
 package com.logpie.shopping.tool.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.util.LogpieLogger;
@@ -17,14 +19,28 @@ public class ColorService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createColor(final String colorName) {
+	public Long createColor(final Color color) {
 		logger.trace("createColor service is started...");
-		if (colorName == null || colorName.isEmpty()) {
-			logger.error("cannot find color name");
+		if (color == null) {
+			logger.error("cannot find color");
 			return null;
 		}
-		Color color = new Color(colorName);
-		return repository.insert(color);
+		try {
+			return repository.insert(color);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void updateColor(final Color color) {
+		logger.trace("updateColor service is started...");
+		if (color == null) {
+			logger.error("cannot find color");
+			return;
+		}
+		repository.update(color);
 	}
 
 	public List<Color> getAllColors() {
@@ -32,12 +48,21 @@ public class ColorService {
 		return repository.queryAll(Color.class, null);
 	}
 
-	public Color getColorById(final Long colorId) {
+	public Color getColorById(final Long id) {
 		logger.trace("QueryColorById service is started...");
-		if (colorId == null) {
-			logger.error("cannot find color Id");
+		if (id == null) {
+			logger.error("cannot find color id");
 			return null;
 		}
-		return repository.queryByID(Color.class, colorId);
+		return repository.queryById(Color.class, id);
+	}
+
+	public List<Color> getColorsByShopId(final Long shopId) {
+		logger.trace("QueryColorsByShopId service is started...");
+		if (shopId == null) {
+			logger.error("cannot find shop Id");
+			return null;
+		}
+		return repository.queryByShopId(shopId);
 	}
 }

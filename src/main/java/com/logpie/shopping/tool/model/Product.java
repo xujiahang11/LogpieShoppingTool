@@ -9,134 +9,155 @@ import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.basic.LogpieModel;
+import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.ProductRepository;
 
 @Table(name = ProductRepository.DB_TABLE_PRODUCT)
-public class Product extends LogpieModel {
+public class Product extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_ID, type = DataType.LONG)
-	private Long productId;
+	private Long id;
+
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_NAME, type = DataType.STRING)
-	private String productName;
+	private String name;
+
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_WEIGHT, type = DataType.INTEGER)
-	private Integer productWeight;
+	private Integer weight;
+
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_POST_DATE, type = DataType.TIMESTAMP)
-	private Timestamp productPostDate;
+	private Timestamp postDate;
+
 	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_BRAND_ID, referencedTable = Brand.class)
-	private Brand productBrand;
+	private Brand brand;
+
 	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_SUBCATEGORY_ID, referencedTable = SubCategory.class)
-	private SubCategory productSubCategory;
+	private SubCategory subCategory;
+
 	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_COLOR_ID, referencedTable = Color.class)
-	private Color productColor;
+	private Color color;
+
 	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_SIZE_ID, referencedTable = Size.class)
-	private Size productSize;
+	private Size size;
+
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_ORIGINAL_ID, type = DataType.STRING)
-	private String productOriginalId;
+	private String originalId;
 
-	/**
-	 * constructor for creating a product
-	 * 
-	 * @param productName
-	 * @param productBrand
-	 * @param productSubCategory
-	 */
-	public Product(String productName, Brand productBrand,
-			SubCategory productSubCategory) {
-		this(null, productName, new Integer(0), null, productBrand,
-				productSubCategory, null, null, null);
+	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_SHOP_ID, referencedTable = Shop.class)
+	private Shop shop;
+
+	public Product() {
+
 	}
 
 	/**
 	 * 
-	 * @param productId
-	 * @param productName
-	 * @param productWeight
-	 * @param productPostDate
-	 * @param productBrand
-	 * @param productSubCategory
-	 * @param productColor
-	 * @param productSize
-	 * @param productOriginalId
+	 * @param id
+	 * @param name
+	 * @param weight
+	 * @param postDate
+	 * @param brand
+	 * @param subCategory
+	 * @param color
+	 * @param size
+	 * @param originalId
+	 * @param shop
 	 */
-	public Product(Long productId, String productName, Integer productWeight,
-			Timestamp productPostDate, Brand productBrand,
-			SubCategory productSubCategory, Color productColor,
-			Size productSize, String productOriginalId) {
-		this.productId = productId;
-		this.productName = productName;
-		this.productWeight = productWeight;
-		this.productPostDate = productPostDate;
-		this.productBrand = productBrand;
-		this.productSubCategory = productSubCategory;
-		this.productColor = productColor;
-		this.productSize = productSize;
-		this.productOriginalId = productOriginalId;
+	public Product(final Long id, final String name, final Integer weight,
+			final Timestamp postDate, final Brand brand,
+			final SubCategory subCategory, final Color color, final Size size,
+			final String originalId, final Shop shop) {
+		this.id = id;
+		this.name = name;
+		this.weight = weight;
+		this.postDate = postDate;
+		this.brand = brand;
+		this.subCategory = subCategory;
+		this.color = color;
+		this.size = size;
+		this.originalId = originalId;
+		this.shop = shop;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public Long getId() {
+		return id;
 	}
 
-	public String getProductName() {
-		return productName;
+	public String getName() {
+		return name;
 	}
 
-	public Integer getProductWeight() {
-		return productWeight;
+	public Integer getWeight() {
+		return weight;
 	}
 
-	public Timestamp getProductPostDate() {
-		return productPostDate;
+	public Timestamp getPostDate() {
+		return postDate;
 	}
 
-	public Brand getProductBrand() {
-		return productBrand;
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public SubCategory getProductSubCategory() {
-		return productSubCategory;
+	public SubCategory getSubCategory() {
+		return subCategory;
 	}
 
-	public Color getProductColor() {
-		return productColor;
+	public Color getColor() {
+		return color;
 	}
 
-	public Size getProductSize() {
-		return productSize;
+	public Size getSize() {
+		return size;
 	}
 
-	public String getProductOriginalId() {
-		return productOriginalId;
+	public String getOriginalId() {
+		return originalId;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public Shop getShop() {
+		return shop;
 	}
 
-	public void setProductWeight(Integer productWeight) {
-		this.productWeight = productWeight;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setProductBrand(Brand productBrand) {
-		this.productBrand = productBrand;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setProductSubCategory(SubCategory productSubCategory) {
-		this.productSubCategory = productSubCategory;
+	public void setWeight(Integer weight) {
+		this.weight = weight;
 	}
 
-	public void setProductColor(Color productColor) {
-		this.productColor = productColor;
+	public void setPostDate(Timestamp postDate) {
+		this.postDate = postDate;
 	}
 
-	public void setProductSize(Size productSize) {
-		this.productSize = productSize;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
-	public void setProductOriginalId(String productOriginalId) {
-		this.productOriginalId = productOriginalId;
+	public void setSubCategory(SubCategory subCategory) {
+		this.subCategory = subCategory;
 	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public void setSize(Size size) {
+		this.size = size;
+	}
+
+	public void setOriginalId(String originalId) {
+		this.originalId = originalId;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
+	}
+
 }

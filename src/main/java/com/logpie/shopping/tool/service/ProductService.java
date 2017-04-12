@@ -1,18 +1,15 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.Timestamp;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.Brand;
-import com.logpie.shopping.tool.model.Color;
 import com.logpie.shopping.tool.model.Product;
-import com.logpie.shopping.tool.model.Size;
-import com.logpie.shopping.tool.model.SubCategory;
 import com.logpie.shopping.tool.repository.ProductRepository;
 
 @Service
@@ -31,55 +28,28 @@ public class ProductService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createProduct(String productName, Long productBrandId,
-			Long productSubCategoryId) {
+	public Long createProduct(final Product product) {
 		logger.trace("createProduct service is started...");
-		if (productName == null || productName.isEmpty()) {
-			logger.error("cannot find product name");
+		if (product == null) {
+			logger.error("cannot find product");
 			return null;
 		}
-		if (productBrandId == null || productSubCategoryId == null) {
-			logger.error("cannot find brand or subcategory of product");
-			return null;
+		try {
+			return repository.insert(product);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		Brand brand = brandService.getBrandById(productBrandId);
-		SubCategory subcategory = subcategoryService
-				.getSubCategoryById(productSubCategoryId);
-		Product product = new Product(productName, brand, subcategory);
-		return repository.insert(product);
+		return null;
 	}
 
-	public Long createProduct(String productName, Integer productWeight,
-			Timestamp productPostDate, Long productBrandId,
-			Long productSubCategoryId, Long productColorId, Long productSizeId,
-			String productOriginalId) {
-		return createProduct(productName, productWeight,
-				brandService.getBrandById(productBrandId),
-				subcategoryService.getSubCategoryById(productSubCategoryId),
-				colorService.getColorById(productColorId),
-				sizeService.getSizeById(productSizeId), productOriginalId);
-	}
-
-	public Long createProduct(String productName, Integer productWeight,
-			Brand productBrand, SubCategory productSubCategory,
-			Color productColor, Size productSize, String productOriginalId) {
-		logger.trace("createProduct service is started...");
-		if (productName == null || productName.isEmpty()) {
-			logger.error("cannot find product name");
-			return null;
+	public void updateProduct(final Product product) {
+		logger.trace("updateProduct service is started...");
+		if (product == null) {
+			logger.error("cannot find product");
+			return;
 		}
-		if (productBrand == null) {
-			logger.error("cannot find brand of product");
-			return null;
-		}
-		if (productSubCategory == null) {
-			logger.error("cannot find sub-category of product");
-			return null;
-		}
-		Product product = new Product(null, productName, productWeight, null,
-				productBrand, productSubCategory, productColor, productSize,
-				productOriginalId);
-		return repository.insert(product);
+		repository.update(product);
 	}
 
 	public List<Product> getAllProducts() {
@@ -87,13 +57,22 @@ public class ProductService {
 		return repository.queryAll(Product.class, null);
 	}
 
-	public Product getProductById(final Long productId) {
+	public Product getProductById(final Long id) {
 		logger.trace("QueryProductById service is started...");
-		if (productId == null) {
-			logger.error("cannot find product Id");
+		if (id == null) {
+			logger.error("cannot find product id");
 			return null;
 		}
-		return repository.queryByID(Product.class, productId);
+		return repository.queryById(Product.class, id);
+	}
+
+	public List<Product> getProductsByShopId(final Long shopId) {
+		logger.trace("QueryProductsByShopId service is started...");
+		if (shopId == null) {
+			logger.error("cannot find Shop Id");
+			return null;
+		}
+		return repository.queryByShopId(shopId);
 	}
 
 	public List<Product> getProductsByBrandId(final Long brandId) {

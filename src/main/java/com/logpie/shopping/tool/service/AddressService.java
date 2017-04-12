@@ -1,74 +1,89 @@
 package com.logpie.shopping.tool.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
-import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.repository.AddressRepository;
-import com.logpie.shopping.tool.repository.ClientRepository;
 
 @Service
 public class AddressService {
-
 	@Autowired
 	private AddressRepository repository;
-	@Autowired
-	private ClientRepository clientRepository;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createAddress(final String address, final String recipentName,
-			final String recipentPhone, final Long clientId) {
+	public Long createAddress(final Address addr) {
 		logger.trace("createAddress service is started...");
-		if (address == null || address.isEmpty()) {
-			logger.error("cannot find address");
+		if (addr == null) {
+			logger.error("cannot find address object");
 			return null;
 		}
-		if (recipentName == null || recipentName.isEmpty()) {
-			logger.error("cannot find recipent name");
-			return null;
+		try {
+			return repository.insert(addr);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if (clientId == null) {
-			logger.error("cannot find client id");
-			return null;
-		}
-		Client client = clientRepository.queryByID(Client.class, clientId);
-		Address addr = new Address(address, recipentName, recipentPhone, client);
-		return repository.insert(addr);
+		return null;
 	}
 
-	public void updateAddress(Address addr) {
+	public void updateAddress(final Address addr) {
 		logger.trace("updateAddress service is started...");
 		if (addr == null) {
 			logger.error("cannot find address object");
 			return;
 		}
-		repository.update(addr);
+		try {
+			repository.update(addr);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public List<Address> getAllAddresses() {
 		logger.trace("QueryAllAddresses service is started...");
-		return repository.queryAll(Address.class, null);
+		try {
+			return repository.queryAll(Address.class);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
-	public List<Address> getAllAddressesOrderByClientId(final Boolean isASC) {
-		logger.trace("QueryAllAddressesOrderByClientId service is started...");
-		return repository.queryAllOrderByClientId(isASC);
-	}
-
-	public Address getAddressById(final Long addressId) {
+	public Address getAddressById(final Long id) {
 		logger.trace("QueryAddressById service is started...");
-		if (addressId == null) {
-			logger.error("cannot find address Id");
+		if (id == null) {
+			logger.error("cannot find address id");
 			return null;
 		}
-		return repository.queryByID(Address.class, addressId);
+		try {
+			return repository.queryById(Address.class, id);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<Address> getAddressesByShopId(final Long shopId) {
+		logger.trace("QueryAddressesByShopId service is started...");
+		try {
+			return repository.queryByShopId(shopId);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public List<Address> getAddressesByClientId(final Long clientId) {
@@ -77,6 +92,12 @@ public class AddressService {
 			logger.error("cannot find client Id");
 			return null;
 		}
-		return repository.queryByClientId(clientId);
+		try {
+			return repository.queryByClientId(clientId);
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

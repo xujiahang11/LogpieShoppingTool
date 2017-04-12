@@ -9,293 +9,314 @@ import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.basic.LogpieModel;
+import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.OrderRepository;
 
 @Table(name = OrderRepository.DB_TABLE_ORDER)
-public class Order extends LogpieModel {
+public class Order extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	@Column(name = OrderRepository.DB_KEY_ORDER_ID, type = DataType.LONG)
-	private Long orderId;
+	private Long id;
+
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	@Column(name = OrderRepository.DB_KEY_ORDER_DATE, type = DataType.TIMESTAMP)
-	private Timestamp orderDate;
+	private Timestamp date;
+
 	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_PRODUCT_ID, referencedTable = Product.class)
-	private Product orderProduct;
+	private Product product;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_IS_RETURN, type = DataType.BOOLEAN)
-	private Boolean orderIsReturn;
+	private Boolean isReturn;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_IS_STOCK, type = DataType.BOOLEAN)
-	private Boolean orderIsStock;
+	private Boolean isStock;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_PRODUCT_COUNT, type = DataType.INTEGER)
-	private Integer orderProductCount;
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_CLIENT_ID, referencedTable = Client.class, referencedTableAlias = "orderClient")
-	private Client orderClient;
+	private Integer productCount;
+
+	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_CLIENT_ID, referencedTable = Client.class)
+	private Client client;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_BUYER_NAME, type = DataType.STRING)
-	private String orderBuyerName;
+	private String buyerName;
+
 	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_PROXY_ID, referencedTable = Admin.class)
-	private Admin orderProxy;
+	private Admin proxy;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_PRODUCT_WEIGHT, type = DataType.INTEGER)
-	private Integer orderProductWeight;
+	private Integer productWeight;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_COST, type = DataType.FLOAT)
-	private Float orderCost;
+	private Float cost;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_CURRENCY_RATE, type = DataType.FLOAT)
-	private Float orderCurrencyRate;
+	private Float currencyRate;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_SELLING_PRICE, type = DataType.FLOAT)
-	private Float orderSellingPrice;
+	private Float sellingPrice;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_CUSTOMER_PAID_MONEY, type = DataType.FLOAT)
-	private Float orderCustomerPaidMoney;
+	private Float customerPaidMoney;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_COMPANY_RECEIVED_MONEY, type = DataType.FLOAT)
-	private Float orderCompanyReceivedMoney;
+	private Float companyReceivedMoney;
+
 	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_PACKAGE_ID, referencedTable = Package.class)
 	private Package orderPackage;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_SHIPPING_FEE, type = DataType.FLOAT)
-	private Float orderShippingFee;
+	private Float shippingFee;
+
 	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_TRANSFER_DELIVERY_ID, referencedTable = Delivery.class)
-	private Delivery orderTransferDelivery;
+	private Delivery transferDelivery;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_TRANSFER_FEE, type = DataType.FLOAT)
-	private Float orderTransferFee;
+	private Float transferFee;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_STATUS, type = DataType.STRING)
-	private OrderStatus orderStatus;
+	private OrderStatus status;
+
 	@Column(name = OrderRepository.DB_KEY_ORDER_NOTE, type = DataType.STRING)
-	private String orderNote;
+	private String note;
 
-	/**
-	 * constructor for creating an order
-	 * 
-	 * @param orderProduct
-	 * @param orderClient
-	 * @param orderBuyerName
-	 * @param orderProxy
-	 * @param orderProductWeight
-	 * @param orderCost
-	 * @param orderCurrencyRate
-	 * @param orderSellingPrice
-	 */
-	public Order(final Product orderProduct, final Client orderClient,
-			final String orderBuyerName, final Admin orderProxy,
-			final Integer orderProductWeight, final Float orderCost,
-			final Float orderCurrencyRate, final Float orderSellingPrice) {
-		this(null, null, orderProduct, false, false, orderClient,
-				orderBuyerName, orderProxy, orderProductWeight, orderCost,
-				orderCurrencyRate, orderSellingPrice, 0.0F, 0.0F, null, 0.0F,
-				null, 0.0F, OrderStatus.TO_BE_SHIPPED, null);
+	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_SHOP_ID, referencedTable = Shop.class)
+	private Shop shop;
+
+	public Order() {
+
 	}
 
 	/**
 	 * 
-	 * @param orderId
-	 * @param orderDate
-	 * @param orderProduct
-	 * @param orderIsReturn
-	 * @param orderIsStock
-	 * @param orderClient
-	 * @param orderBuyerName
-	 * @param orderProxy
-	 * @param orderProductWeight
-	 * @param orderCost
-	 * @param orderCurrencyRate
-	 * @param orderSellingPrice
-	 * @param orderCustomerPaidMoney
-	 * @param orderCompanyReceivedMoney
+	 * @param id
+	 * @param date
+	 * @param product
+	 * @param isReturn
+	 * @param isStock
+	 * @param client
+	 * @param buyerName
+	 * @param proxy
+	 * @param productWeight
+	 * @param cost
+	 * @param currencyRate
+	 * @param sellingPrice
+	 * @param customerPaidMoney
+	 * @param companyReceivedMoney
 	 * @param orderPackage
-	 * @param orderShippingFee
-	 * @param orderTransferDelivery
-	 * @param orderTransferFee
-	 * @param orderStatus
-	 * @param orderNote
+	 * @param shippingFee
+	 * @param transferDelivery
+	 * @param transferFee
+	 * @param status
+	 * @param note
+	 * @param shop
 	 */
-	public Order(final Long orderId, final Timestamp orderDate,
-			final Product orderProduct, final Boolean orderIsReturn,
-			final Boolean orderIsStock, final Client orderClient,
-			final String orderBuyerName, final Admin orderProxy,
-			final Integer orderProductWeight, final Float orderCost,
-			final Float orderCurrencyRate, final Float orderSellingPrice,
-			final Float orderCustomerPaidMoney,
-			final Float orderCompanyReceivedMoney, final Package orderPackage,
-			final Float orderShippingFee, final Delivery orderTransferDelivery,
-			final Float orderTransferFee, final OrderStatus orderStatus,
-			final String orderNote) {
-		this.orderId = orderId;
-		this.orderDate = orderDate;
-		this.orderProduct = orderProduct;
-		this.orderIsReturn = orderIsReturn;
-		this.orderIsStock = orderIsStock;
-		this.orderClient = orderClient;
-		this.orderBuyerName = orderBuyerName;
-		this.orderProxy = orderProxy;
-		this.orderProductWeight = orderProductWeight;
-		this.orderCost = orderCost;
-		this.orderCurrencyRate = orderCurrencyRate;
-		this.orderSellingPrice = orderSellingPrice;
-		this.orderCustomerPaidMoney = orderCustomerPaidMoney;
-		this.orderCompanyReceivedMoney = orderCompanyReceivedMoney;
+	public Order(final Long id, final Timestamp date, final Product product,
+			final Boolean isReturn, final Boolean isStock, final Client client,
+			final String buyerName, final Admin proxy,
+			final Integer productWeight, final Float cost,
+			final Float currencyRate, final Float sellingPrice,
+			final Float customerPaidMoney, final Float companyReceivedMoney,
+			final Package orderPackage, final Float shippingFee,
+			final Delivery transferDelivery, final Float transferFee,
+			final OrderStatus status, final String note, final Shop shop) {
+		this.id = id;
+		this.date = date;
+		this.product = product;
+		this.isReturn = isReturn;
+		this.isStock = isStock;
+		this.client = client;
+		this.buyerName = buyerName;
+		this.proxy = proxy;
+		this.productWeight = productWeight;
+		this.cost = cost;
+		this.currencyRate = currencyRate;
+		this.sellingPrice = sellingPrice;
+		this.customerPaidMoney = customerPaidMoney;
+		this.companyReceivedMoney = companyReceivedMoney;
 		this.orderPackage = orderPackage;
-		this.orderShippingFee = orderShippingFee;
-		this.orderTransferDelivery = orderTransferDelivery;
-		this.orderTransferFee = orderTransferFee;
-		this.orderStatus = orderStatus;
-		this.orderNote = orderNote;
+		this.shippingFee = shippingFee;
+		this.transferDelivery = transferDelivery;
+		this.transferFee = transferFee;
+		this.status = status;
+		this.note = note;
+		this.shop = shop;
 	}
 
-	public Long getOrderId() {
-		return orderId;
+	public Long getId() {
+		return id;
 	}
 
-	public Timestamp getOrderDate() {
-		return orderDate;
+	public Timestamp getDate() {
+		return date;
 	}
 
-	public Product getOrderProduct() {
-		return orderProduct;
+	public Product getProduct() {
+		return product;
 	}
 
-	public Boolean getOrderIsReturn() {
-		return orderIsReturn;
+	public Boolean getIsReturn() {
+		return isReturn;
 	}
 
-	public Boolean getOrderIsStock() {
-		return orderIsStock;
+	public Boolean getIsStock() {
+		return isStock;
 	}
 
-	public Integer getOrderProductCount() {
-		return orderProductCount;
+	public Integer getProductCount() {
+		return productCount;
 	}
 
-	public Client getOrderClient() {
-		return orderClient;
+	public Client getClient() {
+		return client;
 	}
 
-	public String getOrderBuyerName() {
-		return orderBuyerName;
+	public String getBuyerName() {
+		return buyerName;
 	}
 
-	public Admin getOrderProxy() {
-		return orderProxy;
+	public Admin getProxy() {
+		return proxy;
 	}
 
-	public Integer getOrderProductWeight() {
-		return orderProductWeight;
+	public Integer getProductWeight() {
+		return productWeight;
 	}
 
-	public Float getOrderCost() {
-		return orderCost;
+	public Float getCost() {
+		return cost;
 	}
 
-	public Float getOrderCurrencyRate() {
-		return orderCurrencyRate;
+	public Float getCurrencyRate() {
+		return currencyRate;
 	}
 
-	public Float getOrderSellingPrice() {
-		return orderSellingPrice;
+	public Float getSellingPrice() {
+		return sellingPrice;
 	}
 
-	public Float getOrderCustomerPaidMoney() {
-		return orderCustomerPaidMoney;
+	public Float getCustomerPaidMoney() {
+		return customerPaidMoney;
 	}
 
-	public Float getOrderCompanyReceivedMoney() {
-		return orderCompanyReceivedMoney;
+	public Float getCompanyReceivedMoney() {
+		return companyReceivedMoney;
 	}
 
 	public Package getOrderPackage() {
 		return orderPackage;
 	}
 
-	public Float getOrderShippingFee() {
-		return orderShippingFee;
+	public Float getShippingFee() {
+		return shippingFee;
 	}
 
-	public Delivery getOrderTransferDelivery() {
-		return orderTransferDelivery;
+	public Delivery getTransferDelivery() {
+		return transferDelivery;
 	}
 
-	public Float getOrderTransferFee() {
-		return orderTransferFee;
+	public Float getTransferFee() {
+		return transferFee;
 	}
 
-	public OrderStatus getOrderStatus() {
-		return orderStatus;
+	public OrderStatus getStatus() {
+		return status;
 	}
 
-	public String getOrderNote() {
-		return orderNote;
+	public String getNote() {
+		return note;
 	}
 
-	public void setOrderProduct(Product orderProduct) {
-		this.orderProduct = orderProduct;
+	public Shop getShop() {
+		return shop;
 	}
 
-	public void setOrderIsReturn(Boolean orderIsReturn) {
-		this.orderIsReturn = orderIsReturn;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setOrderIsStock(Boolean orderIsStock) {
-		this.orderIsStock = orderIsStock;
+	public void setDate(Timestamp date) {
+		this.date = date;
 	}
 
-	public void setOrderProductCount(Integer orderProductCount) {
-		this.orderProductCount = orderProductCount;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public void setOrderClient(Client orderClient) {
-		this.orderClient = orderClient;
+	public void setIsReturn(Boolean isReturn) {
+		this.isReturn = isReturn;
 	}
 
-	public void setOrderBuyerName(String orderBuyerName) {
-		this.orderBuyerName = orderBuyerName;
+	public void setIsStock(Boolean isStock) {
+		this.isStock = isStock;
 	}
 
-	public void setOrderProxy(Admin orderProxy) {
-		this.orderProxy = orderProxy;
+	public void setProductCount(Integer productCount) {
+		this.productCount = productCount;
 	}
 
-	public void setOrderProductWeight(Integer orderProductWeight) {
-		this.orderProductWeight = orderProductWeight;
+	public void setClient(Client client) {
+		this.client = client;
 	}
 
-	public void setOrderCost(Float orderCost) {
-		this.orderCost = orderCost;
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
 	}
 
-	public void setOrderCurrencyRate(Float orderCurrencyRate) {
-		this.orderCurrencyRate = orderCurrencyRate;
+	public void setProxy(Admin proxy) {
+		this.proxy = proxy;
 	}
 
-	public void setOrderSellingPrice(Float orderSellingPrice) {
-		this.orderSellingPrice = orderSellingPrice;
+	public void setProductWeight(Integer productWeight) {
+		this.productWeight = productWeight;
 	}
 
-	public void setOrderCustomerPaidMoney(Float orderCustomerPaidMoney) {
-		this.orderCustomerPaidMoney = orderCustomerPaidMoney;
+	public void setCost(Float cost) {
+		this.cost = cost;
 	}
 
-	public void setOrderCompanyReceivedMoney(Float orderCompanyReceivedMoney) {
-		this.orderCompanyReceivedMoney = orderCompanyReceivedMoney;
+	public void setCurrencyRate(Float currencyRate) {
+		this.currencyRate = currencyRate;
+	}
+
+	public void setSellingPrice(Float sellingPrice) {
+		this.sellingPrice = sellingPrice;
+	}
+
+	public void setCustomerPaidMoney(Float customerPaidMoney) {
+		this.customerPaidMoney = customerPaidMoney;
+	}
+
+	public void setCompanyReceivedMoney(Float companyReceivedMoney) {
+		this.companyReceivedMoney = companyReceivedMoney;
 	}
 
 	public void setOrderPackage(Package orderPackage) {
 		this.orderPackage = orderPackage;
 	}
 
-	public void setOrderShippingFee(Float orderShippingFee) {
-		this.orderShippingFee = orderShippingFee;
+	public void setShippingFee(Float shippingFee) {
+		this.shippingFee = shippingFee;
 	}
 
-	public void setOrderTransferDelivery(Delivery orderTransferDelivery) {
-		this.orderTransferDelivery = orderTransferDelivery;
+	public void setTransferDelivery(Delivery transferDelivery) {
+		this.transferDelivery = transferDelivery;
 	}
 
-	public void setOrderTransferFee(Float orderTransferFee) {
-		this.orderTransferFee = orderTransferFee;
+	public void setTransferFee(Float transferFee) {
+		this.transferFee = transferFee;
 	}
 
-	public void setOrderStatus(OrderStatus orderStatus) {
-		this.orderStatus = orderStatus;
+	public void setStatus(OrderStatus status) {
+		this.status = status;
 	}
 
-	public void setOrderNote(String orderNote) {
-		this.orderNote = orderNote;
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 	public enum OrderStatus {

@@ -2,10 +2,14 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import com.logpie.shopping.tool.model.Category;
+import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class CategoryRepository extends LogpieRepository<Category> {
@@ -14,6 +18,16 @@ public class CategoryRepository extends LogpieRepository<Category> {
 
 	public static final String DB_KEY_CATEGORY_ID = "CategoryId";
 	public static final String DB_KEY_CATEGORY_NAME = "CategoryName";
+	public static final String DB_KEY_CATEGORY_SHOP_ID = "CategoryShopId";
+
+	@Autowired
+	private ShopRepository shopRepository;
+
+	public List<Category> queryByShopId(final Long shopId)
+			throws DataAccessException {
+		return super.queryByForeignKey(Category.class, DB_KEY_CATEGORY_SHOP_ID,
+				shopId, null);
+	}
 
 	@Override
 	public Category mapRow(final ResultSet rs, final int rowNum)
@@ -24,7 +38,8 @@ public class CategoryRepository extends LogpieRepository<Category> {
 
 		Long id = rs.getLong(DB_KEY_CATEGORY_ID);
 		String name = rs.getString(DB_KEY_CATEGORY_NAME);
-		return new Category(id, name);
+		Shop shop = shopRepository.mapRow(rs, rowNum);
+		return new Category(id, name, shop);
 	}
 
 }

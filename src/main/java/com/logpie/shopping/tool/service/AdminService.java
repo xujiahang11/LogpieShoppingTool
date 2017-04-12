@@ -1,8 +1,10 @@
 package com.logpie.shopping.tool.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.logpie.framework.log.util.LogpieLogger;
@@ -18,16 +20,28 @@ public class AdminService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createAdmin(final String userName, final String password,
-			final String name) {
+	public Long createAdmin(final Admin admin) {
 		logger.trace("createAdmin service is started...");
-		if (userName == null || userName.isEmpty() || password == null
-				|| password.isEmpty() || name == null || name.isEmpty()) {
-			logger.error("cannot find admin username or admin password or admin nickname");
+		if (admin == null) {
+			logger.error("cannot find admin");
 			return null;
 		}
-		Admin admin = new Admin(userName, password, name);
-		return repository.insert(admin);
+		try {
+			return repository.insert(admin);
+		} catch (DataAccessException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public void updateAdmin(final Admin admin) {
+		logger.trace("updateAdmin service is started...");
+		if (admin == null) {
+			logger.error("cannot find admin");
+			return;
+		}
+		repository.update(admin);
 	}
 
 	public List<Admin> getAllAdmins() {
@@ -35,12 +49,21 @@ public class AdminService {
 		return repository.queryAll(Admin.class, null);
 	}
 
-	public Admin getAdminById(final Long adminId) {
+	public Admin getAdminById(final Long id) {
 		logger.trace("QueryAdminById service is started...");
-		if (adminId == null) {
-			logger.error("cannot find admin Id");
+		if (id == null) {
+			logger.error("cannot find admin id");
 			return null;
 		}
-		return repository.queryByID(Admin.class, adminId);
+		return repository.queryById(Admin.class, id);
+	}
+
+	public List<Admin> getAdminsByShopId(final Long shopId) {
+		logger.trace("QueryAdminsByShopId service is started...");
+		if (shopId == null) {
+			logger.error("cannot find shop id");
+			return null;
+		}
+		return repository.queryByShopId(shopId);
 	}
 }

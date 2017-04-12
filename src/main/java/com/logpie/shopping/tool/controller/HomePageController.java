@@ -14,15 +14,29 @@ import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Order;
+import com.logpie.shopping.tool.model.Order.OrderStatus;
+import com.logpie.shopping.tool.model.Shop;
+import com.logpie.shopping.tool.service.AddressService;
 import com.logpie.shopping.tool.service.AdminService;
 import com.logpie.shopping.tool.service.BrandService;
+import com.logpie.shopping.tool.service.ClientService;
 import com.logpie.shopping.tool.service.OrderService;
+import com.logpie.shopping.tool.service.PackageService;
 import com.logpie.shopping.tool.service.ProductService;
+import com.logpie.shopping.tool.service.ShopService;
 import com.logpie.shopping.tool.service.SubCategoryService;
 
 @Controller
 @LogEnvironment(classLevel = LogLevel.TRACE)
 public class HomePageController {
+	@Autowired
+	private ShopService shopService;
+	@Autowired
+	private AddressService addressService;
+	@Autowired
+	private ClientService clientService;
+	@Autowired
+	private PackageService packageService;
 	@Autowired
 	private ProductService productService;
 	@Autowired
@@ -42,12 +56,31 @@ public class HomePageController {
 			throws InterruptedException {
 		logger.trace("Request started...");
 
-		List<Order> list = orderService.getAllOrders(false);
-		for (Order order : list) {
-			logger.debug("order: " + order.getOrderId() + ", "
-					+ order.getOrderProduct().getProductName() + ", "
-					+ order.getOrderProductWeight() + "g, "
-					+ order.getOrderProxy().getAdminName());
+		Shop shop_1 = shopService.getShopByPath("");
+		logger.debug("should not find shop - " + shop_1);
+
+		Shop shop_2 = shopService.getShopByPath("logpie");
+		logger.debug("get shop - " + shop_2.getPath());
+		// Client client = clientService.getClientById(1L);
+
+		List<Order> list_1 = orderService.getOrdersByShopId(shop_2.getId(),
+				false);
+		for (Order o : list_1) {
+			logger.debug("order list: " + o.getId() + " " + o.getStatus() + " "
+					+ o.getShop().getName());
+		}
+
+		List<Order> list_2 = orderService.getOrdersByStatus(1L,
+				OrderStatus.TO_BE_SHIPPED, false);
+		for (Order o : list_2) {
+			logger.debug("order list: " + o.getId() + " " + o.getStatus() + " "
+					+ o.getShop().getName());
+		}
+
+		List<Order> list_3 = orderService.getStockOrders(1L, true);
+		for (Order o : list_3) {
+			logger.debug("order list: " + o.getId() + " is stock: "
+					+ o.getIsStock() + " " + o.getShop().getName());
 		}
 
 		model.addAttribute("name", "world");

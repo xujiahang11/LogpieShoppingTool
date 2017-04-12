@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.SQLClause;
-import com.logpie.framework.db.util.SQLUtil;
+import com.logpie.framework.db.basic.SqlClause;
+import com.logpie.framework.db.basic.SqlOperator;
+import com.logpie.framework.db.util.SqlUtil;
 import com.logpie.shopping.tool.model.Admin;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.model.Delivery;
@@ -18,6 +20,7 @@ import com.logpie.shopping.tool.model.Order;
 import com.logpie.shopping.tool.model.Order.OrderStatus;
 import com.logpie.shopping.tool.model.Package;
 import com.logpie.shopping.tool.model.Product;
+import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class OrderRepository extends LogpieRepository<Order> {
@@ -45,6 +48,7 @@ public class OrderRepository extends LogpieRepository<Order> {
 	public static final String DB_KEY_ORDER_TRANSFER_FEE = "OrderTransferFee";
 	public static final String DB_KEY_ORDER_STATUS = "OrderStatus";
 	public static final String DB_KEY_ORDER_NOTE = "OrderNote";
+	public static final String DB_KEY_ORDER_SHOP_ID = "OrderShopId";
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -56,80 +60,110 @@ public class OrderRepository extends LogpieRepository<Order> {
 	private PackageRepository packageRepository;
 	@Autowired
 	private DeliveryRepository deliveryRepository;
+	@Autowired
+	private ShopRepository shopRepository;
 
-	public List<Order> queryByProxyId(final Long arg) {
-		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_PROXY_ID, arg,
-				getOrderByDateSQL(false));
+	public List<Order> queryByShopId(final Long shopId,
+			final boolean isAscendingDate) throws DataAccessException {
+		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_SHOP_ID,
+				shopId, orderByDateSQL(isAscendingDate));
 	}
 
-	public List<Order> queryByClientId(final Long arg) {
+	public List<Order> queryByProxyId(final Long adminId,
+			final boolean isAscendingDate) throws DataAccessException {
+		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_PROXY_ID,
+				adminId, orderByDateSQL(isAscendingDate));
+	}
+
+	public List<Order> queryByClientId(final Long clientId,
+			final boolean isAscendingDate) throws DataAccessException {
 		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_CLIENT_ID,
-				arg, getOrderByDateSQL(false));
+				clientId, orderByDateSQL(isAscendingDate));
 	}
 
-	public List<Order> queryByPackageId(final Long arg) {
+	public List<Order> queryByPackageId(final Long packageId,
+			final boolean isAscendingDate) throws DataAccessException {
 		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_PACKAGE_ID,
-				arg, getOrderByDateSQL(false));
+				packageId, orderByDateSQL(isAscendingDate));
 	}
 
-	public List<Order> queryByOrderStatus(final OrderStatus arg,
-			final boolean isAscendingDate) {
-		List<SQLClause> orderByArgs = new ArrayList<SQLClause>();
-		orderByArgs.add(SQLClause.createOrderByClause(DB_KEY_ORDER_DATE,
-				isAscendingDate));
-		List<SQLClause> whereArgs = new ArrayList<SQLClause>();
-		whereArgs.add(SQLClause.createWhereClause(DB_KEY_ORDER_STATUS,
-				arg.toString()));
+	public List<Order> queryByStatus(final Long shopId,
+			final OrderStatus status, final boolean isAscendingDate)
+			throws DataAccessException {
+		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
+		orderByArgs.add(SqlClause.createOrderByClause(Order.class, null, null,
+				DB_KEY_ORDER_DATE, isAscendingDate));
+		List<SqlClause> whereArgs = new ArrayList<SqlClause>();
+		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
+				DB_KEY_ORDER_SHOP_ID, shopId, SqlOperator.EQUAL));
+		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
+				DB_KEY_ORDER_STATUS, status.toString(), SqlOperator.EQUAL));
 
-		String sql = SQLUtil.querySQL(Order.class)
-				+ SQLUtil.orderBySQL(orderByArgs)
-				+ SQLUtil.whereSQL(Order.class, whereArgs);
+		String sql = SqlUtil.querySQL(Order.class)
+				+ SqlUtil.whereSQL(Order.class, whereArgs)
+				+ SqlUtil.orderBySQL(orderByArgs);
 		return super.query(sql);
 	}
 
-	public List<Order> queryAll(final boolean isAscendingDate) {
-		return super.queryAll(Order.class, getOrderByDateSQL(isAscendingDate));
+	public List<Order> queryByStock(final Long shopId,
+			final boolean isAscendingDate) throws DataAccessException {
+		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
+		orderByArgs.add(SqlClause.createOrderByClause(Order.class, null, null,
+				DB_KEY_ORDER_DATE, isAscendingDate));
+		List<SqlClause> whereArgs = new ArrayList<SqlClause>();
+		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
+				DB_KEY_ORDER_SHOP_ID, shopId, SqlOperator.EQUAL));
+		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
+				DB_KEY_ORDER_IS_STOCK, true, SqlOperator.EQUAL));
+		String sql = SqlUtil.querySQL(Order.class)
+				+ SqlUtil.whereSQL(Order.class, whereArgs)
+				+ SqlUtil.orderBySQL(orderByArgs);
+		return super.query(sql);
+	}
+
+	public List<Order> queryAll(final boolean isAscendingDate)
+			throws DataAccessException {
+		return super.queryAll(Order.class, orderByDateSQL(isAscendingDate));
 	}
 
 	@Override
 	public Order mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		Long orderId = rs.getLong(DB_KEY_ORDER_ID);
-		Timestamp orderDate = rs.getTimestamp(DB_KEY_ORDER_DATE);
-		Product orderProduct = productRepository.mapRow(rs, rowNum);
-		Boolean orderIsReturn = rs.getBoolean(DB_KEY_ORDER_IS_RETURN);
-		Boolean orderIsStock = rs.getBoolean(DB_KEY_ORDER_IS_STOCK);
-		Client orderClient = clientRepository.mapRow(rs, rowNum);
-		String orderBuyerName = rs.getString(DB_KEY_ORDER_BUYER_NAME);
-		Admin orderProxy = adminRepository.mapRow(rs, rowNum);
-		Integer orderProductWeight = rs.getInt(DB_KEY_ORDER_PRODUCT_WEIGHT);
-		Float orderCost = rs.getFloat(DB_KEY_ORDER_COST);
-		Float orderCurrencyRate = rs.getFloat(DB_KEY_ORDER_CURRENCY_RATE);
-		Float orderSellingPrice = rs.getFloat(DB_KEY_ORDER_SELLING_PRICE);
-		Float orderCustomerPaidMoney = rs
-				.getFloat(DB_KEY_ORDER_CUSTOMER_PAID_MONEY);
-		Float orderCompanyReceivedMoney = rs
+		Long id = rs.getLong(DB_KEY_ORDER_ID);
+		Timestamp date = rs.getTimestamp(DB_KEY_ORDER_DATE);
+		Product product = productRepository.mapRow(rs, rowNum);
+		Boolean isReturn = rs.getBoolean(DB_KEY_ORDER_IS_RETURN);
+		Boolean isStock = rs.getBoolean(DB_KEY_ORDER_IS_STOCK);
+		Client client = clientRepository.mapRow(rs, rowNum);
+		String buyerName = rs.getString(DB_KEY_ORDER_BUYER_NAME);
+		Admin proxy = adminRepository.mapRow(rs, rowNum);
+		Integer productWeight = rs.getInt(DB_KEY_ORDER_PRODUCT_WEIGHT);
+		Float cost = rs.getFloat(DB_KEY_ORDER_COST);
+		Float currencyRate = rs.getFloat(DB_KEY_ORDER_CURRENCY_RATE);
+		Float sellingPrice = rs.getFloat(DB_KEY_ORDER_SELLING_PRICE);
+		Float customerPaidMoney = rs.getFloat(DB_KEY_ORDER_CUSTOMER_PAID_MONEY);
+		Float companyReceivedMoney = rs
 				.getFloat(DB_KEY_ORDER_COMPANY_RECEIVED_MONEY);
 		Package orderPackage = packageRepository.mapRow(rs, rowNum);
-		Float orderShippingFee = rs.getFloat(DB_KEY_ORDER_SHIPPING_FEE);
-		Delivery orderTransferDelivery = deliveryRepository.mapRow(rs, rowNum);
-		Float orderTransferFee = rs.getFloat(DB_KEY_ORDER_TRANSFER_FEE);
-		OrderStatus orderStatus = OrderStatus.fromCode(rs
+		Float shippingFee = rs.getFloat(DB_KEY_ORDER_SHIPPING_FEE);
+		Delivery transferDelivery = deliveryRepository.mapRow(rs, rowNum);
+		Float transferFee = rs.getFloat(DB_KEY_ORDER_TRANSFER_FEE);
+		OrderStatus status = OrderStatus.fromCode(rs
 				.getString(DB_KEY_ORDER_STATUS));
-		String orderNote = rs.getString(DB_KEY_ORDER_NOTE);
+		String note = rs.getString(DB_KEY_ORDER_NOTE);
+		Shop shop = shopRepository.mapRow(rs, rowNum);
 
-		return new Order(orderId, orderDate, orderProduct, orderIsReturn,
-				orderIsStock, orderClient, orderBuyerName, orderProxy,
-				orderProductWeight, orderCost, orderCurrencyRate,
-				orderSellingPrice, orderCustomerPaidMoney,
-				orderCompanyReceivedMoney, orderPackage, orderShippingFee,
-				orderTransferDelivery, orderTransferFee, orderStatus, orderNote);
+		return new Order(id, date, product, isReturn, isStock, client,
+				buyerName, proxy, productWeight, cost, currencyRate,
+				sellingPrice, customerPaidMoney, companyReceivedMoney,
+				orderPackage, shippingFee, transferDelivery, transferFee,
+				status, note, shop);
 	}
 
-	private String getOrderByDateSQL(final boolean isAscendingDate) {
-		List<SQLClause> orderByArgs = new ArrayList<SQLClause>();
-		orderByArgs.add(SQLClause.createOrderByClause(DB_KEY_ORDER_DATE,
-				isAscendingDate));
-		return SQLUtil.orderBySQL(orderByArgs);
+	private String orderByDateSQL(final boolean isAscendingDate) {
+		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
+		orderByArgs.add(SqlClause.createOrderByClause(Order.class, null, null,
+				DB_KEY_ORDER_DATE, isAscendingDate));
+		return SqlUtil.orderBySQL(orderByArgs);
 	}
 }

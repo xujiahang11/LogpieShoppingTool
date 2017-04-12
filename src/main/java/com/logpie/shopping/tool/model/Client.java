@@ -6,141 +6,156 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Table;
-import com.logpie.framework.db.basic.LogpieModel;
+import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.ClientRepository;
 
 @Table(name = ClientRepository.DB_TABLE_CLIENT)
-public class Client extends LogpieModel {
+public class Client extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
 	@Column(name = ClientRepository.DB_KEY_CLIENT_ID, type = DataType.LONG)
-	private Long clientId;
+	private Long id;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_WECHAT_DIRECTED_ID, type = DataType.STRING)
-	private String clientWechatDirectedId;
+	private String wechatDirectedId;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_NAME, type = DataType.STRING)
-	private String clientName;
+	private String name;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_PHONE, type = DataType.STRING)
-	private String clientPhone;
+	private String phone;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_WECHAT_ID, type = DataType.STRING)
-	private String clientWechatId;
+	private String wechatId;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_WECHAT_NAME, type = DataType.STRING)
-	private String clientWechatName;
+	private String wechatName;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_TAOBAO_NAME, type = DataType.STRING)
-	private String clientTaobaoName;
+	private String taobaoName;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_NOTE, type = DataType.STRING)
-	private String clientNote;
+	private String note;
 
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	@Column(name = ClientRepository.DB_KEY_CLIENT_REGISTER_TIME, type = DataType.TIMESTAMP)
-	private Timestamp clientRegisterTime;
+	private Timestamp registerTime;
 
-	/**
-	 * constructor for creating a client
-	 * 
-	 * @param ClientName
-	 * @param ClientPhone
-	 */
-	public Client(String ClientName, String ClientPhone) {
-		this(null, null, ClientName, ClientPhone, null, null, null, null, null);
+	@ForeignEntity(name = ClientRepository.DB_KEY_CLIENT_SHOP_ID, referencedTable = Shop.class)
+	private Shop shop;
+
+	public Client() {
+
 	}
 
 	/**
 	 * 
-	 * @param ClientId
-	 * @param ClientWechatDirectedId
-	 * @param ClientName
-	 * @param ClientPhone
-	 * @param ClientWechatId
-	 * @param ClientWechatName
-	 * @param ClientTaobaoName
-	 * @param ClientNote
-	 * @param ClientRegisterTime
+	 * @param id
+	 * @param wechatDirectedId
+	 * @param name
+	 * @param phone
+	 * @param wechatId
+	 * @param wechatName
+	 * @param taobaoName
+	 * @param note
+	 * @param registerTime
+	 * @param shop
 	 */
-	public Client(Long ClientId, String ClientWechatDirectedId,
-			String ClientName, String ClientPhone, String ClientWechatId,
-			String ClientWechatName, String ClientTaobaoName,
-			String ClientNote, Timestamp ClientRegisterTime) {
-		this.clientId = ClientId;
-		this.clientWechatDirectedId = ClientWechatDirectedId;
-		this.clientName = ClientName;
-		this.clientPhone = ClientPhone;
-		this.clientWechatId = ClientWechatId;
-		this.clientWechatName = ClientWechatName;
-		this.clientTaobaoName = ClientTaobaoName;
-		this.clientNote = ClientNote;
-		this.clientRegisterTime = ClientRegisterTime;
+	public Client(Long id, String wechatDirectedId, String name, String phone,
+			String wechatId, String wechatName, String taobaoName, String note,
+			Timestamp registerTime, Shop shop) {
+		this.id = id;
+		this.wechatDirectedId = wechatDirectedId;
+		this.name = name;
+		this.phone = phone;
+		this.wechatId = wechatId;
+		this.wechatName = wechatName;
+		this.taobaoName = taobaoName;
+		this.note = note;
+		this.registerTime = registerTime;
+		this.shop = shop;
 	}
 
-	public Long getClientId() {
-		return clientId;
+	public Long getId() {
+		return id;
 	}
 
-	public String getClientWechatDirectedId() {
-		return clientWechatDirectedId;
+	public String getWechatDirectedId() {
+		return wechatDirectedId;
 	}
 
-	public String getClientName() {
-		return clientName;
+	public String getName() {
+		return name;
 	}
 
-	public String getClientPhone() {
-		return clientPhone;
+	public String getPhone() {
+		return phone;
 	}
 
-	public String getClientWechatId() {
-		return clientWechatId;
+	public String getWechatId() {
+		return wechatId;
 	}
 
-	public String getClientWechatName() {
-		return clientWechatName;
+	public String getWechatName() {
+		return wechatName;
 	}
 
-	public String getClientTaobaoName() {
-		return clientTaobaoName;
+	public String getTaobaoName() {
+		return taobaoName;
 	}
 
-	public String getClientNote() {
-		return clientNote;
+	public String getNote() {
+		return note;
 	}
 
-	public Timestamp getClientRegisterTime() {
-		return clientRegisterTime;
+	public Timestamp getRegisterTime() {
+		return registerTime;
 	}
 
-	public void setClientWechatDirectedId(String ClientWechatDirectedId) {
-		this.clientWechatDirectedId = ClientWechatDirectedId;
+	public Shop getShop() {
+		return shop;
 	}
 
-	public void setClientName(String ClientName) {
-		this.clientName = ClientName;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setClientPhone(String ClientPhone) {
-		this.clientPhone = ClientPhone;
+	public void setWechatDirectedId(String wechatDirectedId) {
+		this.wechatDirectedId = wechatDirectedId;
 	}
 
-	public void setClientWechatId(String ClientWechatId) {
-		this.clientWechatId = ClientWechatId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setClientWechatName(String ClientWechatName) {
-		this.clientWechatName = ClientWechatName;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
-	public void setClientTaobaoName(String ClientTaobaoName) {
-		this.clientTaobaoName = ClientTaobaoName;
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
 	}
 
-	public void setClientNote(String ClientNote) {
-		this.clientNote = ClientNote;
+	public void setWechatName(String wechatName) {
+		this.wechatName = wechatName;
+	}
+
+	public void setTaobaoName(String taobaoName) {
+		this.taobaoName = taobaoName;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public void setRegisterTime(Timestamp registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 }

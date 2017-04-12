@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.SQLClause;
-import com.logpie.framework.db.util.SQLUtil;
+import com.logpie.framework.db.basic.SqlClause;
+import com.logpie.framework.db.basic.SqlOperator;
+import com.logpie.framework.db.util.SqlUtil;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.model.Delivery;
 import com.logpie.shopping.tool.model.Package;
 import com.logpie.shopping.tool.model.Package.PackageStatus;
+import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class PackageRepository extends LogpieRepository<Package> {
@@ -36,43 +39,59 @@ public class PackageRepository extends LogpieRepository<Package> {
 	public static final String DB_KEY_PACKAGE_ADDITIONAL_INSURANCE_FEE = "PackageAdditionalInsuranceFee";
 	public static final String DB_KEY_PACKAGE_STATUS = "PackageStatus";
 	public static final String DB_KEY_PACKAGE_NOTE = "PackageNote";
+	public static final String DB_KEY_PACKAGE_SHOP_ID = "PackageShopId";
 
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 	@Autowired
 	private ClientRepository clientRepository;
+	@Autowired
+	private ShopRepository shopRepository;
 
-	public List<Package> queryByClientId(final Long arg) {
+	public List<Package> queryByShopId(final Long shopId,
+			final boolean isAscendingDate) throws DataAccessException {
+		return super.queryByForeignKey(Package.class, DB_KEY_PACKAGE_SHOP_ID,
+				shopId, orderByDateSQL(isAscendingDate));
+	}
 
+	public List<Package> queryByClientId(final Long clientId,
+			final boolean isAscendingDate) throws DataAccessException {
 		return super.queryByForeignKey(Package.class, DB_KEY_PACKAGE_CLIENT_ID,
-				arg, getOrderByDateSQL(false));
+				clientId, orderByDateSQL(isAscendingDate));
 	}
 
-	public List<Package> queryByIntDeliveryId(final Long arg) {
+	public List<Package> queryByIntDeliveryId(final Long deliveryId,
+			final boolean isAscendingDate) throws DataAccessException {
 		return super.queryByForeignKey(Package.class,
-				DB_KEY_PACKAGE_INT_DELIVERY_ID, arg, getOrderByDateSQL(false));
+				DB_KEY_PACKAGE_INT_DELIVERY_ID, deliveryId,
+				orderByDateSQL(isAscendingDate));
 	}
 
-	public List<Package> queryByDomDeliveryId(final Long arg) {
+	public List<Package> queryByDomDeliveryId(final Long deliveryId,
+			final boolean isAscendingDate) throws DataAccessException {
 		return super.queryByForeignKey(Package.class,
-				DB_KEY_PACKAGE_DOM_DELIVERY_ID, arg, getOrderByDateSQL(false));
+				DB_KEY_PACKAGE_DOM_DELIVERY_ID, deliveryId,
+				orderByDateSQL(isAscendingDate));
 	}
 
-	public List<Package> queryByPackageStatus(final PackageStatus arg,
-			final boolean isAscendingDate) {
-		List<SQLClause> whereArgs = new ArrayList<SQLClause>();
-		whereArgs.add(SQLClause.createWhereClause(DB_KEY_PACKAGE_STATUS,
-				arg.toString()));
+	public List<Package> queryByStatus(final Long shopId,
+			final PackageStatus status, final boolean isAscendingDate)
+			throws DataAccessException {
+		List<SqlClause> whereArgs = new ArrayList<SqlClause>();
+		whereArgs.add(SqlClause.createWhereClause(Package.class, null, null,
+				DB_KEY_PACKAGE_SHOP_ID, shopId, SqlOperator.EQUAL));
+		whereArgs.add(SqlClause.createWhereClause(Package.class, null, null,
+				DB_KEY_PACKAGE_STATUS, status.toString(), SqlOperator.EQUAL));
 
-		String sql = SQLUtil.querySQL(Package.class)
-				+ getOrderByDateSQL(isAscendingDate)
-				+ SQLUtil.whereSQL(Package.class, whereArgs);
+		String sql = SqlUtil.querySQL(Package.class)
+				+ SqlUtil.whereSQL(Package.class, whereArgs)
+				+ orderByDateSQL(isAscendingDate);
 		return super.query(sql);
 	}
 
-	public List<Package> queryAll(final boolean isAscendingDate) {
-		return super
-				.queryAll(Package.class, getOrderByDateSQL(isAscendingDate));
+	public List<Package> queryAll(final boolean isAscendingDate)
+			throws DataAccessException {
+		return super.queryAll(Package.class, orderByDateSQL(isAscendingDate));
 	}
 
 	@Override
@@ -99,16 +118,18 @@ public class PackageRepository extends LogpieRepository<Package> {
 		PackageStatus status = PackageStatus.fromCode(rs
 				.getString(DB_KEY_PACKAGE_STATUS));
 		String note = rs.getString(DB_KEY_PACKAGE_NOTE);
+		Shop shop = shopRepository.mapRow(rs, rowNum);
 
 		return new Package(id, intDelivery, intTracking, domDelivery,
 				domTracking, client, receiver, destination, isDirect, date,
-				weight, shippingFee, customFee, insuranceFee, status, note);
+				weight, shippingFee, customFee, insuranceFee, status, note,
+				shop);
 	}
 
-	private String getOrderByDateSQL(final boolean isAscendingDate) {
-		List<SQLClause> orderByArgs = new ArrayList<SQLClause>();
-		orderByArgs.add(SQLClause.createOrderByClause(DB_KEY_PACKAGE_DATE,
-				isAscendingDate));
-		return SQLUtil.orderBySQL(orderByArgs);
+	private String orderByDateSQL(final boolean isAscendingDate) {
+		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
+		orderByArgs.add(SqlClause.createOrderByClause(Package.class, null,
+				null, DB_KEY_PACKAGE_DATE, isAscendingDate));
+		return SqlUtil.orderBySQL(orderByArgs);
 	}
 }
