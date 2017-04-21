@@ -3,16 +3,18 @@ package com.logpie.shopping.tool.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.SqlClause;
-import com.logpie.framework.db.basic.SqlOperator;
-import com.logpie.framework.db.util.SqlUtil;
+import com.logpie.framework.db.basic.Page;
+import com.logpie.framework.db.basic.PageRequest;
+import com.logpie.framework.db.basic.Pageable;
+import com.logpie.framework.db.basic.Parameter;
+import com.logpie.framework.db.basic.Sort;
+import com.logpie.framework.db.basic.WhereParam;
+import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Admin;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.model.Delivery;
@@ -23,7 +25,9 @@ import com.logpie.shopping.tool.model.Product;
 import com.logpie.shopping.tool.model.Shop;
 
 @Repository
-public class OrderRepository extends LogpieRepository<Order> {
+public class OrderRepository extends JDBCTemplateRepository<Order> {
+
+	public static final Integer PAGE_SIZE = 20;
 
 	public static final String DB_TABLE_ORDER = "Orders";
 
@@ -63,67 +67,69 @@ public class OrderRepository extends LogpieRepository<Order> {
 	@Autowired
 	private ShopRepository shopRepository;
 
-	public List<Order> queryByShopId(final Long shopId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_SHOP_ID,
-				shopId, orderByDateSQL(isAscendingDate));
+	private Sort sort;
+
+	public OrderRepository() {
+		super(Order.class);
+		sort = new Sort(Sort.Direction.DESC, DB_KEY_ORDER_DATE);
 	}
 
-	public List<Order> queryByProxyId(final Long adminId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_PROXY_ID,
-				adminId, orderByDateSQL(isAscendingDate));
-	}
-
-	public List<Order> queryByClientId(final Long clientId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_CLIENT_ID,
-				clientId, orderByDateSQL(isAscendingDate));
-	}
-
-	public List<Order> queryByPackageId(final Long packageId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Order.class, DB_KEY_ORDER_PACKAGE_ID,
-				packageId, orderByDateSQL(isAscendingDate));
-	}
-
-	public List<Order> queryByStatus(final Long shopId,
-			final OrderStatus status, final boolean isAscendingDate)
+	public Page<Order> queryByShopId(final int pageNumber, final Long shopId)
 			throws DataAccessException {
-		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
-		orderByArgs.add(SqlClause.createOrderByClause(Order.class, null, null,
-				DB_KEY_ORDER_DATE, isAscendingDate));
-		List<SqlClause> whereArgs = new ArrayList<SqlClause>();
-		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
-				DB_KEY_ORDER_SHOP_ID, shopId, SqlOperator.EQUAL));
-		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
-				DB_KEY_ORDER_STATUS, status.toString(), SqlOperator.EQUAL));
+		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_SHOP_ID,
+				shopId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
 
-		String sql = SqlUtil.querySQL(Order.class)
-				+ SqlUtil.whereSQL(Order.class, whereArgs)
-				+ SqlUtil.orderBySQL(orderByArgs);
-		return super.query(sql);
+		return super.queryBy(request, param);
 	}
 
-	public List<Order> queryByStock(final Long shopId,
-			final boolean isAscendingDate) throws DataAccessException {
-		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
-		orderByArgs.add(SqlClause.createOrderByClause(Order.class, null, null,
-				DB_KEY_ORDER_DATE, isAscendingDate));
-		List<SqlClause> whereArgs = new ArrayList<SqlClause>();
-		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
-				DB_KEY_ORDER_SHOP_ID, shopId, SqlOperator.EQUAL));
-		whereArgs.add(SqlClause.createWhereClause(Order.class, null, null,
-				DB_KEY_ORDER_IS_STOCK, true, SqlOperator.EQUAL));
-		String sql = SqlUtil.querySQL(Order.class)
-				+ SqlUtil.whereSQL(Order.class, whereArgs)
-				+ SqlUtil.orderBySQL(orderByArgs);
-		return super.query(sql);
-	}
-
-	public List<Order> queryAll(final boolean isAscendingDate)
+	public Page<Order> queryByProxyId(final int pageNumber, final Long adminId)
 			throws DataAccessException {
-		return super.queryAll(Order.class, orderByDateSQL(isAscendingDate));
+		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_PROXY_ID,
+				adminId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	public Page<Order> queryByClientId(final int pageNumber, final Long clientId)
+			throws DataAccessException {
+		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_CLIENT_ID,
+				clientId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	public Page<Order> queryByPackageId(final int pageNumber,
+			final Long packageId) throws DataAccessException {
+		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_PACKAGE_ID,
+				packageId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	public Page<Order> queryByStatus(final int pageNumber, final Long shopId,
+			final OrderStatus status) throws DataAccessException {
+		Parameter param_shop = new WhereParam(Package.class,
+				DB_KEY_ORDER_SHOP_ID, shopId);
+		Parameter param_status = new WhereParam(Package.class,
+				DB_KEY_ORDER_STATUS, status.toString());
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param_shop, param_status);
+	}
+
+	public Page<Order> queryByStock(final int pageNumber, final Long shopId)
+			throws DataAccessException {
+		Parameter param_shop = new WhereParam(Package.class,
+				DB_KEY_ORDER_SHOP_ID, shopId);
+		Parameter param_stock = new WhereParam(Package.class,
+				DB_KEY_ORDER_IS_STOCK, true);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param_shop, param_stock);
 	}
 
 	@Override
@@ -158,12 +164,5 @@ public class OrderRepository extends LogpieRepository<Order> {
 				sellingPrice, customerPaidMoney, companyReceivedMoney,
 				orderPackage, shippingFee, transferDelivery, transferFee,
 				status, note, shop);
-	}
-
-	private String orderByDateSQL(final boolean isAscendingDate) {
-		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
-		orderByArgs.add(SqlClause.createOrderByClause(Order.class, null, null,
-				DB_KEY_ORDER_DATE, isAscendingDate));
-		return SqlUtil.orderBySQL(orderByArgs);
 	}
 }

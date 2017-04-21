@@ -3,13 +3,18 @@ package com.logpie.shopping.tool.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.logpie.framework.db.basic.Page;
+import com.logpie.framework.db.basic.PageRequest;
+import com.logpie.framework.db.basic.Pageable;
+import com.logpie.framework.db.basic.Parameter;
+import com.logpie.framework.db.basic.Sort;
+import com.logpie.framework.db.basic.WhereParam;
+import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Brand;
 import com.logpie.shopping.tool.model.Color;
 import com.logpie.shopping.tool.model.Product;
@@ -18,8 +23,12 @@ import com.logpie.shopping.tool.model.Size;
 import com.logpie.shopping.tool.model.SubCategory;
 
 @Repository
-public class ProductRepository extends LogpieRepository<Product> {
+public class ProductRepository extends JDBCTemplateRepository<Product> {
+
+	public static final Integer PAGE_SIZE = 20;
+
 	public static final String DB_TABLE_PRODUCT = "Product";
+
 	public static final String DB_KEY_PRODUCT_ID = "ProductId";
 	public static final String DB_KEY_PRODUCT_NAME = "ProductName";
 	public static final String DB_KEY_PRODUCT_WEIGHT = "ProductWeight";
@@ -42,27 +51,41 @@ public class ProductRepository extends LogpieRepository<Product> {
 	@Autowired
 	private ShopRepository shopRepository;
 
-	public List<Product> queryByShopId(final Long shopId)
-			throws DataAccessException {
-		return super.queryByForeignKey(Product.class, DB_KEY_PRODUCT_SHOP_ID,
-				shopId, null);
+	private Sort sort;
+
+	public ProductRepository() {
+		super(Product.class);
+		// TODO
+		sort = new Sort(Sort.Direction.DESC, DB_KEY_PRODUCT_POST_DATE);
 	}
 
-	public List<Product> queryByBrandId(final Long arg)
+	public Page<Product> queryByShopId(final int pageNumber, final Long shopId)
 			throws DataAccessException {
-		return super.queryByForeignKey(Product.class, DB_KEY_PRODUCT_BRAND_ID,
-				arg, null);
+		Parameter param = new WhereParam(Product.class, DB_KEY_PRODUCT_SHOP_ID,
+				shopId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
 	}
 
-	public List<Product> queryByCategoryId(final Long arg)
+	public Page<Product> queryByBrandId(final int pageNumber, final Long brandId)
 			throws DataAccessException {
-		List<Product> res = new ArrayList<Product>();
-		List<SubCategory> list = subcategoryRepository.queryByCategoryId(arg);
-		for (SubCategory subcategory : list) {
-			res.addAll(super.queryByForeignKey(Product.class,
-					DB_KEY_PRODUCT_SUBCATEGORY_ID, subcategory.getId(), null));
-		}
-		return res;
+		Parameter param = new WhereParam(Product.class,
+				DB_KEY_PRODUCT_BRAND_ID, brandId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	@SuppressWarnings("static-access")
+	public Page<Product> queryByCategoryId(final int pageNumber,
+			final Long categoryId) throws DataAccessException {
+		Parameter param = new WhereParam(Product.class,
+				subcategoryRepository.DB_KEY_SUBCATEGORY_CATEGORY_ID,
+				categoryId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
 	}
 
 	@Override

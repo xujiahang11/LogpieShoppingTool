@@ -3,16 +3,18 @@ package com.logpie.shopping.tool.repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.SqlClause;
-import com.logpie.framework.db.basic.SqlOperator;
-import com.logpie.framework.db.util.SqlUtil;
+import com.logpie.framework.db.basic.Page;
+import com.logpie.framework.db.basic.PageRequest;
+import com.logpie.framework.db.basic.Pageable;
+import com.logpie.framework.db.basic.Parameter;
+import com.logpie.framework.db.basic.Sort;
+import com.logpie.framework.db.basic.WhereParam;
+import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.model.Delivery;
 import com.logpie.shopping.tool.model.Package;
@@ -20,7 +22,10 @@ import com.logpie.shopping.tool.model.Package.PackageStatus;
 import com.logpie.shopping.tool.model.Shop;
 
 @Repository
-public class PackageRepository extends LogpieRepository<Package> {
+public class PackageRepository extends JDBCTemplateRepository<Package> {
+
+	public static final Integer PAGE_SIZE = 20;
+
 	public static final String DB_TABLE_PACKAGE = "Package";
 
 	public static final String DB_KEY_PACKAGE_ID = "PackageId";
@@ -48,50 +53,58 @@ public class PackageRepository extends LogpieRepository<Package> {
 	@Autowired
 	private ShopRepository shopRepository;
 
-	public List<Package> queryByShopId(final Long shopId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Package.class, DB_KEY_PACKAGE_SHOP_ID,
-				shopId, orderByDateSQL(isAscendingDate));
+	private Sort sort;
+
+	public PackageRepository() {
+		super(Package.class);
+		sort = new Sort(Sort.Direction.DESC, DB_KEY_PACKAGE_DATE);
 	}
 
-	public List<Package> queryByClientId(final Long clientId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Package.class, DB_KEY_PACKAGE_CLIENT_ID,
-				clientId, orderByDateSQL(isAscendingDate));
-	}
-
-	public List<Package> queryByIntDeliveryId(final Long deliveryId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Package.class,
-				DB_KEY_PACKAGE_INT_DELIVERY_ID, deliveryId,
-				orderByDateSQL(isAscendingDate));
-	}
-
-	public List<Package> queryByDomDeliveryId(final Long deliveryId,
-			final boolean isAscendingDate) throws DataAccessException {
-		return super.queryByForeignKey(Package.class,
-				DB_KEY_PACKAGE_DOM_DELIVERY_ID, deliveryId,
-				orderByDateSQL(isAscendingDate));
-	}
-
-	public List<Package> queryByStatus(final Long shopId,
-			final PackageStatus status, final boolean isAscendingDate)
+	public Page<Package> queryByShopId(final int pageNumber, final Long shopId)
 			throws DataAccessException {
-		List<SqlClause> whereArgs = new ArrayList<SqlClause>();
-		whereArgs.add(SqlClause.createWhereClause(Package.class, null, null,
-				DB_KEY_PACKAGE_SHOP_ID, shopId, SqlOperator.EQUAL));
-		whereArgs.add(SqlClause.createWhereClause(Package.class, null, null,
-				DB_KEY_PACKAGE_STATUS, status.toString(), SqlOperator.EQUAL));
+		Parameter param = new WhereParam(Package.class, DB_KEY_PACKAGE_SHOP_ID,
+				shopId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
 
-		String sql = SqlUtil.querySQL(Package.class)
-				+ SqlUtil.whereSQL(Package.class, whereArgs)
-				+ orderByDateSQL(isAscendingDate);
-		return super.query(sql);
+		return super.queryBy(request, param);
 	}
 
-	public List<Package> queryAll(final boolean isAscendingDate)
-			throws DataAccessException {
-		return super.queryAll(Package.class, orderByDateSQL(isAscendingDate));
+	public Page<Package> queryByClientId(final int pageNumber,
+			final Long clientId) throws DataAccessException {
+		Parameter param = new WhereParam(Package.class,
+				DB_KEY_PACKAGE_CLIENT_ID, clientId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	public Page<Package> queryByIntDeliveryId(final int pageNumber,
+			final Long deliveryId) throws DataAccessException {
+		Parameter param = new WhereParam(Package.class,
+				DB_KEY_PACKAGE_INT_DELIVERY_ID, deliveryId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	public Page<Package> queryByDomDeliveryId(final int pageNumber,
+			final Long deliveryId) throws DataAccessException {
+		Parameter param = new WhereParam(Package.class,
+				DB_KEY_PACKAGE_DOM_DELIVERY_ID, deliveryId);
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param);
+	}
+
+	public Page<Package> queryByStatus(final int pageNumber, final Long shopId,
+			final PackageStatus status) throws DataAccessException {
+		Parameter param_shop = new WhereParam(Package.class,
+				DB_KEY_PACKAGE_SHOP_ID, shopId);
+		Parameter param_status = new WhereParam(Package.class,
+				DB_KEY_PACKAGE_STATUS, status.toString());
+		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
+
+		return super.queryBy(request, param_shop, param_status);
 	}
 
 	@Override
@@ -124,12 +137,5 @@ public class PackageRepository extends LogpieRepository<Package> {
 				domTracking, client, receiver, destination, isDirect, date,
 				weight, shippingFee, customFee, insuranceFee, status, note,
 				shop);
-	}
-
-	private String orderByDateSQL(final boolean isAscendingDate) {
-		List<SqlClause> orderByArgs = new ArrayList<SqlClause>();
-		orderByArgs.add(SqlClause.createOrderByClause(Package.class, null,
-				null, DB_KEY_PACKAGE_DATE, isAscendingDate));
-		return SqlUtil.orderBySQL(orderByArgs);
 	}
 }

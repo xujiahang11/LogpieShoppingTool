@@ -8,12 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.logpie.framework.db.basic.Parameter;
+import com.logpie.framework.db.basic.WhereParam;
+import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Category;
 import com.logpie.shopping.tool.model.Shop;
 import com.logpie.shopping.tool.model.SubCategory;
 
 @Repository
-public class SubCategoryRepository extends LogpieRepository<SubCategory> {
+public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
+
 	public static final String DB_TABLE_SUBCATEGORY = "SubCategory";
 
 	public static final String DB_KEY_SUBCATEGORY_ID = "SubCategoryId";
@@ -26,16 +30,22 @@ public class SubCategoryRepository extends LogpieRepository<SubCategory> {
 	@Autowired
 	private ShopRepository shopRepository;
 
+	public SubCategoryRepository() {
+		super(SubCategory.class);
+	}
+
 	public List<SubCategory> queryByShopId(final Long shopId)
 			throws DataAccessException {
-		return super.queryByForeignKey(SubCategory.class,
-				DB_KEY_SUBCATEGORY_SHOP_ID, shopId, null);
+		Parameter param = new WhereParam(SubCategory.class,
+				DB_KEY_SUBCATEGORY_SHOP_ID, shopId);
+		return (List<SubCategory>) super.queryBy(param);
 	}
 
 	public List<SubCategory> queryByCategoryId(final Long categoryId)
 			throws DataAccessException {
-		return super.queryByForeignKey(SubCategory.class,
-				DB_KEY_SUBCATEGORY_CATEGORY_ID, categoryId, null);
+		Parameter param = new WhereParam(SubCategory.class,
+				DB_KEY_SUBCATEGORY_CATEGORY_ID, categoryId);
+		return (List<SubCategory>) super.queryBy(param);
 	}
 
 	@Override

@@ -6,11 +6,11 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.AdminRepository;
 
-@Table(name = AdminRepository.DB_TABLE_ADMIN)
+@Entity(name = AdminRepository.DB_TABLE_ADMIN)
 public class Admin extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)

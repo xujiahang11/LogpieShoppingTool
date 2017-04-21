@@ -6,11 +6,11 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.SizeRepository;
 
-@Table(name = SizeRepository.DB_TABLE_SIZE)
+@Entity(name = SizeRepository.DB_TABLE_SIZE)
 public class Size extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)

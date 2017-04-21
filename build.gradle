@@ -45,6 +45,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
+    compile("org.springframework.data:spring-data-jpa:1.11.1.RELEASE")
 	compile("mysql:mysql-connector-java")
   	//compile("com.github.xujiahang11:DatabaseUtilLib:v0.1")
   	//compile("com.github.xujiahang11:LogUtilLib:v0.1-alpha")

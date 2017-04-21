@@ -1,11 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
@@ -22,13 +22,11 @@ public class ShopService {
 
 	public Long createShop(final Shop shop) {
 		logger.trace("createShop service is started...");
-		if (shop == null) {
-			logger.error("cannot find shop object");
-			return null;
-		}
+		Assert.isNull(shop, "Shop must not be null");
+
 		try {
 			return repository.insert(shop);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -37,33 +35,27 @@ public class ShopService {
 
 	public void updateShop(final Shop shop) {
 		logger.trace("updateShop service is started...");
-		if (shop == null) {
-			logger.error("cannot find shop object");
-			return;
-		}
+		Assert.isNull(shop, "Shop must not be null");
+
 		repository.update(shop);
 	}
 
 	public List<Shop> getAllShops() {
 		logger.trace("QueryAllShops service is started...");
-		return repository.queryAll(Shop.class);
+		return (List<Shop>) repository.queryAll();
 	}
 
 	public Shop getShopById(final Long id) {
 		logger.trace("QueryShopById service is started...");
-		if (id == null) {
-			logger.error("cannot find shop id");
-			return null;
-		}
-		return repository.queryById(Shop.class, id);
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
 	public Shop getShopByPath(final String path) {
 		logger.trace("QueryShopByPath service is started...");
-		if (path == null || path.isEmpty()) {
-			logger.error("cannot find shop path");
-			return null;
-		}
+		Assert.hasLength(path, "Path must have length");
+
 		return repository.queryByPath(path);
 	}
 }

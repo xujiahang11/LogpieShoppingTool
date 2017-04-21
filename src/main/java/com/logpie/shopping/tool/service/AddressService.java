@@ -1,12 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
@@ -22,13 +21,11 @@ public class AddressService {
 
 	public Long createAddress(final Address addr) {
 		logger.trace("createAddress service is started...");
-		if (addr == null) {
-			logger.error("cannot find address object");
-			return null;
-		}
+		Assert.isNull(addr, "Address must not be null");
+
 		try {
 			return repository.insert(addr);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -37,10 +34,8 @@ public class AddressService {
 
 	public void updateAddress(final Address addr) {
 		logger.trace("updateAddress service is started...");
-		if (addr == null) {
-			logger.error("cannot find address object");
-			return;
-		}
+		Assert.isNull(addr, "Address must not be null");
+
 		try {
 			repository.update(addr);
 		} catch (DataAccessException e) {
@@ -49,25 +44,12 @@ public class AddressService {
 		}
 	}
 
-	public List<Address> getAllAddresses() {
-		logger.trace("QueryAllAddresses service is started...");
-		try {
-			return repository.queryAll(Address.class);
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
 	public Address getAddressById(final Long id) {
 		logger.trace("QueryAddressById service is started...");
-		if (id == null) {
-			logger.error("cannot find address id");
-			return null;
-		}
+		Assert.isNull(id, "Address id must not be null");
+
 		try {
-			return repository.queryById(Address.class, id);
+			return repository.queryOne(id);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -75,10 +57,13 @@ public class AddressService {
 		return null;
 	}
 
-	public List<Address> getAddressesByShopId(final Long shopId) {
+	public Page<Address> getAddressesByShopId(final int pageNumber,
+			final Long shopId) {
 		logger.trace("QueryAddressesByShopId service is started...");
+		Assert.isNull(shopId, "Shop id must not be null");
+
 		try {
-			return repository.queryByShopId(shopId);
+			return repository.queryByShopId(pageNumber, shopId);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,14 +71,13 @@ public class AddressService {
 		return null;
 	}
 
-	public List<Address> getAddressesByClientId(final Long clientId) {
+	public Page<Address> getAddressesByClientId(final int pageNumber,
+			final Long clientId) {
 		logger.trace("QueryAddressesByClientId service is started...");
-		if (clientId == null) {
-			logger.error("cannot find client Id");
-			return null;
-		}
+		Assert.isNull(clientId, "Client id must not be null");
+
 		try {
-			return repository.queryByClientId(clientId);
+			return repository.queryByClientId(pageNumber, clientId);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -8,11 +8,11 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.PackageRepository;
 
-@Table(name = PackageRepository.DB_TABLE_PACKAGE)
+@Entity(name = PackageRepository.DB_TABLE_PACKAGE)
 public class Package extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)

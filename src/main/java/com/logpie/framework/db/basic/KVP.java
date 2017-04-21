@@ -1,44 +1,41 @@
 package com.logpie.framework.db.basic;
 
-import java.security.Timestamp;
+import com.logpie.framework.db.support.TableUtil;
 
-public class KVP {
+public class KVP implements Parameter {
+
+	private Table table;
 	private String key;
 	private Object value;
 
-	public KVP(String key, Object value) {
+	public KVP(Table table, String key, Object value) {
+		this.table = table;
 		this.key = key;
 		this.value = value;
 	}
 
+	@Override
+	public Table getTable() {
+		return table;
+	}
+
+	@Override
 	public String getKey() {
 		return key;
 	}
 
+	@Override
 	public Object getValue() {
 		return value;
 	}
 
+	@Override
 	public String valueToString() {
-		if (value == null) {
-			return null;
-		}
-		if (value.getClass() == Boolean.class) {
-			return String.valueOf(((Boolean) value).booleanValue());
-		}
-		if (value.getClass() == Long.class) {
-			return String.valueOf(((Long) value).longValue());
-		}
-		if (value.getClass() == Integer.class) {
-			return String.valueOf(((Integer) value).intValue());
-		}
-		if (value.getClass() == Float.class) {
-			return String.valueOf(((Float) value).floatValue());
-		}
-		if (value.getClass() == Timestamp.class) {
-			return ((Timestamp) value).getTimestamp().toString();
-		}
-		return "'" + value.toString() + "'";
+		return TableUtil.toSqlString(value);
 	}
 
+	@Override
+	public String getOperator() {
+		return "=";
+	}
 }

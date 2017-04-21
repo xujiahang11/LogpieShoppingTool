@@ -1,11 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
@@ -21,13 +21,11 @@ public class ColorService {
 
 	public Long createColor(final Color color) {
 		logger.trace("createColor service is started...");
-		if (color == null) {
-			logger.error("cannot find color");
-			return null;
-		}
+		Assert.isNull(color, "Color must not be null");
+
 		try {
 			return repository.insert(color);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -36,33 +34,22 @@ public class ColorService {
 
 	public void updateColor(final Color color) {
 		logger.trace("updateColor service is started...");
-		if (color == null) {
-			logger.error("cannot find color");
-			return;
-		}
-		repository.update(color);
-	}
+		Assert.isNull(color, "Color must not be null");
 
-	public List<Color> getAllColors() {
-		logger.trace("QueryAllColors service is started...");
-		return repository.queryAll(Color.class, null);
+		repository.update(color);
 	}
 
 	public Color getColorById(final Long id) {
 		logger.trace("QueryColorById service is started...");
-		if (id == null) {
-			logger.error("cannot find color id");
-			return null;
-		}
-		return repository.queryById(Color.class, id);
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
 	public List<Color> getColorsByShopId(final Long shopId) {
 		logger.trace("QueryColorsByShopId service is started...");
-		if (shopId == null) {
-			logger.error("cannot find shop Id");
-			return null;
-		}
+		Assert.isNull(shopId, "Shop id must not be null");
+
 		return repository.queryByShopId(shopId);
 	}
 }

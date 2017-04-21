@@ -1,12 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Order;
@@ -32,13 +31,12 @@ public class OrderService {
 			.getLogger(this.getClass());
 
 	public Long createOrder(final Order order) {
-		if (order == null) {
-			logger.error("cannot find order");
-			return null;
-		}
+		logger.trace("createOrder service is started...");
+		Assert.isNull(order, "Order must not be null");
+
 		try {
 			return repository.insert(order);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -47,65 +45,46 @@ public class OrderService {
 
 	public void updateOrder(final Order order) {
 		logger.trace("updateOrder service is started...");
-		if (order == null) {
-			logger.error("cannot find order");
-			return;
-		}
+		Assert.isNull(order, "Order must not be null");
+
 		repository.update(order);
 	}
 
-	public List<Order> getAllOrders(final boolean isAscendingDate) {
-		return repository.queryAll(isAscendingDate);
-	}
-
 	public Order getOrderById(final Long id) {
-		if (id == null) {
-			logger.error("cannot find order id");
-			return null;
-		}
-		return repository.queryById(Order.class, id);
+		logger.trace("getOrderById service is started...");
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
-	// TODO
-	public List<Order> getOrdersByShopId(final Long shopId,
-			final boolean isAscendingDate) {
-		if (shopId == null) {
-			logger.error("cannot find shop Id");
-			return null;
-		}
-		return repository.queryByShopId(shopId, isAscendingDate);
+	public Page<Order> getOrdersByShopId(final int pageNumber, final Long shopId) {
+		logger.trace("getOrdersByShopId service is started...");
+		Assert.isNull(shopId, "Shop id must not be null");
+
+		return repository.queryByShopId(pageNumber, shopId);
 	}
 
-	public List<Order> getOrdersByClientId(final Long clientId,
-			final boolean isAscendingDate) {
-		if (clientId == null) {
-			logger.error("cannot find client Id");
-			return null;
-		}
-		return repository.queryByClientId(clientId, isAscendingDate);
+	public Page<Order> getOrdersByClientId(final int pageNumber,
+			final Long clientId) {
+		logger.trace("getOrdersByClientId service is started...");
+		Assert.isNull(clientId, "Client id must not be null");
+
+		return repository.queryByClientId(pageNumber, clientId);
 	}
 
-	// TODO
-	public List<Order> getOrdersByStatus(final Long shopId,
-			final OrderStatus status, final boolean isAscendingDate) {
-		if (shopId == null) {
-			logger.error("cannot find shop Id");
-			return null;
-		}
-		if (status == null) {
-			logger.error("cannot find order status");
-			return null;
-		}
-		return repository.queryByStatus(shopId, status, isAscendingDate);
+	public Page<Order> getOrdersByStatus(final int pageNumber,
+			final Long shopId, final OrderStatus status) {
+		logger.trace("getOrdersByStatus service is started...");
+		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.isNull(status, "Order status must not be null");
+
+		return repository.queryByStatus(pageNumber, shopId, status);
 	}
 
-	// TODO
-	public List<Order> getStockOrders(final Long shopId,
-			final boolean isAscendingDate) {
-		if (shopId == null) {
-			logger.error("cannot find shop Id");
-			return null;
-		}
-		return repository.queryByStock(shopId, isAscendingDate);
+	public Page<Order> getStockOrders(final int pageNumber, final Long shopId) {
+		logger.trace("getStockOrders service is started...");
+		Assert.isNull(shopId, "Shop id must not be null");
+
+		return repository.queryByStock(pageNumber, shopId);
 	}
 }

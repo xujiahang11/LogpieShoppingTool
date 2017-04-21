@@ -1,12 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.annotation.LogEnvironment;
 import com.logpie.framework.log.annotation.LogEnvironment.LogLevel;
 import com.logpie.framework.log.util.LogpieLogger;
@@ -24,13 +23,11 @@ public class BrandService {
 
 	public Long createBrand(final Brand brand) {
 		logger.trace("createBrand service is started...");
-		if (brand == null) {
-			logger.error("cannot find brand");
-			return null;
-		}
+		Assert.isNull(brand, "Brand must not be null");
+
 		try {
 			return repository.insert(brand);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -39,33 +36,22 @@ public class BrandService {
 
 	public void updateBrand(final Brand brand) {
 		logger.trace("updateBrand service is started...");
-		if (brand == null) {
-			logger.error("cannot find brand");
-			return;
-		}
-		repository.update(brand);
-	}
+		Assert.isNull(brand, "Brand must not be null");
 
-	public List<Brand> getAllBrands() {
-		logger.trace("QueryAllBrands service is started...");
-		return repository.queryAll(Brand.class, null);
+		repository.update(brand);
 	}
 
 	public Brand getBrandById(final Long id) {
 		logger.trace("QueryBrandById service is started...");
-		if (id == null) {
-			logger.error("cannot find brand id");
-			return null;
-		}
-		return repository.queryById(Brand.class, id);
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
-	public List<Brand> getBrandsByShopId(final Long shopId) {
+	public Page<Brand> getBrandsByShopId(final int pageNumber, final Long shopId) {
 		logger.trace("QueryBrandsByShopId service is started...");
-		if (shopId == null) {
-			logger.error("cannot find shop id");
-			return null;
-		}
-		return repository.queryByShopId(shopId);
+		Assert.isNull(shopId, "Shop id must not be null");
+
+		return repository.queryByShopId(pageNumber, shopId);
 	}
 }

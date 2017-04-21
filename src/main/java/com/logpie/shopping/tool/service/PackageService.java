@@ -1,12 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Package;
@@ -27,13 +26,11 @@ public class PackageService {
 
 	public Long createPackage(final Package pack) {
 		logger.trace("createPackage service is started...");
-		if (pack == null) {
-			logger.error("cannot find package");
-			return null;
-		}
+		Assert.isNull(pack, "Package must not be null");
+
 		try {
 			return repository.insert(pack);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -42,57 +39,39 @@ public class PackageService {
 
 	public void updatePackage(final Package pack) {
 		logger.trace("updatePackage service is started...");
-		if (pack == null) {
-			logger.error("cannot find package");
-			return;
-		}
-		repository.update(pack);
-	}
+		Assert.isNull(pack, "Package must not be null");
 
-	public List<Package> getAllPackages(final boolean isAscendingDate) {
-		logger.trace("QueryAllPackages service is started...");
-		return repository.queryAll(isAscendingDate);
+		repository.update(pack);
 	}
 
 	public Package getPackageById(final Long id) {
 		logger.trace("QueryPackageById service is started...");
-		if (id == null) {
-			logger.error("cannot find package id");
-			return null;
-		}
-		return repository.queryById(Package.class, id);
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
-	public List<Package> getPackagesByShopId(final Long shopId,
-			final boolean isAscendingDate) {
+	public Page<Package> getPackagesByShopId(final int pageNumber,
+			final Long shopId) {
 		logger.trace("QueryPackagesByShopId service is started...");
-		if (shopId == null) {
-			logger.error("cannot find shop Id");
-			return null;
-		}
-		return repository.queryByShopId(shopId, isAscendingDate);
+		Assert.isNull(shopId, "Shop Id must not be null");
+
+		return repository.queryByShopId(pageNumber, shopId);
 	}
 
-	public List<Package> getPackagesByClientId(final Long clientId,
-			final boolean isAscendingDate) {
+	public Page<Package> getPackagesByClientId(final int pageNumber,
+			final Long clientId) {
 		logger.trace("QueryPackagesByClientId service is started...");
-		if (clientId == null) {
-			logger.error("cannot find client Id");
-			return null;
-		}
-		return repository.queryByClientId(clientId, isAscendingDate);
+		Assert.isNull(clientId, "Client Id must not be null");
+
+		return repository.queryByClientId(pageNumber, clientId);
 	}
 
-	public List<Package> getPackagesByStatus(final Long shopId,
-			final PackageStatus status, final boolean isAscendingDate) {
-		if (shopId == null) {
-			logger.error("cannot find shop Id");
-			return null;
-		}
-		if (status == null) {
-			logger.error("cannot find package status");
-			return null;
-		}
-		return repository.queryByStatus(shopId, status, isAscendingDate);
+	public Page<Package> getPackagesByStatus(final int pageNumber,
+			final Long shopId, final PackageStatus status) {
+		Assert.isNull(shopId, "Shop Id must not be null");
+		Assert.isNull(status, "Package status must not be null");
+
+		return repository.queryByStatus(pageNumber, shopId, status);
 	}
 }

@@ -1,11 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
@@ -23,49 +23,43 @@ public class SubCategoryService {
 			.getLogger(this.getClass());
 
 	public Long createSubCategory(final SubCategory subCategory) {
-		logger.trace("CreateSubCategory service is started...");
-		if (subCategory == null) {
-			logger.error("cannot find sub-category");
-			return null;
-		}
+		logger.trace("createSubCategory service is started...");
+		Assert.isNull(subCategory, "Subcategory must not be null");
+
 		try {
 			return repository.insert(subCategory);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	public List<SubCategory> getAllSubCategories() {
-		logger.trace("QueryAllSubCategories service is started...");
-		return repository.queryAll(SubCategory.class, null);
+	public void updateSubCategory(final SubCategory subCategory) {
+		logger.trace("updateSubCategory service is started...");
+		Assert.isNull(subCategory, "Subcategory must not be null");
+
+		repository.update(subCategory);
 	}
 
 	public SubCategory getSubCategoryById(final Long id) {
 		logger.trace("QuerySubCategoryById service is started...");
-		if (id == null) {
-			logger.error("cannot find sub-category id");
-			return null;
-		}
-		return repository.queryById(SubCategory.class, id);
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
 	public List<SubCategory> getSubCategoriesByCategoryId(final Long categoryId) {
 		logger.trace("QuerySubCategoriesByCategoryId service is started...");
-		if (categoryId == null) {
-			logger.error("cannot find category id");
-			return null;
-		}
+		Assert.isNull(categoryId, "Category id must not be null");
+
 		return repository.queryByCategoryId(categoryId);
 	}
 
 	public List<SubCategory> getSubCategoriesByShopId(final Long shopId) {
 		logger.trace("QuerySubCategoriesByShopId service is started...");
-		if (shopId == null) {
-			logger.error("cannot find shop id");
-			return null;
-		}
+		Assert.isNull(shopId, "Shop id must not be null");
+
 		return repository.queryByShopId(shopId);
 	}
 }

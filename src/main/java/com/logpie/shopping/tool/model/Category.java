@@ -6,11 +6,11 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.CategoryRepository;
 
-@Table(name = CategoryRepository.DB_TABLE_CATEGORY)
+@Entity(name = CategoryRepository.DB_TABLE_CATEGORY)
 public class Category extends Model {
 	@ID
 	@Column(name = CategoryRepository.DB_KEY_CATEGORY_ID, type = DataType.LONG)

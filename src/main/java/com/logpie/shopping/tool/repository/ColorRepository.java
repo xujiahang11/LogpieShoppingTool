@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import com.logpie.framework.db.basic.Parameter;
+import com.logpie.framework.db.basic.WhereParam;
+import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Color;
 import com.logpie.shopping.tool.model.Shop;
 
 @Repository
-public class ColorRepository extends LogpieRepository<Color> {
+public class ColorRepository extends JDBCTemplateRepository<Color> {
 
 	public static final String DB_TABLE_COLOR = "Color";
 
@@ -23,10 +26,16 @@ public class ColorRepository extends LogpieRepository<Color> {
 	@Autowired
 	private ShopRepository shopRepository;
 
+	public ColorRepository() {
+		super(Color.class);
+	}
+
 	public List<Color> queryByShopId(final Long shopId)
 			throws DataAccessException {
-		return super.queryByForeignKey(Color.class, DB_KEY_COLOR_SHOP_ID,
-				shopId, null);
+		Parameter param = new WhereParam(Color.class, DB_KEY_COLOR_SHOP_ID,
+				shopId);
+
+		return (List<Color>) super.queryBy(param);
 	}
 
 	@Override

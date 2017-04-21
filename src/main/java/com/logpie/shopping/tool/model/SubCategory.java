@@ -6,11 +6,11 @@ import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
 import com.logpie.framework.db.annotation.ForeignEntity;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Table;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.SubCategoryRepository;
 
-@Table(name = SubCategoryRepository.DB_TABLE_SUBCATEGORY)
+@Entity(name = SubCategoryRepository.DB_TABLE_SUBCATEGORY)
 public class SubCategory extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)

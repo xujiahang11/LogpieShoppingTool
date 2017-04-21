@@ -1,12 +1,11 @@
 package com.logpie.shopping.tool.service;
 
-import java.sql.SQLException;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Product;
@@ -30,13 +29,11 @@ public class ProductService {
 
 	public Long createProduct(final Product product) {
 		logger.trace("createProduct service is started...");
-		if (product == null) {
-			logger.error("cannot find product");
-			return null;
-		}
+		Assert.isNull(product, "Product must not be null");
+
 		try {
 			return repository.insert(product);
-		} catch (DataAccessException | SQLException e) {
+		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -45,51 +42,39 @@ public class ProductService {
 
 	public void updateProduct(final Product product) {
 		logger.trace("updateProduct service is started...");
-		if (product == null) {
-			logger.error("cannot find product");
-			return;
-		}
-		repository.update(product);
-	}
+		Assert.isNull(product, "Product must not be null");
 
-	public List<Product> getAllProducts() {
-		logger.trace("QueryAllProducts service is started...");
-		return repository.queryAll(Product.class, null);
+		repository.update(product);
 	}
 
 	public Product getProductById(final Long id) {
 		logger.trace("QueryProductById service is started...");
-		if (id == null) {
-			logger.error("cannot find product id");
-			return null;
-		}
-		return repository.queryById(Product.class, id);
+		Assert.isNull(id, "Id must not be null");
+
+		return repository.queryOne(id);
 	}
 
-	public List<Product> getProductsByShopId(final Long shopId) {
+	public Page<Product> getProductsByShopId(final int pageNumber,
+			final Long shopId) {
 		logger.trace("QueryProductsByShopId service is started...");
-		if (shopId == null) {
-			logger.error("cannot find Shop Id");
-			return null;
-		}
-		return repository.queryByShopId(shopId);
+		Assert.isNull(shopId, "Shop id must not be null");
+
+		return repository.queryByShopId(pageNumber, shopId);
 	}
 
-	public List<Product> getProductsByBrandId(final Long brandId) {
+	public Page<Product> getProductsByBrandId(final int pageNumber,
+			final Long brandId) {
 		logger.trace("QueryProductsByBrandId service is started...");
-		if (brandId == null) {
-			logger.error("cannot find Brand Id");
-			return null;
-		}
-		return repository.queryByBrandId(brandId);
+		Assert.isNull(brandId, "Brand id must not be null");
+
+		return repository.queryByBrandId(pageNumber, brandId);
 	}
 
-	public List<Product> getProductsByCategoryId(final Long categoryId) {
+	public Page<Product> getProductsByCategoryId(final int pageNumber,
+			final Long categoryId) {
 		logger.trace("QueryProductsByCategoryId service is started...");
-		if (categoryId == null) {
-			logger.error("cannot find category Id");
-			return null;
-		}
-		return repository.queryByCategoryId(categoryId);
+		Assert.isNull(categoryId, "Category id must not be null");
+
+		return repository.queryByCategoryId(pageNumber, categoryId);
 	}
 }
