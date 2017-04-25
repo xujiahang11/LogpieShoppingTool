@@ -115,40 +115,34 @@ public class SqlUtil {
 		if (!pageable.isPaged()) {
 			return queryAllSQL(c);
 		}
-		// select * from table where id in (select id from table order by id
-		// limit #offset#, #size#)
-		StringBuffer sql = new StringBuffer(queryAllSQL(c));
-		String id = TableUtil.getTableName(c) + "." + TableUtil.getId(c);
 
-		sql.append(" where " + id + " in ");
-		sql.append("(select " + id + " from " + TableUtil.getTableName(c));
+		StringBuffer sql = new StringBuffer(queryAllSQL(c));
+
+		// select * from table ... left join (select id from table
+		// order by id limit #offset#, #size#) v on id=v.id
+		String table = TableUtil.getTableName(c);
+		String id = TableUtil.getId(c);
+		String alias = "Inner" + TableUtil.getTableName(c);
+
+		sql.append(" left join (select " + id + " from " + table);
 		sql.append(" order by " + id + " limit " + pageable.getOffset() + ", "
-				+ pageable.getSize() + ")");
+				+ pageable.getSize() + ") " + alias);
+		sql.append(" on " + table + "." + id + " = " + alias + "." + id);
 
 		return sql.toString();
 	}
 
 	public static String queryBySQL(final Class<?> c, final Pageable pageable,
 			final Parameter... params) {
-		String query = queryAllSQL(c);
-		Assert.hasLength(query);
+		String sql = queryBySQL(c, pageable);
+		Assert.hasLength(sql);
 
-		StringBuffer sql = new StringBuffer(query);
-
-		for (Parameter param : params) {
-			sql.append(" and ");
-
-			String column = findColumn(c, param);
-			Assert.notNull(column, "Cannot find corresponding column");
-
-			sql.append(column + param.getOperator() + param.valueToString());
-		}
-		return sql.toString();
+		return sql + whereSQL(c, params);
 	}
 
 	public static String countSQL(final Class<?> c, final String key) {
 		String column = key == null || key.isEmpty() ? TableUtil.getId(c) : key;
-		String sql = "select count (" + column + ") from "
+		String sql = "select count(" + column + ") from "
 				+ TableUtil.getTableName(c);
 		return sql;
 	}

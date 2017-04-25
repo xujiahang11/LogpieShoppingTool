@@ -11,7 +11,7 @@ public class PageRequest implements Pageable {
 	}
 
 	public PageRequest(int number, int size, Sort sort) {
-		if (page < 1) {
+		if (number < 1) {
 			throw new IllegalArgumentException(
 					"Page index must not be less than one!");
 		}
