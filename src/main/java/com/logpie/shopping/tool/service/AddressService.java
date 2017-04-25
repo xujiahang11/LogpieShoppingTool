@@ -21,7 +21,7 @@ public class AddressService {
 
 	public Long createAddress(final Address addr) {
 		logger.trace("createAddress service is started...");
-		Assert.isNull(addr, "Address must not be null");
+		Assert.notNull(addr, "Address must not be null");
 
 		try {
 			return repository.insert(addr);
@@ -34,7 +34,7 @@ public class AddressService {
 
 	public void updateAddress(final Address addr) {
 		logger.trace("updateAddress service is started...");
-		Assert.isNull(addr, "Address must not be null");
+		Assert.notNull(addr, "Address must not be null");
 
 		try {
 			repository.update(addr);
@@ -46,7 +46,7 @@ public class AddressService {
 
 	public Address getAddressById(final Long id) {
 		logger.trace("QueryAddressById service is started...");
-		Assert.isNull(id, "Address id must not be null");
+		Assert.notNull(id, "Address id must not be null");
 
 		try {
 			return repository.queryOne(id);
@@ -60,7 +60,7 @@ public class AddressService {
 	public Page<Address> getAddressesByShopId(final int pageNumber,
 			final Long shopId) {
 		logger.trace("QueryAddressesByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		try {
 			return repository.queryByShopId(pageNumber, shopId);
@@ -74,7 +74,7 @@ public class AddressService {
 	public Page<Address> getAddressesByClientId(final int pageNumber,
 			final Long clientId) {
 		logger.trace("QueryAddressesByClientId service is started...");
-		Assert.isNull(clientId, "Client id must not be null");
+		Assert.notNull(clientId, "Client id must not be null");
 
 		try {
 			return repository.queryByClientId(pageNumber, clientId);

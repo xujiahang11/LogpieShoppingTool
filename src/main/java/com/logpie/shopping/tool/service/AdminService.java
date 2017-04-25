@@ -23,7 +23,7 @@ public class AdminService {
 
 	public Long createAdmin(final Admin admin) {
 		logger.trace("createAdmin service is started...");
-		Assert.isNull(admin, "Admin must not be null");
+		Assert.notNull(admin, "Admin must not be null");
 
 		try {
 			return repository.insert(admin);
@@ -36,7 +36,7 @@ public class AdminService {
 
 	public void updateAdmin(final Admin admin) {
 		logger.trace("updateAdmin service is started...");
-		Assert.isNull(admin, "Admin must not be null");
+		Assert.notNull(admin, "Admin must not be null");
 
 		repository.update(admin);
 	}
@@ -48,14 +48,14 @@ public class AdminService {
 
 	public Admin getAdminById(final Long id) {
 		logger.trace("QueryAdminById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
 	public Page<Admin> getAdminsByShopId(final int pageNumber, final Long shopId) {
 		logger.trace("QueryAdminsByShopId service is started...");
-		Assert.isNull(shopId, "Shop Id must not be null");
+		Assert.notNull(shopId, "Shop Id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}

@@ -14,7 +14,6 @@ import com.logpie.framework.db.basic.Model;
 import com.logpie.framework.db.basic.Pageable;
 import com.logpie.framework.db.basic.Parameter;
 import com.logpie.framework.db.basic.Sort;
-import com.logpie.framework.db.basic.Table;
 import com.logpie.framework.db.basic.WhereParam;
 
 public class SqlUtil {
@@ -24,7 +23,7 @@ public class SqlUtil {
 
 	public static String insertSQL(final Model model) {
 		String tableName = TableUtil.getTableName(model.getClass());
-		Assert.isNull(tableName, "cannot find the table");
+		Assert.notNull(tableName, "cannot find the table");
 
 		List<KVP> keyValuePairs = ModelUtil.getModelKVP(model, false);
 		Assert.notEmpty(keyValuePairs, "cannot get model map for INSERT");
@@ -56,7 +55,7 @@ public class SqlUtil {
 
 	public static String updateSQL(final Model model) {
 		String tableName = TableUtil.getTableName(model.getClass());
-		Assert.isNull(tableName, "cannot find the table");
+		Assert.notNull(tableName, "cannot find the table");
 
 		List<KVP> keyValuePairs = ModelUtil.getModelKVP(model, false);
 		Assert.notEmpty(keyValuePairs, "cannot get model map for UPDATE");
@@ -111,7 +110,7 @@ public class SqlUtil {
 	}
 
 	public static String queryBySQL(final Class<?> c, final Pageable pageable) {
-		Assert.isNull(pageable, "Pageable must not be null");
+		Assert.notNull(pageable, "Pageable must not be null");
 
 		if (!pageable.isPaged()) {
 			return queryAllSQL(c);
@@ -140,7 +139,7 @@ public class SqlUtil {
 			sql.append(" and ");
 
 			String column = findColumn(c, param);
-			Assert.isNull(column, "Cannot find corresponding column");
+			Assert.notNull(column, "Cannot find corresponding column");
 
 			sql.append(column + param.getOperator() + param.valueToString());
 		}
@@ -163,7 +162,7 @@ public class SqlUtil {
 	}
 
 	public static String orderBySQL(final Sort sort) {
-		Assert.isNull(sort, "Sort must not be null");
+		Assert.notNull(sort, "Sort must not be null");
 
 		StringBuffer sql = new StringBuffer();
 		sql.append(" order by ");
@@ -194,7 +193,7 @@ public class SqlUtil {
 
 			Parameter param = params[i];
 			String column = findColumn(c, param);
-			Assert.isNull(column, "Cannot find corresponding column");
+			Assert.notNull(column, "Cannot find corresponding column");
 
 			sql.append(column + param.getOperator() + param.valueToString());
 		}
@@ -235,19 +234,30 @@ public class SqlUtil {
 	}
 
 	private static String findColumn(final Class<?> c, final Parameter param) {
-		Table table = param.getTable();
+		Assert.notNull(param, "Parameter must not be null or empty");
+		String tableName = param.getTable().getName();
+		String tableAlias = param.getTable().getAlias();
+
 		List<String> columns = TableUtil.getAllColumnsWithAlias(c);
-
 		for (String column : columns) {
+			String columnUncased = column.toLowerCase();
 
-			String alias = column.split(".")[0];
-			String key = column.split(".")[1];
+			if (!column.contains(".")) {
+				if (columnUncased.equals(param.getKey().toLowerCase())) {
+					return column;
+				}
+				continue;
+			}
 
-			if (key.equals(param.getKey())) {
+			String alias = columnUncased.split("\\.")[0];
+			String key = columnUncased.split("\\.")[1];
 
-				if ((table.getAlias() == null || table.getAlias().isEmpty())
-						&& alias.endsWith(table.getName())
-						|| alias.equals(table.getAlias())) {
+			if (key.equals(param.getKey().toLowerCase())) {
+				logger.log(Level.INFO, columnUncased + " vs "
+						+ param.getKey().toLowerCase());
+				if (((tableAlias == null || tableAlias.isEmpty()) && alias
+						.endsWith(tableName.toLowerCase()))
+						|| alias.equals(tableAlias.toLowerCase())) {
 					return column;
 				}
 			}

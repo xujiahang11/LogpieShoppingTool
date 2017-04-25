@@ -21,7 +21,7 @@ public class CategoryService {
 
 	public Long createCategory(final Category category) {
 		logger.trace("createCategory service is started...");
-		Assert.isNull(category, "Category must not be null");
+		Assert.notNull(category, "Category must not be null");
 
 		try {
 			return repository.insert(category);
@@ -34,14 +34,14 @@ public class CategoryService {
 
 	public void updateCategory(final Category category) {
 		logger.trace("updateCategory service is started...");
-		Assert.isNull(category, "Category must not be null");
+		Assert.notNull(category, "Category must not be null");
 
 		repository.update(category);
 	}
 
 	public Category getCategoryById(final Long id) {
 		logger.trace("QueryCategoryById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
@@ -49,7 +49,7 @@ public class CategoryService {
 	public Page<Category> getCategoriesByShopId(final int pageNumber,
 			final Long shopId) {
 		logger.trace("QueryCategoriesByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}

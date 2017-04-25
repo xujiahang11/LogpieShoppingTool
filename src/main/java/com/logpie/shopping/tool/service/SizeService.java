@@ -21,7 +21,7 @@ public class SizeService {
 
 	public Long createSize(final Size size) {
 		logger.trace("createSize service is started...");
-		Assert.isNull(size, "Size must not be null");
+		Assert.notNull(size, "Size must not be null");
 
 		try {
 			return repository.insert(size);
@@ -34,21 +34,21 @@ public class SizeService {
 
 	public void updateSize(final Size size) {
 		logger.trace("updateSize service is started...");
-		Assert.isNull(size, "Size must not be null");
+		Assert.notNull(size, "Size must not be null");
 
 		repository.update(size);
 	}
 
 	public Size getSizeById(final Long id) {
 		logger.trace("QuerySizeById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
 	public List<Size> getSizesByShopId(final Long shopId) {
 		logger.trace("QuerySizesByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(shopId);
 	}

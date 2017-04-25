@@ -1,7 +1,5 @@
 package com.logpie.shopping.tool;
 
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import com.logpie.framework.log.util.LogColor;
 import com.logpie.framework.log.util.LogpieLogger;
@@ -58,25 +53,6 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 		RequestContextHolder.getRequestAttributes().setAttribute(
 				"requestStartTime", startTime, RequestAttributes.SCOPE_REQUEST);
 
-		Map<String, RequestMappingHandlerMapping> beans = appContext
-				.getBeansOfType(RequestMappingHandlerMapping.class);
-		for (RequestMappingHandlerMapping bean : beans.values()) {
-			Map<RequestMappingInfo, HandlerMethod> mapping = bean
-					.getHandlerMethods();
-			for (Entry<RequestMappingInfo, HandlerMethod> entry : mapping
-					.entrySet()) {
-
-			}
-		}
-
-		StringBuffer requestURL = request.getRequestURL();
-		if (request.getQueryString() != null) {
-			requestURL.append("?").append(request.getQueryString());
-		}
-		logger.debug("url: " + requestURL.toString());
-		HandlerMethod method = (HandlerMethod) handler;
-		logger.debug("method: " + method.getMethod().getName());
-
 		logger.trace("Interceptor is done with prehandle...");
 		return true;
 	}
@@ -93,7 +69,7 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 		logger.trace("Interceptor starts to posthandle...");
 
 		// TODO set up response id
-		String responseMsg = "Responses id --- ".toUpperCase();
+		// String responseMsg = "Responses id --- ".toUpperCase();
 		// logger.info(responseMsg + LogColor.setPurple("2416-9381-2093-9800"));
 
 		// calculate request execution time for matrix

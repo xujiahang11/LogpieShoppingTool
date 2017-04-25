@@ -20,6 +20,7 @@ import com.logpie.framework.db.basic.ForeignKey;
 
 public class TableUtil {
 
+	// TODO
 	/**
 	 * cache all columns with alias of tables
 	 */
@@ -30,7 +31,7 @@ public class TableUtil {
 
 	public static String getTableName(final Class<?> c) {
 		Entity table = getEntityAnnotation(c);
-		Assert.isNull(table, "cannot find any table");
+		Assert.notNull(table, "cannot find any table");
 
 		return table.name();
 	}

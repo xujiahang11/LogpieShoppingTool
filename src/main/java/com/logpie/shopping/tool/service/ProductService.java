@@ -29,7 +29,7 @@ public class ProductService {
 
 	public Long createProduct(final Product product) {
 		logger.trace("createProduct service is started...");
-		Assert.isNull(product, "Product must not be null");
+		Assert.notNull(product, "Product must not be null");
 
 		try {
 			return repository.insert(product);
@@ -42,14 +42,14 @@ public class ProductService {
 
 	public void updateProduct(final Product product) {
 		logger.trace("updateProduct service is started...");
-		Assert.isNull(product, "Product must not be null");
+		Assert.notNull(product, "Product must not be null");
 
 		repository.update(product);
 	}
 
 	public Product getProductById(final Long id) {
 		logger.trace("QueryProductById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
@@ -57,7 +57,7 @@ public class ProductService {
 	public Page<Product> getProductsByShopId(final int pageNumber,
 			final Long shopId) {
 		logger.trace("QueryProductsByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}
@@ -65,7 +65,7 @@ public class ProductService {
 	public Page<Product> getProductsByBrandId(final int pageNumber,
 			final Long brandId) {
 		logger.trace("QueryProductsByBrandId service is started...");
-		Assert.isNull(brandId, "Brand id must not be null");
+		Assert.notNull(brandId, "Brand id must not be null");
 
 		return repository.queryByBrandId(pageNumber, brandId);
 	}
@@ -73,7 +73,7 @@ public class ProductService {
 	public Page<Product> getProductsByCategoryId(final int pageNumber,
 			final Long categoryId) {
 		logger.trace("QueryProductsByCategoryId service is started...");
-		Assert.isNull(categoryId, "Category id must not be null");
+		Assert.notNull(categoryId, "Category id must not be null");
 
 		return repository.queryByCategoryId(pageNumber, categoryId);
 	}

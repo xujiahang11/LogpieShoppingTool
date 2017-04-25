@@ -22,7 +22,7 @@ public class ShopService {
 
 	public Long createShop(final Shop shop) {
 		logger.trace("createShop service is started...");
-		Assert.isNull(shop, "Shop must not be null");
+		Assert.notNull(shop, "Shop must not be null");
 
 		try {
 			return repository.insert(shop);
@@ -35,7 +35,7 @@ public class ShopService {
 
 	public void updateShop(final Shop shop) {
 		logger.trace("updateShop service is started...");
-		Assert.isNull(shop, "Shop must not be null");
+		Assert.notNull(shop, "Shop must not be null");
 
 		repository.update(shop);
 	}
@@ -47,7 +47,7 @@ public class ShopService {
 
 	public Shop getShopById(final Long id) {
 		logger.trace("QueryShopById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}

@@ -17,7 +17,7 @@ import com.logpie.shopping.tool.service.ClientService;
 import com.logpie.shopping.tool.service.ShopService;
 
 @Controller
-@RequestMapping("/{shopPath}/address#{page}")
+@RequestMapping("/{shopPath}/address/{page}")
 public class AddressController {
 
 	@Autowired
@@ -32,7 +32,7 @@ public class AddressController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAll(@PathVariable final String shopPath,
-			@PathVariable final int page, final Model model) {
+			@PathVariable final Integer page, final Model model) {
 		Long shopId = shopService.getShopByPath(shopPath).getId();
 		Page<Address> addresses = service.getAddressesByShopId(page, shopId);
 		model.addAttribute("addresses", addresses);
@@ -41,7 +41,7 @@ public class AddressController {
 
 	@RequestMapping(path = "/user_{clientId}", method = RequestMethod.GET)
 	public String getByUser(@PathVariable final Long clientId,
-			@PathVariable final int page, final Model model) {
+			@PathVariable final Integer page, final Model model) {
 		Page<Address> addresses = service
 				.getAddressesByClientId(page, clientId);
 		model.addAttribute("addresses", addresses);

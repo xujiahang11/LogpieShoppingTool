@@ -26,7 +26,7 @@ public class PackageService {
 
 	public Long createPackage(final Package pack) {
 		logger.trace("createPackage service is started...");
-		Assert.isNull(pack, "Package must not be null");
+		Assert.notNull(pack, "Package must not be null");
 
 		try {
 			return repository.insert(pack);
@@ -39,14 +39,14 @@ public class PackageService {
 
 	public void updatePackage(final Package pack) {
 		logger.trace("updatePackage service is started...");
-		Assert.isNull(pack, "Package must not be null");
+		Assert.notNull(pack, "Package must not be null");
 
 		repository.update(pack);
 	}
 
 	public Package getPackageById(final Long id) {
 		logger.trace("QueryPackageById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
@@ -54,7 +54,7 @@ public class PackageService {
 	public Page<Package> getPackagesByShopId(final int pageNumber,
 			final Long shopId) {
 		logger.trace("QueryPackagesByShopId service is started...");
-		Assert.isNull(shopId, "Shop Id must not be null");
+		Assert.notNull(shopId, "Shop Id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}
@@ -62,15 +62,15 @@ public class PackageService {
 	public Page<Package> getPackagesByClientId(final int pageNumber,
 			final Long clientId) {
 		logger.trace("QueryPackagesByClientId service is started...");
-		Assert.isNull(clientId, "Client Id must not be null");
+		Assert.notNull(clientId, "Client Id must not be null");
 
 		return repository.queryByClientId(pageNumber, clientId);
 	}
 
 	public Page<Package> getPackagesByStatus(final int pageNumber,
 			final Long shopId, final PackageStatus status) {
-		Assert.isNull(shopId, "Shop Id must not be null");
-		Assert.isNull(status, "Package status must not be null");
+		Assert.notNull(shopId, "Shop Id must not be null");
+		Assert.notNull(status, "Package status must not be null");
 
 		return repository.queryByStatus(pageNumber, shopId, status);
 	}

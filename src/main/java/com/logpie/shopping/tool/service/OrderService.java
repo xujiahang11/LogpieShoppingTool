@@ -32,7 +32,7 @@ public class OrderService {
 
 	public Long createOrder(final Order order) {
 		logger.trace("createOrder service is started...");
-		Assert.isNull(order, "Order must not be null");
+		Assert.notNull(order, "Order must not be null");
 
 		try {
 			return repository.insert(order);
@@ -45,21 +45,21 @@ public class OrderService {
 
 	public void updateOrder(final Order order) {
 		logger.trace("updateOrder service is started...");
-		Assert.isNull(order, "Order must not be null");
+		Assert.notNull(order, "Order must not be null");
 
 		repository.update(order);
 	}
 
 	public Order getOrderById(final Long id) {
 		logger.trace("getOrderById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
 	public Page<Order> getOrdersByShopId(final int pageNumber, final Long shopId) {
 		logger.trace("getOrdersByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}
@@ -67,7 +67,7 @@ public class OrderService {
 	public Page<Order> getOrdersByClientId(final int pageNumber,
 			final Long clientId) {
 		logger.trace("getOrdersByClientId service is started...");
-		Assert.isNull(clientId, "Client id must not be null");
+		Assert.notNull(clientId, "Client id must not be null");
 
 		return repository.queryByClientId(pageNumber, clientId);
 	}
@@ -75,15 +75,15 @@ public class OrderService {
 	public Page<Order> getOrdersByStatus(final int pageNumber,
 			final Long shopId, final OrderStatus status) {
 		logger.trace("getOrdersByStatus service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
-		Assert.isNull(status, "Order status must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
+		Assert.notNull(status, "Order status must not be null");
 
 		return repository.queryByStatus(pageNumber, shopId, status);
 	}
 
 	public Page<Order> getStockOrders(final int pageNumber, final Long shopId) {
 		logger.trace("getStockOrders service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByStock(pageNumber, shopId);
 	}

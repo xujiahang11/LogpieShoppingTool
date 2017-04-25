@@ -24,7 +24,7 @@ public class SubCategoryService {
 
 	public Long createSubCategory(final SubCategory subCategory) {
 		logger.trace("createSubCategory service is started...");
-		Assert.isNull(subCategory, "Subcategory must not be null");
+		Assert.notNull(subCategory, "Subcategory must not be null");
 
 		try {
 			return repository.insert(subCategory);
@@ -37,28 +37,28 @@ public class SubCategoryService {
 
 	public void updateSubCategory(final SubCategory subCategory) {
 		logger.trace("updateSubCategory service is started...");
-		Assert.isNull(subCategory, "Subcategory must not be null");
+		Assert.notNull(subCategory, "Subcategory must not be null");
 
 		repository.update(subCategory);
 	}
 
 	public SubCategory getSubCategoryById(final Long id) {
 		logger.trace("QuerySubCategoryById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
 	public List<SubCategory> getSubCategoriesByCategoryId(final Long categoryId) {
 		logger.trace("QuerySubCategoriesByCategoryId service is started...");
-		Assert.isNull(categoryId, "Category id must not be null");
+		Assert.notNull(categoryId, "Category id must not be null");
 
 		return repository.queryByCategoryId(categoryId);
 	}
 
 	public List<SubCategory> getSubCategoriesByShopId(final Long shopId) {
 		logger.trace("QuerySubCategoriesByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(shopId);
 	}

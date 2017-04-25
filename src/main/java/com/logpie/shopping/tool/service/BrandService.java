@@ -23,7 +23,7 @@ public class BrandService {
 
 	public Long createBrand(final Brand brand) {
 		logger.trace("createBrand service is started...");
-		Assert.isNull(brand, "Brand must not be null");
+		Assert.notNull(brand, "Brand must not be null");
 
 		try {
 			return repository.insert(brand);
@@ -36,21 +36,21 @@ public class BrandService {
 
 	public void updateBrand(final Brand brand) {
 		logger.trace("updateBrand service is started...");
-		Assert.isNull(brand, "Brand must not be null");
+		Assert.notNull(brand, "Brand must not be null");
 
 		repository.update(brand);
 	}
 
 	public Brand getBrandById(final Long id) {
 		logger.trace("QueryBrandById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
 	public Page<Brand> getBrandsByShopId(final int pageNumber, final Long shopId) {
 		logger.trace("QueryBrandsByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}

@@ -89,7 +89,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 
 	@Override
 	public Page<T> queryAll(Pageable pageable) {
-		Assert.isNull(pageable, "Paging information must not be null");
+		Assert.notNull(pageable, "Paging information must not be null");
 
 		String sql = SqlUtil.queryBySQL(c, pageable);
 		List<T> contents = jdbcTemplate.query(sql, this);
@@ -108,8 +108,8 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 
 	@Override
 	public Page<T> queryBy(Pageable pageable, Parameter... params) {
-		Assert.isNull(pageable, "Paging information must not be null");
-		Assert.isNull(params, "Parameter must not be null");
+		Assert.notNull(pageable, "Paging information must not be null");
+		Assert.notNull(params, "Parameter must not be null");
 
 		String sql = SqlUtil.queryBySQL(c, pageable, params);
 		List<T> contents = jdbcTemplate.query(sql, this);

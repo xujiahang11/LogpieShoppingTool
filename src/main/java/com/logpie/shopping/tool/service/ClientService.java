@@ -21,7 +21,7 @@ public class ClientService {
 
 	public Long createClient(final Client client) {
 		logger.trace("createClient service is started...");
-		Assert.isNull(client, "Client must not be null");
+		Assert.notNull(client, "Client must not be null");
 
 		try {
 			return repository.insert(client);
@@ -34,14 +34,14 @@ public class ClientService {
 
 	public void updateClient(final Client client) {
 		logger.trace("updateClient service is started...");
-		Assert.isNull(client, "Client must not be null");
+		Assert.notNull(client, "Client must not be null");
 
 		repository.update(client);
 	}
 
 	public Client getClientById(final Long id) {
 		logger.trace("QueryClientById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
@@ -49,7 +49,7 @@ public class ClientService {
 	public Page<Client> getClientsByShopId(final int pageNumber,
 			final Long shopId) {
 		logger.trace("QueryClientsByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}

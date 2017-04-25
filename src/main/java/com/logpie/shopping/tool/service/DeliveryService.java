@@ -20,7 +20,7 @@ public class DeliveryService {
 
 	public Long createDelivery(final Delivery delivery) {
 		logger.trace("createDelivery service is started...");
-		Assert.isNull(delivery, "Delivery must not be null");
+		Assert.notNull(delivery, "Delivery must not be null");
 
 		try {
 			return repository.insert(delivery);
@@ -33,14 +33,14 @@ public class DeliveryService {
 
 	public void updateDelivery(final Delivery delivery) {
 		logger.trace("updateDelivery service is started...");
-		Assert.isNull(delivery, "Delivery must not be null");
+		Assert.notNull(delivery, "Delivery must not be null");
 
 		repository.update(delivery);
 	}
 
 	public Delivery getDeliveryById(final Long id) {
 		logger.trace("QueryDeliveryById service is started...");
-		Assert.isNull(id, "Id must not be null");
+		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
@@ -48,7 +48,7 @@ public class DeliveryService {
 	public Page<Delivery> getDeliverysByShopId(final int pageNumber,
 			final Long shopId) {
 		logger.trace("QueryDeliverysByShopId service is started...");
-		Assert.isNull(shopId, "Shop id must not be null");
+		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
 	}

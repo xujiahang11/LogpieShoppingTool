@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -54,16 +53,22 @@ public class HomePageController {
 
 	}
 
-	@RequestMapping(path = "/greeting/{name}", method = RequestMethod.GET)
-	public String greeting(@PathVariable("name") String name, Model model)
-			throws InterruptedException {
+	@RequestMapping(path = "/testing/shop", method = RequestMethod.GET)
+	public String test(final Model model) {
 		logger.trace("Request started...");
 
-		Shop shop_2 = shopService.getShopByPath("logpie");
-		logger.debug("get shop - " + shop_2.getPath());
+		Shop ashop = shopService.getShopById(4L);
+		logger.debug("get shop - " + shopService.getShopById(4L).getPath());
 
-		model.addAttribute("name", "world");
+		ashop.setName("update_shop_0424");
+		shopService.updateShop(ashop);
+
+		Shop shop = shopService.getShopByPath("logpie");
+		logger.debug("get shop id- " + shop.getId());
+
 		logger.trace("Request done...");
+
+		model.addAttribute("name", shop.getName());
 		return "greeting";
 	}
 }
