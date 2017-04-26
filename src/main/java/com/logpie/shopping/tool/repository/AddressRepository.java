@@ -20,7 +20,7 @@ import com.logpie.shopping.tool.model.Shop;
 @Repository
 public class AddressRepository extends JDBCTemplateRepository<Address> {
 
-	public static final Integer PAGE_SIZE = 20;
+	public static final Integer PAGE_SIZE = 10;
 
 	public static final String DB_TABLE_ADDRESS = "Address";
 

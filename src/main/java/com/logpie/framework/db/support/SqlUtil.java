@@ -106,10 +106,11 @@ public class SqlUtil {
 		String sql = queryAllSQL(c);
 		Assert.hasLength(sql);
 
-		return sql + whereSQL(c, params);
+		return params.length == 0 ? sql : sql + whereSQL(c, params);
 	}
 
-	public static String queryBySQL(final Class<?> c, final Pageable pageable) {
+	public static String queryBySQL(final Class<?> c, final Pageable pageable,
+			final Parameter... params) {
 		Assert.notNull(pageable, "Pageable must not be null");
 
 		if (!pageable.isPaged()) {
@@ -118,13 +119,16 @@ public class SqlUtil {
 
 		StringBuffer sql = new StringBuffer(queryAllSQL(c));
 
-		// select * from table ... left join (select id from table
-		// order by id limit #offset#, #size#) v on id=v.id
+		// select * from table ... join (select id from table
+		// where ... order by id limit #offset#, #size#) v on id=v.id
 		String table = TableUtil.getTableName(c);
 		String id = TableUtil.getId(c);
 		String alias = "Inner" + TableUtil.getTableName(c);
 
-		sql.append(" left join (select " + id + " from " + table);
+		sql.append(" join (select " + id + " from " + table);
+		if (params.length > 0) {
+			sql.append(whereSQL(c, params));
+		}
 		sql.append(" order by " + id + " limit " + pageable.getOffset() + ", "
 				+ pageable.getSize() + ") " + alias);
 		sql.append(" on " + table + "." + id + " = " + alias + "." + id);
@@ -132,27 +136,13 @@ public class SqlUtil {
 		return sql.toString();
 	}
 
-	public static String queryBySQL(final Class<?> c, final Pageable pageable,
+	public static String countSQL(final Class<?> c, final String key,
 			final Parameter... params) {
-		String sql = queryBySQL(c, pageable);
-		Assert.hasLength(sql);
-
-		return sql + whereSQL(c, params);
-	}
-
-	public static String countSQL(final Class<?> c, final String key) {
 		String column = key == null || key.isEmpty() ? TableUtil.getId(c) : key;
 		String sql = "select count(" + column + ") from "
 				+ TableUtil.getTableName(c);
-		return sql;
-	}
 
-	public static String countSQL(final Class<?> c, final String key,
-			final Parameter... params) {
-		String sql = countSQL(c, key);
-		Assert.hasLength(sql);
-
-		return sql + whereSQL(c, params);
+		return params.length == 0 ? sql : sql + whereSQL(c, params);
 	}
 
 	public static String orderBySQL(final Sort sort) {
