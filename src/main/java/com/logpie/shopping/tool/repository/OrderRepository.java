@@ -112,9 +112,9 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 
 	public Page<Order> queryByStatus(final int pageNumber, final Long shopId,
 			final OrderStatus status) throws DataAccessException {
-		Parameter param_shop = new WhereParam(Package.class,
+		Parameter param_shop = new WhereParam(Order.class,
 				DB_KEY_ORDER_SHOP_ID, shopId);
-		Parameter param_status = new WhereParam(Package.class,
+		Parameter param_status = new WhereParam(Order.class,
 				DB_KEY_ORDER_STATUS, status.toString());
 		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
 
@@ -123,9 +123,9 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 
 	public Page<Order> queryByStock(final int pageNumber, final Long shopId)
 			throws DataAccessException {
-		Parameter param_shop = new WhereParam(Package.class,
+		Parameter param_shop = new WhereParam(Order.class,
 				DB_KEY_ORDER_SHOP_ID, shopId);
-		Parameter param_stock = new WhereParam(Package.class,
+		Parameter param_stock = new WhereParam(Order.class,
 				DB_KEY_ORDER_IS_STOCK, true);
 		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
 

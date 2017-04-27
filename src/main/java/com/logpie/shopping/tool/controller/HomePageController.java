@@ -14,6 +14,8 @@ import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Client;
+import com.logpie.shopping.tool.model.Order;
+import com.logpie.shopping.tool.model.Order.OrderStatus;
 import com.logpie.shopping.tool.model.Package;
 import com.logpie.shopping.tool.model.Package.PackageStatus;
 import com.logpie.shopping.tool.model.Product;
@@ -199,6 +201,33 @@ public class HomePageController {
 				PackageStatus.TO_BE_SHIPPED);
 		for (Package p : page3) {
 			logger.debug("To be shipped - pack id: " + p.getId());
+		}
+		logger.trace("Request done...");
+
+		model.addAttribute("name", "world");
+		return "greeting";
+	}
+
+	@RequestMapping(path = "/testing/order", method = RequestMethod.GET)
+	public String testOrder(final Model model) {
+		logger.trace("Request started...");
+
+		Shop shop = shopService.getShopById(1L);
+		logger.debug("get shop - " + shop.getPath());
+
+		Order order = orderService.getOrderById(1L);
+		order.setCost(278f);
+		orderService.updateOrder(order);
+
+		Page<Order> page = orderService.getOrdersByClientId(1, 5L);
+		for (Order o : page) {
+			logger.debug("No.1 - order id: " + o.getId());
+		}
+
+		Page<Order> page3 = orderService.getOrdersByStatus(1, 1L,
+				OrderStatus.TO_BE_SHIPPED);
+		for (Order o : page3) {
+			logger.debug("To be shipped - order id: " + o.getId());
 		}
 		logger.trace("Request done...");
 
