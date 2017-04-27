@@ -14,11 +14,13 @@ import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Client;
+import com.logpie.shopping.tool.model.Product;
 import com.logpie.shopping.tool.model.Shop;
 import com.logpie.shopping.tool.service.AddressService;
 import com.logpie.shopping.tool.service.AdminService;
 import com.logpie.shopping.tool.service.BrandService;
 import com.logpie.shopping.tool.service.ClientService;
+import com.logpie.shopping.tool.service.ColorService;
 import com.logpie.shopping.tool.service.OrderService;
 import com.logpie.shopping.tool.service.PackageService;
 import com.logpie.shopping.tool.service.ProductService;
@@ -34,6 +36,8 @@ public class HomePageController {
 	private AddressService addressService;
 	@Autowired
 	private ClientService clientService;
+	@Autowired
+	private ColorService colorService;
 	@Autowired
 	private PackageService packageService;
 	@Autowired
@@ -125,6 +129,35 @@ public class HomePageController {
 		Page<Address> page3 = addressService.getAddressesByClientId(1, 1L);
 		for (Address a : page3) {
 			logger.debug("addr id: " + a.getId());
+		}
+		logger.trace("Request done...");
+
+		model.addAttribute("name", "world");
+		return "greeting";
+	}
+
+	@RequestMapping(path = "/testing/product", method = RequestMethod.GET)
+	public String testProduct(final Model model) {
+		logger.trace("Request started...");
+
+		Shop shop = shopService.getShopById(1L);
+		logger.debug("get shop - " + shop.getPath());
+
+		// Product product = productService.getProductById(3L);
+		// productService.updateProduct(product);
+
+		Page<Product> page = productService.getProductsByShopId(1, 1L);
+		Page<Product> page2 = productService.getProductsByShopId(2, 2L);
+		for (Product p : page) {
+			logger.debug("No.1 - pro id: " + p.getId());
+		}
+		for (Product p : page2) {
+			logger.debug("No.2 - pro id: " + p.getId());
+		}
+
+		Page<Product> page3 = productService.getProductsByBrandId(1, 1L);
+		for (Product p : page3) {
+			logger.debug("Brand - pro id: " + p.getId());
 		}
 		logger.trace("Request done...");
 

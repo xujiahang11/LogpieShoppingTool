@@ -69,12 +69,4 @@ public class ProductService {
 
 		return repository.queryByBrandId(pageNumber, brandId);
 	}
-
-	public Page<Product> getProductsByCategoryId(final int pageNumber,
-			final Long categoryId) {
-		logger.trace("QueryProductsByCategoryId service is started...");
-		Assert.notNull(categoryId, "Category id must not be null");
-
-		return repository.queryByCategoryId(pageNumber, categoryId);
-	}
 }

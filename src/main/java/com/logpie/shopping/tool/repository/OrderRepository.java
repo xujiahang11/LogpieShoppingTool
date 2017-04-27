@@ -135,6 +135,10 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 	@Override
 	public Order mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		Long id = rs.getLong(DB_KEY_ORDER_ID);
 		Timestamp date = rs.getTimestamp(DB_KEY_ORDER_DATE);
 		Product product = productRepository.mapRow(rs, rowNum);

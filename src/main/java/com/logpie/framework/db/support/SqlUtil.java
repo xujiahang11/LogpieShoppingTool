@@ -119,13 +119,21 @@ public class SqlUtil {
 
 		StringBuffer sql = new StringBuffer(queryAllSQL(c));
 
-		// select * from table ... join (select id from table
-		// where ... order by id limit #offset#, #size#) v on id=v.id
+		/**
+		 * 分页SQL语句
+		 * 
+		 * select * from table ... join (select #id# from table where ... order
+		 * by #id# limit #offset#, #size#) alias on #id# = alias.#id#
+		 */
 		String table = TableUtil.getTableName(c);
 		String id = TableUtil.getId(c);
 		String alias = "Inner" + TableUtil.getTableName(c);
 
 		sql.append(" join (select " + id + " from " + table);
+		/**
+		 * 这里的where查询语句是关于分页中的where条件，目前只能查询关于主表中columns的相关条件，
+		 * 不支持查询主表中其他子表的columns条件
+		 */
 		if (params.length > 0) {
 			sql.append(whereSQL(c, params));
 		}
@@ -237,11 +245,10 @@ public class SqlUtil {
 			String key = columnUncased.split("\\.")[1];
 
 			if (key.equals(param.getKey().toLowerCase())) {
-				logger.log(Level.INFO, columnUncased + " vs "
-						+ param.getKey().toLowerCase());
 				if (((tableAlias == null || tableAlias.isEmpty()) && alias
 						.endsWith(tableName.toLowerCase()))
-						|| alias.equals(tableAlias.toLowerCase())) {
+						|| (tableAlias != null && alias.equals(tableAlias
+								.toLowerCase()))) {
 					return column;
 				}
 			}

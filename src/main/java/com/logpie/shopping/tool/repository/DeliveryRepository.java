@@ -50,6 +50,7 @@ public class DeliveryRepository extends JDBCTemplateRepository<Delivery> {
 		if (rs == null) {
 			return null;
 		}
+
 		Long id = rs.getLong(DB_KEY_DELIVERY_ID);
 		String name = rs.getString(DB_KEY_DELIVERY_NAME);
 		Boolean isInternational = rs

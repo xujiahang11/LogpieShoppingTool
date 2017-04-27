@@ -54,6 +54,10 @@ public class ClientRepository extends JDBCTemplateRepository<Client> {
 	@Override
 	public Client mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		Long id = rs.getLong(DB_KEY_CLIENT_ID);
 		String wechatDirectedId = rs
 				.getString(DB_KEY_CLIENT_WECHAT_DIRECTED_ID);

@@ -77,20 +77,13 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 		return super.queryBy(request, param);
 	}
 
-	@SuppressWarnings("static-access")
-	public Page<Product> queryByCategoryId(final int pageNumber,
-			final Long categoryId) throws DataAccessException {
-		Parameter param = new WhereParam(Product.class,
-				subcategoryRepository.DB_KEY_SUBCATEGORY_CATEGORY_ID,
-				categoryId);
-		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
-
-		return super.queryBy(request, param);
-	}
-
 	@Override
 	public Product mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		Long id = rs.getLong(DB_KEY_PRODUCT_ID);
 		String name = rs.getString(DB_KEY_PRODUCT_NAME);
 		Integer weight = rs.getInt(DB_KEY_PRODUCT_WEIGHT);

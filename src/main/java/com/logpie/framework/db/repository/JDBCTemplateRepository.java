@@ -73,8 +73,8 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 		if (sql == null) {
 			return null;
 		}
-		Parameter cond = new WhereParam(c, TableUtil.getId(c), primaryKey);
-		sql += SqlUtil.whereSQL(c, cond);
+		Parameter param = new WhereParam(c, TableUtil.getId(c), primaryKey);
+		sql += SqlUtil.whereSQL(c, param);
 		return jdbcTemplate.queryForObject(sql, this);
 	}
 

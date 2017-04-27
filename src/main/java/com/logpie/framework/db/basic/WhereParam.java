@@ -14,6 +14,16 @@ public class WhereParam implements Parameter {
 		this(c, key, DEFAULT_OPERATOR, value);
 	}
 
+	/**
+	 * 
+	 * @param c
+	 *            the table which the foreign key belongs to
+	 * @param key
+	 *            the foreign key's name
+	 * @param operator
+	 * @param value
+	 *            the foreign key's value
+	 */
 	public WhereParam(Class<?> c, String key, String operator, Object value) {
 		this.key = key;
 		this.operator = operator;

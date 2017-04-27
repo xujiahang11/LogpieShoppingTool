@@ -54,6 +54,7 @@ public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
 		if (rs == null) {
 			return null;
 		}
+
 		Long id = rs.getLong(DB_KEY_SUBCATEGORY_ID);
 		String name = rs.getString(DB_KEY_SUBCATEGORY_NAME);
 		Category category = categoryRepository.mapRow(rs, rowNum);

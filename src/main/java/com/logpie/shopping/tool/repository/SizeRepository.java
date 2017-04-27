@@ -40,6 +40,10 @@ public class SizeRepository extends JDBCTemplateRepository<Size> {
 	@Override
 	public Size mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		Long id = rs.getLong(DB_KEY_SIZE_ID);
 		String name = rs.getString(DB_KEY_SIZE_NAME);
 		Shop shop = shopRepository.mapRow(rs, rowNum);

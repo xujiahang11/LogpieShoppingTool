@@ -49,6 +49,10 @@ public class AdminRepository extends JDBCTemplateRepository<Admin> {
 	@Override
 	public Admin mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
+		if (rs == null) {
+			return null;
+		}
+
 		Long adminId = rs.getLong(DB_KEY_ADMIN_ID);
 		String adminName = rs.getString(DB_KEY_ADMIN_NAME);
 		String adminPhone = rs.getString(DB_KEY_ADMIN_PHONE);
