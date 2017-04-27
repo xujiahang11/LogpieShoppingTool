@@ -49,10 +49,10 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 
 	@Override
 	public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_SHOP_ID);
+		if (id == 0) {
 			return null;
 		}
-		Long shopId = rs.getLong(DB_KEY_SHOP_ID);
 		String shopName = rs.getString(DB_KEY_SHOP_NAME);
 		String shopSmallLogo = rs.getString(DB_KEY_SHOP_SMALL_LOGO);
 		String shopLargeLogo = rs.getString(DB_KEY_SHOP_LARGE_LOGO);
@@ -60,8 +60,8 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 		String shopPath = rs.getString(DB_KEY_SHOP_PATH);
 		Integer shopExp = rs.getInt(DB_KEY_SHOP_EXP);
 
-		return new Shop(shopId, shopName, shopSmallLogo, shopLargeLogo,
-				shopDate, shopPath, shopExp);
+		return new Shop(id, shopName, shopSmallLogo, shopLargeLogo, shopDate,
+				shopPath, shopExp);
 	}
 
 }

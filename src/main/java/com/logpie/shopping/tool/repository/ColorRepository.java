@@ -41,11 +41,10 @@ public class ColorRepository extends JDBCTemplateRepository<Color> {
 	@Override
 	public Color mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_COLOR_ID);
+		if (id == 0) {
 			return null;
 		}
-
-		Long id = rs.getLong(DB_KEY_COLOR_ID);
 		String name = rs.getString(DB_KEY_COLOR_NAME);
 		Shop shop = shopRepository.mapRow(rs, rowNum);
 		return new Color(id, name, shop);

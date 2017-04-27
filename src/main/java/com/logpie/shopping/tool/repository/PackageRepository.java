@@ -110,10 +110,10 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 	@Override
 	public Package mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_PACKAGE_ID);
+		if (id == 0) {
 			return null;
 		}
-		Long id = rs.getLong(DB_KEY_PACKAGE_ID);
 		Delivery intDelivery = deliveryRepository.mapRow(rs, rowNum);
 		String intTracking = rs.getString(DB_KEY_PACKAGE_INT_TRACKING_NUMBER);
 		Delivery domDelivery = deliveryRepository.mapRow(rs, rowNum);

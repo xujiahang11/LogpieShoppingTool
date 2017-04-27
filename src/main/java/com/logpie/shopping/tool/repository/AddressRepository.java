@@ -62,10 +62,10 @@ public class AddressRepository extends JDBCTemplateRepository<Address> {
 	@Override
 	public Address mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_ADDRESS_ID);
+		if (id == 0) {
 			return null;
 		}
-		Long id = rs.getLong(DB_KEY_ADDRESS_ID);
 		String address = rs.getString(DB_KEY_ADDRESS);
 		String recipentName = rs.getString(DB_KEY_ADDRESS_RECIPENT_NAME);
 		String recipentPhone = rs.getString(DB_KEY_ADDRESS_RECIPENT_PHONE);

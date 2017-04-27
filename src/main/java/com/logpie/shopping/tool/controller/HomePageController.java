@@ -14,6 +14,8 @@ import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Client;
+import com.logpie.shopping.tool.model.Package;
+import com.logpie.shopping.tool.model.Package.PackageStatus;
 import com.logpie.shopping.tool.model.Product;
 import com.logpie.shopping.tool.model.Shop;
 import com.logpie.shopping.tool.service.AddressService;
@@ -158,6 +160,45 @@ public class HomePageController {
 		Page<Product> page3 = productService.getProductsByBrandId(1, 1L);
 		for (Product p : page3) {
 			logger.debug("Brand - pro id: " + p.getId());
+		}
+		logger.trace("Request done...");
+
+		model.addAttribute("name", "world");
+		return "greeting";
+	}
+
+	@RequestMapping(path = "/testing/package", method = RequestMethod.GET)
+	public String testPackage(final Model model) {
+		logger.trace("Request started...");
+
+		Shop shop = shopService.getShopById(1L);
+		logger.debug("get shop - " + shop.getPath());
+
+		Package pack = new Package(null, null, null, null, null, null,
+				"test_name_0426", "test_addr_0426", null, null, null, null,
+				null, null, PackageStatus.INT_SHIPPING, null, shop);
+		Long id = packageService.createPackage(pack);
+
+		pack = packageService.getPackageById(id);
+		if (pack.getClient() == null) {
+			logger.debug("client is null");
+		}
+		pack.setShippingFee(165f);
+		packageService.updatePackage(pack);
+
+		Page<Package> page = packageService.getPackagesByShopId(1, 1L);
+		Page<Package> page2 = packageService.getPackagesByShopId(2, 1L);
+		for (Package p : page) {
+			logger.debug("No.1 - pack id: " + p.getId());
+		}
+		for (Package p : page2) {
+			logger.debug("No.2 - pack id: " + p.getId());
+		}
+
+		Page<Package> page3 = packageService.getPackagesByStatus(1, 1L,
+				PackageStatus.TO_BE_SHIPPED);
+		for (Package p : page3) {
+			logger.debug("To be shipped - pack id: " + p.getId());
 		}
 		logger.trace("Request done...");
 

@@ -49,18 +49,17 @@ public class AdminRepository extends JDBCTemplateRepository<Admin> {
 	@Override
 	public Admin mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_ADMIN_ID);
+		if (id == 0) {
 			return null;
 		}
-
-		Long adminId = rs.getLong(DB_KEY_ADMIN_ID);
 		String adminName = rs.getString(DB_KEY_ADMIN_NAME);
 		String adminPhone = rs.getString(DB_KEY_ADMIN_PHONE);
 		String adminWechat = rs.getString(DB_KEY_ADMIN_WECHAT);
 		Float adminProfitPercentage = rs
 				.getFloat(DB_KEY_ADMIN_PROFIT_PERCENTAGE);
 		Shop adminShop = shopRepository.mapRow(rs, rowNum);
-		return new Admin(adminId, adminName, adminPhone, adminWechat,
+		return new Admin(id, adminName, adminPhone, adminWechat,
 				adminProfitPercentage, adminShop);
 	}
 

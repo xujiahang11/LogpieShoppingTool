@@ -46,11 +46,10 @@ public class BrandRepository extends JDBCTemplateRepository<Brand> {
 	@Override
 	public Brand mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_BRAND_ID);
+		if (id == 0) {
 			return null;
 		}
-
-		Long id = rs.getLong(DB_KEY_BRAND_ID);
 		String name = rs.getString(DB_KEY_BRAND_NAME);
 		Shop shop = shopRepository.mapRow(rs, rowNum);
 		return new Brand(id, name, shop);

@@ -179,7 +179,7 @@ public class SqlUtil {
 
 		for (int i = 0; i < params.length; i++) {
 
-			if (i > 0 && i < params.length - 1) {
+			if (i > 0) {
 				sql.append(" and ");
 			}
 

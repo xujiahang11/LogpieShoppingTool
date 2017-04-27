@@ -80,11 +80,10 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 	@Override
 	public Product mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_PRODUCT_ID);
+		if (id == 0) {
 			return null;
 		}
-
-		Long id = rs.getLong(DB_KEY_PRODUCT_ID);
 		String name = rs.getString(DB_KEY_PRODUCT_NAME);
 		Integer weight = rs.getInt(DB_KEY_PRODUCT_WEIGHT);
 		Timestamp date = rs.getTimestamp(DB_KEY_PRODUCT_POST_DATE);

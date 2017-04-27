@@ -46,11 +46,10 @@ public class CategoryRepository extends JDBCTemplateRepository<Category> {
 	@Override
 	public Category mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		if (rs == null) {
+		Long id = rs.getLong(DB_KEY_CATEGORY_ID);
+		if (id == 0) {
 			return null;
 		}
-
-		Long id = rs.getLong(DB_KEY_CATEGORY_ID);
 		String name = rs.getString(DB_KEY_CATEGORY_NAME);
 		Shop shop = shopRepository.mapRow(rs, rowNum);
 		return new Category(id, name, shop);
