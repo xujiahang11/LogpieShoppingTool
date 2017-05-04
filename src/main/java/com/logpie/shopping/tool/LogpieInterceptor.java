@@ -21,8 +21,6 @@ import com.logpie.framework.log.util.LogpieLoggerFactory;
 public class LogpieInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	private ApplicationContext appContext;
-	@Autowired
-	private LogpieHandlerMapping logpieMapping;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(LogpieInterceptor.class);

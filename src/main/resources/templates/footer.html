@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div th:fragment="page(index,total)" class="page-control font-small bg-white">
+			<img th:src="(${index} == 1)? @{/img/first_page_disabled.svg} : @{/img/first_page.svg}"/>
+			<img th:src="(${index} == 1)? @{/img/previous_disabled.svg} : @{/img/previous.svg}"/>
+			<input type="number" name="page_number" min="1" th:value="${index}"/>
+			<span th:text="'of &nbsp;'+${total}"></span>
+			<img th:src="(${index} == ${total})? @{/img/next_disabled.svg} : @{/img/next.svg}"/>
+			<img th:src="(${index} == ${total})? @{/img/last_page_disabled.svg} : @{/img/last_page.svg}" style="margin-right: 10px;"/>
+		</div>
+	</body>
+</html>

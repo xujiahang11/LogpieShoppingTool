@@ -48,25 +48,12 @@ public class AddressController {
 		return "addresses";
 	}
 
-	@RequestMapping(path = "/user_{clientId}/add", method = RequestMethod.GET)
-	public String add(final Model model) {
-		model.addAttribute("addr", new Address());
-		return "form_address";
-	}
-
 	@RequestMapping(path = "/user_{clientId}/add", method = RequestMethod.POST)
 	public String add(@PathVariable final Long clientId,
 			@ModelAttribute("addr") final Address addr) {
 		addr.setClient(clientService.getClientById(clientId));
 		service.createAddress(addr);
 		return "redirect:/user_{clientId}";
-	}
-
-	@RequestMapping(path = "/user_{clientId}/{addressId}", method = RequestMethod.GET)
-	public String edit(@PathVariable final Long addressId, final Model model) {
-		Address addr = service.getAddressById(addressId);
-		model.addAttribute("addr", addr);
-		return "form_address";
 	}
 
 	@RequestMapping(path = "/user_{clientId}/{addressId}", method = RequestMethod.POST)

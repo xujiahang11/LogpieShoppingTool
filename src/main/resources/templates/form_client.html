@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body class="logpie-font-family font-median bg-light-grey">
+		<div th:fragment="create-client(new_client)" id="popup-create-client" class="popup-div bg-white">
+			<div class="popup-tab border-bottom" style="width: 530px;">
+				<a href="">创建订单</a><a href="">创建包裹</a><a href="">创建商品</a><a class="selected">创建用户</a><img id="close-create-client" th:src="@{/img/close.svg}" class="pointer" width="18" height="18" style="margin-left: 190px;"/>
+				<div class="selected-bar bg-blue" style="width: 56px; margin-left: 76px;"></div>
+			</div>
+			<div class="popup-form">
+				<form name="create-form" method="post" th:object="${new_client}">
+					<fieldset>
+						<table class="no-border text-left" style="width: 510px;">
+							<tr>
+								<td>真实姓名<span class="required">*</span></td>
+								<td style="width: 160px;"><input type="text" name="client_name" th:field="*{name}" class="medium-input"/></td>
+								<td>微信名<span class="required">*</span></td>
+								<td style="width: 160px;"><input type="text" name="wechat_name" th:field="*{wechatName}" class="medium-input"/></td>
+							</tr>
+							<tr>
+								<td>淘宝名</td>
+								<td style="width: 160px;"><input type="text" name="taobao_id" th:field="*{taobaoName}" class="medium-input"/></td>
+								<td>微信号</td>
+								<td style="width: 160px;"><input type="text" name="wechat_id" th:field="*{wechatId}" class="medium-input"/></td>
+							</tr>
+							<tr>
+								<td>常用地址<span class="required">*</span></td>
+								<td colspan="3"><input type="text" name="address" style="width: 93%; padding: 0px; padding-left: 6px;"/></td>
+							</tr>
+							<tr>
+								<td>手机号</td>
+								<td style="width: 160px;"><input type="text" name="phone" th:field="*{phone}" class="medium-input"/></td>
+								<td>备注</td>
+								<td style="width: 160px;"><input type="text" name="comment" th:field="*{note}" class="medium-input"/></td>
+							</tr>
+						</table>
+						<div class="btn confirm-btn bg-green" style="width: 510px;" onclick="document.forms['create-form'].submit();">确定</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

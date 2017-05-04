@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title th:text="${shop.name}"></title>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/config.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/reset.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/header.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/aside.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/form.css}"/>
+	</head>
+	<body class="logpie-font-family font-median bg-light-grey">
+		<div th:replace="header::title(${shop.name},'')"></div>
+		<div th:replace="aside::nav(3)"></div>
+		<div class="main">
+			<div id="main-tab" class="main-tab light-grey border bg-white">
+				<span class="blue">用户列表</span><span>用户分析</span>
+				<div id="btn-create-client" class="btn create-btn font-small white bg-blue">创建用户</div>
+				<div id="selected-bar" class="selected-bar bg-blue" style="width: 56px;"></div>
+			</div>
+			<div class="table-content border-left border-right bg-white" style="overflow-y: auto;">
+				<table class="font-small text-center" >
+					<tr class="border-bottom light-grey bg-light-grey">
+						<th>用户编号</th>
+						<th>用户姓名</th>
+						<th style="width: 150px;">微信名</th>
+						<th>微信号</th>
+						<th>淘宝号</th>
+						<th>常用地址</th>
+						<th>手机号</th>
+						<th style="width: 140px;">备注</th>
+						<th style="width: 70px;">操作</th>
+					</tr>
+					<tr class="border-bottom" th:each="c:${clients}" th:unless="${#lists.isEmpty(clients)}">
+						<td class="border-right" th:text="${c.id}"></td>
+						<td th:text="${c.name}"></td>
+						<td th:text="${c.wechatName}"></td>
+						<td th:text="${c.wechatId}"></td>
+						<td th:text="${c.taobaoName}"></td>
+						<td>？？？？</td>
+						<td th:text="${c.phone}"></td>
+						<td class="border-right" th:text="${c.note}" style="padding-left: 5px; padding-right: 5px;"></td>
+						<td><div class="btn action-btn font-small white bg-grey">修改</div></td>
+					</tr>
+				</table>
+			</div>
+			<div th:replace="footer::page(2,2)"></div>
+		</div>
+		<div th:replace="form_client::#popup-create-client(${new_client})"></div>
+		<div id="mask"></div>
+		<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
+		<script th:src="@{/js/global.js}" type="text/javascript"></script>
+		<script th:src="@{/js/client.js}" type="text/javascript"></script>
+	</body>
+</html>
