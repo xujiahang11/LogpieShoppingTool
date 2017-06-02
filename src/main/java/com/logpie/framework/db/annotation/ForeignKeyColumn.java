@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ForeignEntity {
+public @interface ForeignKeyColumn {
 
 	/**
 	 *
@@ -27,12 +27,12 @@ public @interface ForeignEntity {
 	 * 
 	 * @return referenced table class
 	 */
-	public Class<?> referencedTable();
+	public Class<?> referencedEntityClass();
 
 	/**
 	 * 
 	 * @return referenced table alias name
 	 */
-	public String referencedTableAlias() default "";
+	public String referencedEntityAlias() default "";
 
 }

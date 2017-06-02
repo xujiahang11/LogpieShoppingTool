@@ -4,7 +4,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -20,10 +20,10 @@ public class SubCategory extends Model {
 	@Column(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_NAME, type = DataType.STRING)
 	private String name;
 
-	@ForeignEntity(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_CATEGORY_ID, referencedTable = Category.class)
+	@ForeignKeyColumn(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_CATEGORY_ID, referencedEntityClass = Category.class)
 	private Category category;
 
-	@ForeignEntity(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public SubCategory() {

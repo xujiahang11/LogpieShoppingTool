@@ -6,7 +6,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -19,22 +19,22 @@ public class Package extends Model {
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_ID, type = DataType.LONG)
 	private Long id;
 
-	@ForeignEntity(name = PackageRepository.DB_KEY_PACKAGE_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
-	@ForeignEntity(name = PackageRepository.DB_KEY_PACKAGE_INT_DELIVERY_ID, referencedTable = Delivery.class, referencedTableAlias = "intDelivery")
+	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_INT_DELIVERY_ID, referencedEntityClass = Delivery.class, referencedEntityAlias = "intDelivery")
 	private Delivery intDelivery;
 
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_INT_TRACKING_NUMBER, type = DataType.STRING)
 	private String intTrackingNumber;
 
-	@ForeignEntity(name = PackageRepository.DB_KEY_PACKAGE_DOM_DELIVERY_ID, referencedTable = Delivery.class, referencedTableAlias = "domDelivery")
+	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_DOM_DELIVERY_ID, referencedEntityClass = Delivery.class, referencedEntityAlias = "domDelivery")
 	private Delivery domDelivery;
 
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_DOM_TRACKING_NUMBER, type = DataType.STRING)
 	private String domTrackingNumber;
 
-	@ForeignEntity(name = PackageRepository.DB_KEY_PACKAGE_CLIENT_ID, referencedTable = Client.class, referencedTableAlias = "client")
+	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_CLIENT_ID, referencedEntityClass = Client.class, referencedEntityAlias = "client")
 	private Client client;
 
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_RECEIVER, type = DataType.STRING)

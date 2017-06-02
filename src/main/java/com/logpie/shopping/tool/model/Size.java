@@ -4,7 +4,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -20,7 +20,7 @@ public class Size extends Model {
 	@Column(name = SizeRepository.DB_KEY_SIZE_NAME, type = DataType.STRING)
 	private String name;
 
-	@ForeignEntity(name = SizeRepository.DB_KEY_SIZE_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = SizeRepository.DB_KEY_SIZE_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public Size() {

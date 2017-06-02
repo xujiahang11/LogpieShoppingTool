@@ -2,20 +2,20 @@ package com.logpie.framework.db.basic;
 
 import java.lang.reflect.Field;
 
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.support.TableUtil;
 
 public class ForeignKey {
 
 	private Table table;
-	private ForeignEntity foreignEntity;
+	private ForeignKeyColumn foreignEntity;
 
-	public ForeignKey(Class<?> tableClass, ForeignEntity foreignEntity) {
+	public ForeignKey(Class<?> tableClass, ForeignKeyColumn foreignEntity) {
 		this(tableClass, null, foreignEntity);
 	}
 
 	public ForeignKey(Class<?> tableClass, String alias,
-			ForeignEntity foreignEntity) {
+			ForeignKeyColumn foreignEntity) {
 		this.table = new Table(tableClass, alias);
 		this.foreignEntity = foreignEntity;
 	}
@@ -33,7 +33,7 @@ public class ForeignKey {
 	}
 
 	public Class<?> getRefTableClass() {
-		return foreignEntity.referencedTable();
+		return foreignEntity.referencedEntityClass();
 	}
 
 	public String getRefTableName() {
@@ -41,7 +41,7 @@ public class ForeignKey {
 	}
 
 	public String getRefTableAlias() {
-		return foreignEntity.referencedTableAlias();
+		return foreignEntity.referencedEntityAlias();
 	}
 
 	public boolean hasChildForeignKey() {
@@ -54,7 +54,7 @@ public class ForeignKey {
 	private static boolean hasForeignEntityAnnotation(final Class<?> c) {
 		Field[] fields = c.getDeclaredFields();
 		for (Field field : fields) {
-			if (field.isAnnotationPresent(ForeignEntity.class)) {
+			if (field.isAnnotationPresent(ForeignKeyColumn.class)) {
 				return true;
 			}
 		}

@@ -6,7 +6,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -23,7 +23,7 @@ public class Order extends Model {
 	@Column(name = OrderRepository.DB_KEY_ORDER_DATE, type = DataType.TIMESTAMP)
 	private Timestamp date;
 
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_PRODUCT_ID, referencedTable = Product.class)
+	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_PRODUCT_ID, referencedEntityClass = Product.class)
 	private Product product;
 
 	@Column(name = OrderRepository.DB_KEY_ORDER_IS_RETURN, type = DataType.BOOLEAN)
@@ -35,13 +35,13 @@ public class Order extends Model {
 	@Column(name = OrderRepository.DB_KEY_ORDER_PRODUCT_COUNT, type = DataType.INTEGER)
 	private Integer productCount;
 
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_CLIENT_ID, referencedTable = Client.class)
+	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_CLIENT_ID, referencedEntityClass = Client.class)
 	private Client client;
 
 	@Column(name = OrderRepository.DB_KEY_ORDER_BUYER_NAME, type = DataType.STRING)
 	private String buyerName;
 
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_PROXY_ID, referencedTable = Admin.class)
+	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_PROXY_ID, referencedEntityClass = Admin.class)
 	private Admin proxy;
 
 	@Column(name = OrderRepository.DB_KEY_ORDER_PRODUCT_WEIGHT, type = DataType.INTEGER)
@@ -62,13 +62,13 @@ public class Order extends Model {
 	@Column(name = OrderRepository.DB_KEY_ORDER_COMPANY_RECEIVED_MONEY, type = DataType.FLOAT)
 	private Float companyReceivedMoney;
 
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_PACKAGE_ID, referencedTable = Package.class)
+	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_PACKAGE_ID, referencedEntityClass = Package.class)
 	private Package orderPackage;
 
 	@Column(name = OrderRepository.DB_KEY_ORDER_SHIPPING_FEE, type = DataType.FLOAT)
 	private Float shippingFee;
 
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_TRANSFER_DELIVERY_ID, referencedTable = Delivery.class)
+	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_TRANSFER_DELIVERY_ID, referencedEntityClass = Delivery.class)
 	private Delivery transferDelivery;
 
 	@Column(name = OrderRepository.DB_KEY_ORDER_TRANSFER_FEE, type = DataType.FLOAT)
@@ -80,7 +80,7 @@ public class Order extends Model {
 	@Column(name = OrderRepository.DB_KEY_ORDER_NOTE, type = DataType.STRING)
 	private String note;
 
-	@ForeignEntity(name = OrderRepository.DB_KEY_ORDER_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public Order() {

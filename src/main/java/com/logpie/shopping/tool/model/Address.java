@@ -4,7 +4,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -29,10 +29,10 @@ public class Address extends Model {
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ZIP, type = DataType.STRING)
 	private String zip;
 
-	@ForeignEntity(name = AddressRepository.DB_KEY_ADDRESS_CLIENT_ID, referencedTable = Client.class)
+	@ForeignKeyColumn(name = AddressRepository.DB_KEY_ADDRESS_CLIENT_ID, referencedEntityClass = Client.class)
 	private Client client;
 
-	@ForeignEntity(name = AddressRepository.DB_KEY_ADDRESS_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = AddressRepository.DB_KEY_ADDRESS_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public Address() {

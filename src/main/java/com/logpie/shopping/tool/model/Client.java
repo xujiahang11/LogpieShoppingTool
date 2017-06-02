@@ -6,7 +6,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -44,7 +44,7 @@ public class Client extends Model {
 	@Column(name = ClientRepository.DB_KEY_CLIENT_REGISTER_TIME, type = DataType.TIMESTAMP)
 	private Timestamp registerTime;
 
-	@ForeignEntity(name = ClientRepository.DB_KEY_CLIENT_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = ClientRepository.DB_KEY_CLIENT_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public Client() {

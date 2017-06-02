@@ -12,7 +12,7 @@ import org.springframework.util.Assert;
 
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.basic.KVP;
 import com.logpie.framework.db.basic.Model;
@@ -57,17 +57,17 @@ public class ModelUtil {
 				result.add(new KVP(table, column.name(), value));
 			}
 			// find every field of model corresponding foreign key
-			else if (field.isAnnotationPresent(ForeignEntity.class)) {
+			else if (field.isAnnotationPresent(ForeignKeyColumn.class)) {
 
 				// get this foreign table model
 				Model entity = (Model) runGetter(field, model);
-				ForeignEntity column = field.getAnnotation(ForeignEntity.class);
+				ForeignKeyColumn column = field.getAnnotation(ForeignKeyColumn.class);
 
 				if (entity == null) {
 					result.add(new KVP(table, column.name(), null));
 				} else {
 					// get fields of table
-					Field[] referencedFields = column.referencedTable()
+					Field[] referencedFields = column.referencedEntityClass()
 							.getDeclaredFields();
 
 					for (Field f : referencedFields) {

@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.basic.ForeignKey;
 
@@ -74,9 +74,9 @@ public class TableUtil {
 			res.add(table + "." + column.name());
 		}
 
-		List<ForeignEntity> foreignKeys = getForeignEntityAnnotations(c);
+		List<ForeignKeyColumn> foreignKeys = getForeignEntityAnnotations(c);
 		if (foreignKeys != null) {
-			for (ForeignEntity foreignKey : foreignKeys) {
+			for (ForeignKeyColumn foreignKey : foreignKeys) {
 				res.add(table + "." + foreignKey.name());
 			}
 		}
@@ -120,8 +120,8 @@ public class TableUtil {
 		List<ForeignKey> foreignKeys = new ArrayList<ForeignKey>();
 
 		// add foreign keys of original table c
-		List<ForeignEntity> foreignEntities = getForeignEntityAnnotations(c);
-		for (ForeignEntity entity : foreignEntities) {
+		List<ForeignKeyColumn> foreignEntities = getForeignEntityAnnotations(c);
+		for (ForeignKeyColumn entity : foreignEntities) {
 			foreignKeys.add(new ForeignKey(c, alias, entity));
 		}
 
@@ -134,9 +134,9 @@ public class TableUtil {
 
 				if (key.hasChildForeignKey()) {
 					String referencedAlias = getOrAutoGenerateRefAlias(key);
-					List<ForeignEntity> moreEntities = getForeignEntityAnnotations(refTable);
+					List<ForeignKeyColumn> moreEntities = getForeignEntityAnnotations(refTable);
 
-					for (ForeignEntity entity : moreEntities) {
+					for (ForeignKeyColumn entity : moreEntities) {
 						moreKeys.add(new ForeignKey(refTable, referencedAlias,
 								entity));
 					}
@@ -224,17 +224,17 @@ public class TableUtil {
 		return res;
 	}
 
-	private static List<ForeignEntity> getForeignEntityAnnotations(
+	private static List<ForeignKeyColumn> getForeignEntityAnnotations(
 			final Class<?> c) {
 		Assert.notNull(c, "Class must not be null");
 
-		List<ForeignEntity> res = new ArrayList<ForeignEntity>();
+		List<ForeignKeyColumn> res = new ArrayList<ForeignKeyColumn>();
 
 		Field[] fields = c.getDeclaredFields();
 		for (Field field : fields) {
 
-			if (field.isAnnotationPresent(ForeignEntity.class)) {
-				ForeignEntity column = field.getAnnotation(ForeignEntity.class);
+			if (field.isAnnotationPresent(ForeignKeyColumn.class)) {
+				ForeignKeyColumn column = field.getAnnotation(ForeignKeyColumn.class);
 				res.add(column);
 			}
 		}

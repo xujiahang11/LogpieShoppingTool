@@ -6,7 +6,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -29,22 +29,22 @@ public class Product extends Model {
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_POST_DATE, type = DataType.TIMESTAMP)
 	private Timestamp postDate;
 
-	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_BRAND_ID, referencedTable = Brand.class)
+	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_BRAND_ID, referencedEntityClass = Brand.class)
 	private Brand brand;
 
-	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_SUBCATEGORY_ID, referencedTable = SubCategory.class)
+	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SUBCATEGORY_ID, referencedEntityClass = SubCategory.class)
 	private SubCategory subCategory;
 
-	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_COLOR_ID, referencedTable = Color.class)
+	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_COLOR_ID, referencedEntityClass = Color.class)
 	private Color color;
 
-	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_SIZE_ID, referencedTable = Size.class)
+	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SIZE_ID, referencedEntityClass = Size.class)
 	private Size size;
 
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_ORIGINAL_ID, type = DataType.STRING)
 	private String originalId;
 
-	@ForeignEntity(name = ProductRepository.DB_KEY_PRODUCT_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public Product() {

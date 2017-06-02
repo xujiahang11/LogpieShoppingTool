@@ -4,7 +4,7 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignEntity;
+import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
@@ -29,7 +29,7 @@ public class Admin extends Model {
 	@Column(name = AdminRepository.DB_KEY_ADMIN_PROFIT_PERCENTAGE, type = DataType.FLOAT)
 	private Float profitPercentage;
 
-	@ForeignEntity(name = AdminRepository.DB_KEY_ADMIN_SHOP_ID, referencedTable = Shop.class)
+	@ForeignKeyColumn(name = AdminRepository.DB_KEY_ADMIN_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
 	public Admin() {
