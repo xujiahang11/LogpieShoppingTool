@@ -32,50 +32,44 @@ function keyEvent(popup_div,close_btn){
 }
 
 function tabOnClickEvent(tab) {
-	if(tab==null) return false;
 	/* find original tab which is selected */
-	var tabs = document.getElementById("main-tab").getElementsByTagName("span");
-	var selected_tab;
-	for(var i=0;i<tabs.length;i++){
-		if(tabs[i].getAttribute("class")=="blue"){
-			selected_tab = tabs[i];
-			break;
-		}
-	}
+	var tabs = $("#main-tab").find("span");
+	var selected_tab = $("#main-tab").find("span.blue");
 	
 	/* calculate new margin-left */
 	var bar_margin_left = 20; // margin-left is 20px
-	for(var i=0;i<tabs.length;i++){
-		if(tabs[i]==tab) break;
-		bar_margin_left = tabs[i].childNodes[0].nodeValue.length*14 + 20 + bar_margin_left; // font-size is 14px
+	for(var i=0;i<tabs.index(tab);i++){
+		bar_margin_left = $(tabs[i]).html().length*14 + 20 + bar_margin_left; // font-size is 14px
 	}
+	
 	/* set new width and position for the selected-bar */
-	var bar = document.getElementById("selected-bar");
-	bar.style.width = tab.childNodes[0].nodeValue.length*14 + "px";
-	bar.style.marginLeft = bar_margin_left + "px";
+	var bar = $("#selected-bar");
+	bar.width(tab.html().length*14 + "px");
+	bar.css("margin-left", bar_margin_left + "px");
+	
 	/* exchange color for original tab and new tab */
-	selected_tab.setAttribute("class", "");
-	tab.setAttribute("class", "blue");
+	selected_tab.removeClass();
+	tab.addClass("blue");
+	
 	/* set new subtitle for header navigator */
-	var subtitle = document.getElementById("header-nav-subtitle");
-	subtitle.innerHTML = "> "+ tab.childNodes[0].nodeValue;
+	$("#header-nav-subtitle").html("> "+ tab.html());
 }
 
 function popUpEvent(popup, btn_close){
 	show(popup);
-	btn_close.onclick = function(){
+	btn_close.click(function(){
 		hide(popup);
-	};
+	});
 }
 
 function show(popup){
-	document.getElementById("mask").style.display = "block";
-	popup.style.display = "block";
+	$("#mask").css("display","block");
+	popup.css("display","block");
 }
 
 function hide(popup){
-	document.getElementById("mask").style.display = "none";
-	popup.style.display = "none";
+	$("#mask").css("display","none");
+	popup.css("display","none");
 }
 
 function hover(element, showinfo){
@@ -86,37 +80,5 @@ function hover(element, showinfo){
 		element.onmouseout = function() {
 			showinfo.style.display = "none";
 		};
-	}
-}
-
-function getElementByAttribute(elements, attribute_name, attribute_value){
-	if(elements){
-		var results = new Array();
-		for(var i=0; i<elements.length; i++){
-			if(elements[i].nodeType==1 && elements[i].getAttribute(attribute_name)){
-				if(elements[i].getAttribute(attribute_name).indexOf(attribute_value)!= -1){
-					results.push(elements[i]);
-				}
-			}
-		}
-		if(results.length==0) return false; 
-		return results;
-	}
-	return false;
-}
-
-function addClass(element, class_name){
-	element.className = element.className+" "+class_name;
-}
-
-function removeClass(element, class_name){
-    element.className = element.className.replace(class_name, '');
-}
-
-function hasClass(element, class_name){
-	if(element.className.match(class_name)){
-		return true;
-	}else{
-		return false;
 	}
 }

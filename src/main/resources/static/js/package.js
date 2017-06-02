@@ -66,11 +66,11 @@ $(document).ready(function(){
 				while(package_row.nodeType!=1 || !package_row.getAttribute("class") || !hasClass(package_row, "second-line")){
 					package_row = package_row.previousSibling;
 				}
-				addClass(package_row, "unfold");
+				addClass(package_row, "unfold"); // 换用jQuery的方法
 				while(package_row.nodeType!=1 || !package_row.getAttribute("class") || !hasClass(package_row, "first-line")){
 					package_row = package_row.previousSibling;
 				}
-				addClass(package_row, "unfold");
+				addClass(package_row, "unfold"); // 换用jQuery的方法
 			}else{
 				document.getElementById("1").className = "hide";
 
