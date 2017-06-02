@@ -2,12 +2,12 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<header th:fragment="title(shop,admin)" class="grey bg-white">
+		<header th:fragment="title(shop,nav,sub,admin)" class="grey bg-white">
 			<span class="header-nav">
 				<img th:src="@{/img/header_home.svg}" width="20" height="20"/>
 				<span id="header-nav-company" class="black" th:text="${shop}"></span>
-				<span id="header-nav-title">&gt;&nbsp;物流管理</span>
-				<span id="header-nav-subtitle" class="blue">&gt;&nbsp;国际待发</span>
+				<span id="header-nav-title" th:utext="'> '+${nav}"></span>
+				<span id="header-nav-subtitle" class="blue" th:utext="'> '+${sub}"></span>
 			</span>
 			<div class="header-search-admin">
 				<input type="text" name="search_box" placeholder="搜索" class="no-border bg-blue-grey"/>

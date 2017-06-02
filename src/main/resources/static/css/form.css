@@ -1,62 +1,14 @@
 .popup-div {
 	position: absolute;
 	z-index: 4;
-	top: 20%;
+	top: 15%;
 	left: 30%;
-}
-
-#popup-create-order {
-	top: 15%;
-	height: 380px;
 	width: 550px;
 }
 
-#popup-modify-order {
-	top: 5%;
-	height: 500px;
-	width: 550px;
-}
-
-#popup-ship-order {
-	left: 35%;
-	height: 190px;
-	width: 400px;
-}
-
-#popup-forward-order {
-	left: 35%;
-	height: 230px;
-	width: 400px;
-}
-
-#popup-create-package {
-	top: 15%;
-	height: 380px;
-	width: 550px;
-}
-
-#popup-modify-package {
-	top: 15%;
-	height: 380px;
-	width: 550px;
-}
-
-#popup-cannot-ship-package {
-	left: 40%;
-	height: 165px;
-	width: 320px;
-}
-
-#popup-forward-package {
-	left: 35%;
-	height: 260px;
-	width: 370px;
-}
-
-#popup-deliver-package {
-	left: 40%;
-	height: 150px;
-	width: 328px;
+.popup-tab {
+	height: 40px;
+	padding-left: 20px;
 }
 
 .popup-div a {
@@ -69,12 +21,22 @@
 	color: #4D88FF;
 }
 
+.popup-div .four-digits-bar {
+	height: 5px;
+	margin-top:  -4px;
+	width: 56px;
+}
+
 .popup-div img {
 	margin-left: 5px;
+	width: 18px;
+	height: 18px;
 }
 
 .popup-div table {
 	table-layout: fixed;
+	margin: 10px 25px;
+	width: 500px;
 }
 
 .popup-div tr {
@@ -82,7 +44,6 @@
 }
 
 .popup-div td {
-	width: 100px;
 	line-height: 40px;
 	padding: 0px;
 }
@@ -91,28 +52,21 @@
 	height: 18px;
 	border: 1px solid #C0CCDA;
 	border-radius: 3px;
-}
-
-.popup-div .medium-input{
-	width: 130px; 
 	padding: 0px; 
-	padding-left: 6px;
+	padding-left: 5px;
 }
 
-.popup-tab {
-	height: 40px;
-	padding-left: 20px;
+.popup-div .four-columns td {
+	width: 125px;
 }
 
-.popup-div .selected-bar {
-	height: 5px;
-	margin-top:  -4px;
+.popup-div .four-columns td div {
+	width: 100px;
+	margin-left: 25px;
 }
 
-.popup-form {
-	margin-left: 20px;
-	margin-right: 20px;
-	margin-top: 10px;
+.popup-div .four-columns input {
+	width: 110px;
 }
 
 .required {
@@ -160,12 +114,15 @@ input.checkbox {
 }
 
 .popup-div .confirm-btn {
-	width: 100px;
 	height: 20px;
 	line-height: 20px;
-	margin-top: 12px; 
 	font-size: 12px;
 	border: 1px solid #8DC26F;
+}
+
+.popup-div .four-columns .confirm-btn {
+	width: 480px;
+	margin: 10px 25px 20px;
 }
 
 .popup-div .cancel-btn {

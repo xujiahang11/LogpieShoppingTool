@@ -1,5 +1,7 @@
 package com.logpie.shopping.tool.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -71,13 +73,12 @@ public class AddressService {
 		return null;
 	}
 
-	public Page<Address> getAddressesByClientId(final int pageNumber,
-			final Long clientId) {
+	public List<Address> getAddressesByClientId(final Long clientId) {
 		logger.trace("QueryAddressesByClientId service is started...");
 		Assert.notNull(clientId, "Client id must not be null");
 
 		try {
-			return repository.queryByClientId(pageNumber, clientId);
+			return repository.queryByClientId(clientId);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

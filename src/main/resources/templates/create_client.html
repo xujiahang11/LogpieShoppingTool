@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div id="popup-create-client" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom">
+				<a href="">创建订单</a><a href="">创建包裹</a><a href="">创建商品</a><a class="selected">创建用户</a><img id="close-create-client" th:src="@{/img/close.svg}" class="pointer" style="margin-left: 190px;"/>
+				<div class="four-digits-bar bg-blue" style="margin-left: 228px;"></div>
+			</div>
+			<div class="four-columns">
+				<form id="create-client-form" th:action="@{/{path}/clients/create(path=${shop.path})}" method="post" th:object="${new_client}">
+					<fieldset>
+						<table class="no-border text-left">
+							<tr>
+								<td>真实姓名<span class="required">*</span></td>
+								<td><input type="text" th:field="*{name}"/></td>
+								<td><div>微信名<span class="required">*</span></div></td>
+								<td><input type="text" th:field="*{wechatName}"/></td>
+							</tr>
+							<tr>
+								<td>淘宝号</td>
+								<td><input type="text" th:field="*{taobaoName}"/></td>
+								<td><div>微信号</div></td>
+								<td><input type="text" th:field="*{wechatId}"/></td>
+							</tr>
+							<tr>
+								<td>常用地址<span class="required">*</span></td>
+								<td colspan="3"><input type="text" name="address" style="width: 360px;"/></td>
+							</tr>
+							<tr>
+								<td>手机号</td>
+								<td><input type="text" th:field="*{phone}"/></td>
+								<td><div>备注</div></td>
+								<td><input type="text" th:field="*{note}"/></td>
+							</tr>
+						</table>
+						<div class="btn confirm-btn bg-green" style="width: 480px;" onclick="document.getElementById('create-client-form').submit();">确定</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

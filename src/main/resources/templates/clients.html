@@ -12,7 +12,7 @@
 		<link type="text/css" rel="stylesheet" th:href="@{/css/form.css}"/>
 	</head>
 	<body class="logpie-font-family font-median bg-light-grey">
-		<div th:replace="header::title(${shop.name},'')"></div>
+		<div th:replace="header::title(${shop.name},'用户管理','用户列表','')"></div>
 		<div th:replace="aside::nav(3)"></div>
 		<div class="main">
 			<div id="main-tab" class="main-tab light-grey border bg-white">
@@ -21,34 +21,39 @@
 				<div id="selected-bar" class="selected-bar bg-blue" style="width: 56px;"></div>
 			</div>
 			<div class="table-content border-left border-right bg-white" style="overflow-y: auto;">
-				<table class="font-small text-center" >
-					<tr class="border-bottom light-grey bg-light-grey">
-						<th>用户编号</th>
-						<th>用户姓名</th>
-						<th style="width: 150px;">微信名</th>
-						<th>微信号</th>
-						<th>淘宝号</th>
-						<th>常用地址</th>
-						<th>手机号</th>
-						<th style="width: 140px;">备注</th>
-						<th style="width: 70px;">操作</th>
-					</tr>
-					<tr class="border-bottom" th:each="c:${clients}" th:unless="${#lists.isEmpty(clients)}">
-						<td class="border-right" th:text="${c.id}"></td>
-						<td th:text="${c.name}"></td>
-						<td th:text="${c.wechatName}"></td>
-						<td th:text="${c.wechatId}"></td>
-						<td th:text="${c.taobaoName}"></td>
-						<td>？？？？</td>
-						<td th:text="${c.phone}"></td>
-						<td class="border-right" th:text="${c.note}" style="padding-left: 5px; padding-right: 5px;"></td>
-						<td><div class="btn action-btn font-small white bg-grey">修改</div></td>
-					</tr>
+				<table id="table_clients" class="font-small text-center">
+					<thead>
+						<tr class="border-bottom light-grey bg-light-grey">
+							<th>用户编号</th>
+							<th>用户姓名</th>
+							<th style="width: 150px;">微信名</th>
+							<th>微信号</th>
+							<th>淘宝号</th>
+							<th>常用地址</th>
+							<th>手机号</th>
+							<th style="width: 140px;">备注</th>
+							<th style="width: 70px;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="border-bottom" th:each="c,iterStat:${clients}" th:id="'row-id-' + ${iterStat.index}" th:unless="${#lists.isEmpty(clients)}">
+							<td class="border-right id" th:text="${c.id}"></td>
+							<td th:text="${c.name}"></td>
+							<td th:text="${c.wechatName}"></td>
+							<td th:text="${c.wechatId}"></td>
+							<td th:text="${c.taobaoName}"></td>
+							<td><div class="dropdown font-extra-small blue" style="margin-left: 20px;">地址详情<img th:src="@{/img/array_down.svg}" class="img-updown"/></div></td>
+							<td th:text="${c.phone}"></td>
+							<td class="border-right" th:text="${c.note}" style="padding-left: 5px; padding-right: 5px;"></td>
+							<td class="edit"><div class="btn action-btn font-small white bg-grey">修改</div></td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 			<div th:replace="footer::page(2,2)"></div>
 		</div>
-		<div th:replace="form_client::#popup-create-client(${new_client})"></div>
+		<div th:replace="create_client::#popup-create-client(${new_client})"></div>
+		<div th:replace="edit_client::#popup-modify-client(${edit_client})"></div>
 		<div id="mask"></div>
 		<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 		<script th:src="@{/js/global.js}" type="text/javascript"></script>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div id="popup-modify-client" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom">
+				<a class="selected">修改用户</a><img id="close-modify-client" th:src="@{/img/close.svg}" class="pointer" style="margin-left: 415px;"/>
+				<div class="four-digits-bar bg-blue"></div>
+			</div>
+			<div class="four-columns">
+				<form id="edit-client-form" th:action="@{/{path}/clients/edit(path=${shop.path})}" method="post" th:object="${edit_client}">
+					<fieldset>
+						<table class="no-border text-left">
+							<tr>
+								<td>真实姓名<span class="required">*</span></td>
+								<td><input type="text" id="edit_name" th:field="*{name}"/></td>
+								<td><div>微信名<span class="required">*</span></div></td>
+								<td><input type="text" id="edit_wechat_name" th:field="*{wechatName}"/></td>
+							</tr>
+							<tr>
+								<td>淘宝号</td>
+								<td><input type="text" id="edit_taobao_name" th:field="*{taobaoName}"/></td>
+								<td><div>微信号</div></td>
+								<td><input type="text" id="edit_wechat_id" th:field="*{wechatId}"/></td>
+							</tr>
+							<tr>
+								<td>常用地址<span class="required">*</span></td>
+								<td colspan="3"><input type="text" name="address" style="width: 360px;"/></td>
+							</tr>
+							<tr>
+								<td>手机号</td>
+								<td><input type="text" id="edit_phone" th:field="*{phone}"/></td>
+								<td><div>备注</div></td>
+								<td><input type="text" id="edit_note" th:field="*{note}"/></td>
+							</tr>
+						</table>
+						<input id="edit_id" class="hide" th:field="*{id}"/>
+						<div class="btn confirm-btn bg-green" style="width: 480px;" onclick="document.getElementById('edit-client-form').submit();">确定</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

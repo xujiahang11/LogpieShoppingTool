@@ -2,6 +2,7 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -50,13 +51,12 @@ public class AddressRepository extends JDBCTemplateRepository<Address> {
 		return super.queryBy(request, param);
 	}
 
-	public Page<Address> queryByClientId(final int pageNumber,
-			final Long clientId) throws DataAccessException {
+	public List<Address> queryByClientId(final Long clientId)
+			throws DataAccessException {
 		Parameter param = new WhereParam(Address.class,
 				DB_KEY_ADDRESS_CLIENT_ID, clientId);
-		Pageable request = new PageRequest(pageNumber, PAGE_SIZE);
 
-		return super.queryBy(request, param);
+		return (List<Address>) super.queryBy(param);
 	}
 
 	@Override

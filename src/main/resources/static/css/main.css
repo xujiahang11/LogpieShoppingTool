@@ -45,8 +45,12 @@ table {
 	width: 100%;
 }
 
-table th {
+th {
 	height: 25px;
+}
+
+tr {
+	line-height: 30px;
 }
 
 .first-line {
@@ -74,6 +78,14 @@ td a {
 	border-bottom: 1px solid #FFFFFF;
 }
 
+.dropdown{
+	cursor: pointer;
+	height: 18px;
+	line-height: 18px;
+	text-align: center;
+	margin-right:10px;
+}
+
 .toggle-btn {
 	position: absolute;
 	top: 15px;
@@ -87,7 +99,9 @@ td a {
 
 .action-btn {
 	width: 60px;
-	height: 18px;
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
 }
 
 .tag-direct-mail {

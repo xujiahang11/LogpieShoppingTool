@@ -130,10 +130,6 @@ public class HomePageController {
 			logger.debug("No.2 - addr id: " + a.getId());
 		}
 
-		Page<Address> page3 = addressService.getAddressesByClientId(1, 1L);
-		for (Address a : page3) {
-			logger.debug("addr id: " + a.getId());
-		}
 		logger.trace("Request done...");
 
 		model.addAttribute("name", "world");
