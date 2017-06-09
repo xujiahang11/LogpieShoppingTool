@@ -38,7 +38,7 @@ nav a {
 	line-height: 45px;
 }
 
-.selected-mask {
+#aside-selected-mask {
 	position: absolute;
 	width: 160px;
 	height: 45px;
@@ -48,7 +48,7 @@ nav a {
 	filter: alpha(opacity=60);
 }
 
-aside .selected-bar {
+#aside-selected-bar {
 	z-index: 2;
 	position: absolute;
 	left: 0px;
@@ -64,7 +64,7 @@ hr {
 	background-color: #e0e6ed;
 }
 
-.nav-logout {
+.aside-logout {
 	position: absolute;
 	width: 160px;
 	left: 45px;
@@ -72,7 +72,7 @@ hr {
 	vertical-align: middle;
 }
 
-.nav-logout a {
+.aside-logout a {
 	line-height: 20px;
 	font-size: 12px;
 }

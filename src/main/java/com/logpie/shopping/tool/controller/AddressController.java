@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
@@ -33,33 +31,31 @@ public class AddressController {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(AddressController.class);
 
-	@RequestMapping(path = "/{page}/address", method = RequestMethod.GET)
-	public String getAll(@PathVariable final String shopPath,
-			@PathVariable final Integer page, final Model model) {
-		Long shopId = shopService.getShopByPath(shopPath).getId();
-		Page<Address> addresses = service.getAddressesByShopId(page, shopId);
-		model.addAttribute("addresses", addresses);
-		return "addresses";
-	}
-
 	@RequestMapping(path = "/id/{clientId}/address", method = RequestMethod.GET)
-	public @ResponseBody List<Address> getByUser(
+	public @ResponseBody List<Address> getListByAJAX(
 			@PathVariable final Long clientId) {
 		List<Address> addresses = service.getAddressesByClientId(clientId);
 		return addresses;
 	}
 
-	@RequestMapping(path = "/user_{clientId}/add", method = RequestMethod.POST)
-	public String add(@PathVariable final Long clientId,
-			@ModelAttribute("addr") final Address addr) {
-		addr.setClient(clientService.getClientById(clientId));
-		service.createAddress(addr);
-		return "redirect:/user_{clientId}";
+	@RequestMapping(path = "/id/{clientId}/address/{id}", method = RequestMethod.GET)
+	public @ResponseBody Address getByAJAX(@PathVariable final Long id) {
+		return service.getAddressById(id);
 	}
 
-	@RequestMapping(path = "/user_{clientId}/{addressId}", method = RequestMethod.POST)
-	public String edit(@ModelAttribute("addr") final Address addr) {
+	@RequestMapping(path = "/id/{clientId}/address/create", method = RequestMethod.POST)
+	public @ResponseBody String createByAJAX(
+			@PathVariable final String shopPath,
+			@PathVariable final Long clientId, @RequestBody final Address addr) {
+		addr.setShop(shopService.getShopByPath(shopPath));
+		addr.setClient(clientService.getClientById(clientId));
+		service.createAddress(addr);
+		return "success";
+	}
+
+	@RequestMapping(path = "/id/{clientId}/address/edit", method = RequestMethod.POST)
+	public @ResponseBody String editByAJAX(@RequestBody final Address addr) {
 		service.updateAddress(addr);
-		return "redirect:/user_{clientId}";
+		return "success";
 	}
 }

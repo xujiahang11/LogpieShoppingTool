@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<div id="popup_create_address" class="popup-div hide bg-white">
+			<div class="popup-tab border-bottom">
+				<a class="selected">创建地址</a><img id="dismiss_create_address" th:src="@{/img/close.svg}" class="pointer" style="margin-left: 415px;"/>
+				<div class="four-digits-bar bg-blue"></div>
+			</div>
+			<div class="four-columns">
+				<table class="no-border text-left">
+					<tr>
+						<td>收件人<span class="required">*</span></td>
+						<td><input type="text" id="recipent_name"/></td>
+						<td><div>电话<span class="required">*</span></div></td>
+						<td><input type="text" id="recipent_phone"/></td>
+					</tr>
+					<tr>
+						<td>地址</td>
+						<td><input type="text" id="address"/></td>
+						<td><div>邮编</div></td>
+						<td><input type="text" id="zip"/></td>
+					</tr>
+				</table>
+				<input id="client_id" class="hide"/>
+				<div id="btn_create_address" class="btn confirm-btn bg-green" style="width: 480px;">确定</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -16,7 +16,7 @@
 	cursor: pointer;
 }
 
-.main-tab .selected-bar {
+#main_selected_bar {
 	height: 5px;
 	margin-top:  -4px;
 	margin-left: 20px;
@@ -84,6 +84,10 @@ td a {
 	line-height: 18px;
 	text-align: center;
 	margin-right:10px;
+}
+
+.address span{
+	margin-right: 20px;
 }
 
 .toggle-btn {

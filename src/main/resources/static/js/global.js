@@ -1,7 +1,8 @@
+/*
 function keyEvent(popup_div,close_btn){
 	document.onkeydown = function() {
 		var eventListener = window.event;
-		/* use combination of TAB & ALT key to switch the subtitle */
+		// use combination of TAB & ALT key to switch the subtitle
 		if(eventListener.altKey && eventListener.keyCode == 9){
 			var tabs = document.getElementById("main-tab").getElementsByTagName("span");
 			var selected_tab;
@@ -17,24 +18,25 @@ function keyEvent(popup_div,close_btn){
 			else
 				tabOnClickEvent(tabs[i+1]);
 		};
-		/* use combination of ALT key & C to popup the section for creating */
+		// use combination of ALT key & C to popup the section for creating
 		if(eventListener.keyCode == 67 && eventListener.altKey){
 			popUpEvent(document.getElementById(popup_div), document.getElementById(close_btn));
 		};
-		/* use right arrow key to choose next page */
+		// use right arrow key to choose next page
 		if(eventListener.keyCode == 39){
 			alert("next page");
 		};
-		/* use left arrow key to choose previous page */
+		// use left arrow key to choose previous page
 		if(eventListener.keyCode == 37)
 			alert("previous page");
 	}
 }
+*/
 
 function tabOnClickEvent(tab) {
 	/* find original tab which is selected */
-	var tabs = $("#main-tab").find("span");
-	var selected_tab = $("#main-tab").find("span.blue");
+	var tabs = $(".main-tab").find("span");
+	var selected_tab = $(".main-tab").find("span.blue");
 	
 	/* calculate new margin-left */
 	var bar_margin_left = 20; // margin-left is 20px
@@ -43,7 +45,7 @@ function tabOnClickEvent(tab) {
 	}
 	
 	/* set new width and position for the selected-bar */
-	var bar = $("#selected-bar");
+	var bar = $("#main_selected_bar");
 	bar.width(tab.html().length*14 + "px");
 	bar.css("margin-left", bar_margin_left + "px");
 	
@@ -52,7 +54,7 @@ function tabOnClickEvent(tab) {
 	tab.addClass("blue");
 	
 	/* set new subtitle for header navigator */
-	$("#header-nav-subtitle").html("> "+ tab.html());
+	$("#header_nav_sub").html("> "+ tab.html());
 }
 
 function popUpEvent(popup, btn_close){
