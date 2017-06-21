@@ -4,9 +4,9 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.AddressRepository;
 
@@ -17,23 +17,20 @@ public class Address extends Model {
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ID, type = DataType.LONG)
 	private Long id;
 
-	@Column(name = AddressRepository.DB_KEY_ADDRESS, type = DataType.STRING)
+	@Column(name = AddressRepository.DB_KEY_ADDRESS_ADDR, type = DataType.STRING)
 	private String address;
 
-	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPENT_NAME, type = DataType.STRING)
-	private String recipentName;
+	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPENT, type = DataType.STRING)
+	private String recipent;
 
-	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPENT_PHONE, type = DataType.STRING)
-	private String recipentPhone;
+	@Column(name = AddressRepository.DB_KEY_ADDRESS_PHONE, type = DataType.STRING)
+	private String phone;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ZIP, type = DataType.STRING)
 	private String zip;
 
 	@ForeignKeyColumn(name = AddressRepository.DB_KEY_ADDRESS_CLIENT_ID, referencedEntityClass = Client.class)
 	private Client client;
-
-	@ForeignKeyColumn(name = AddressRepository.DB_KEY_ADDRESS_SHOP_ID, referencedEntityClass = Shop.class)
-	private Shop shop;
 
 	public Address() {
 
@@ -43,21 +40,20 @@ public class Address extends Model {
 	 * 
 	 * @param id
 	 * @param address
-	 * @param recipentName
-	 * @param recipentPhone
+	 * @param recipent
+	 * @param phone
 	 * @param zip
 	 * @param client
 	 * @param shop
 	 */
-	public Address(Long id, String address, String recipentName,
-			String recipentPhone, String zip, Client client, Shop shop) {
+	public Address(Long id, String address, String recipent, String phone,
+			String zip, Client client) {
 		this.id = id;
 		this.address = address;
-		this.recipentName = recipentName;
-		this.recipentPhone = recipentPhone;
+		this.recipent = recipent;
+		this.phone = phone;
 		this.zip = zip;
 		this.client = client;
-		this.shop = shop;
 	}
 
 	public Long getId() {
@@ -68,12 +64,12 @@ public class Address extends Model {
 		return address;
 	}
 
-	public String getRecipentName() {
-		return recipentName;
+	public String getRecipent() {
+		return recipent;
 	}
 
-	public String getRecipentPhone() {
-		return recipentPhone;
+	public String getPhone() {
+		return phone;
 	}
 
 	public String getZip() {
@@ -84,10 +80,6 @@ public class Address extends Model {
 		return client;
 	}
 
-	public Shop getShop() {
-		return shop;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -96,12 +88,12 @@ public class Address extends Model {
 		this.address = address;
 	}
 
-	public void setRecipentName(String recipentName) {
-		this.recipentName = recipentName;
+	public void setRecipent(String recipent) {
+		this.recipent = recipent;
 	}
 
-	public void setRecipentPhone(String recipentPhone) {
-		this.recipentPhone = recipentPhone;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public void setZip(String zip) {
@@ -110,9 +102,5 @@ public class Address extends Model {
 
 	public void setClient(Client client) {
 		this.client = client;
-	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
 	}
 }

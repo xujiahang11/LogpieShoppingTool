@@ -25,7 +25,7 @@ public class OrderService {
 	@Autowired
 	private PackageService packageService;
 	@Autowired
-	private DeliveryService deliveryService;
+	private ExpressService deliveryService;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
@@ -79,12 +79,5 @@ public class OrderService {
 		Assert.notNull(status, "Order status must not be null");
 
 		return repository.queryByStatus(pageNumber, shopId, status);
-	}
-
-	public Page<Order> getStockOrders(final int pageNumber, final Long shopId) {
-		logger.trace("getStockOrders service is started...");
-		Assert.notNull(shopId, "Shop id must not be null");
-
-		return repository.queryByStock(pageNumber, shopId);
 	}
 }

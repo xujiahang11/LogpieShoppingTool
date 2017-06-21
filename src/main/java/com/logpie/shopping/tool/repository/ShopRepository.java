@@ -2,7 +2,6 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -22,13 +21,13 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 
 	public static final String DB_TABLE_SHOP = "Shop";
 
-	public static final String DB_KEY_SHOP_ID = "ShopId";
-	public static final String DB_KEY_SHOP_NAME = "ShopName";
-	public static final String DB_KEY_SHOP_SMALL_LOGO = "ShopSmallLogo";
-	public static final String DB_KEY_SHOP_LARGE_LOGO = "ShopLargeLogo";
-	public static final String DB_KEY_SHOP_DATE = "ShopDate";
-	public static final String DB_KEY_SHOP_PATH = "ShopPath";
-	public static final String DB_KEY_SHOP_EXP = "ShopExp";
+	public static final String DB_KEY_SHOP_ID = "id";
+	public static final String DB_KEY_SHOP_NAME = "name";
+	public static final String DB_KEY_SHOP_SMALL_LOGO = "sLogo";
+	public static final String DB_KEY_SHOP_LOGO = "logo";
+	public static final String DB_KEY_SHOP_REGISTER_DATE = "registerDate";
+	public static final String DB_KEY_SHOP_PATH = "path";
+	public static final String DB_KEY_SHOP_EXP = "exp";
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
@@ -49,19 +48,16 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 
 	@Override
 	public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Long id = rs.getLong(DB_KEY_SHOP_ID);
-		if (id == 0) {
-			return null;
-		}
-		String shopName = rs.getString(DB_KEY_SHOP_NAME);
-		String shopSmallLogo = rs.getString(DB_KEY_SHOP_SMALL_LOGO);
-		String shopLargeLogo = rs.getString(DB_KEY_SHOP_LARGE_LOGO);
-		Timestamp shopDate = rs.getTimestamp(DB_KEY_SHOP_DATE);
-		String shopPath = rs.getString(DB_KEY_SHOP_PATH);
-		Integer shopExp = rs.getInt(DB_KEY_SHOP_EXP);
+		Shop shop = new Shop();
+		shop.setId(rs.getLong(DB_KEY_SHOP_ID));
+		shop.setName(rs.getString(DB_KEY_SHOP_NAME));
+		shop.setSmallLogo(rs.getString(DB_KEY_SHOP_SMALL_LOGO));
+		shop.setLogo(rs.getString(DB_KEY_SHOP_LOGO));
+		shop.setDate(rs.getTimestamp(DB_KEY_SHOP_REGISTER_DATE));
+		shop.setPath(rs.getString(DB_KEY_SHOP_PATH));
+		shop.setExp(rs.getInt(DB_KEY_SHOP_EXP));
 
-		return new Shop(id, shopName, shopSmallLogo, shopLargeLogo, shopDate,
-				shopPath, shopExp);
+		return shop;
 	}
 
 }

@@ -1,14 +1,15 @@
 package com.logpie.shopping.tool.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.PackageRepository;
 
@@ -22,19 +23,13 @@ public class Package extends Model {
 	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
-	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_INT_DELIVERY_ID, referencedEntityClass = Delivery.class, referencedEntityAlias = "intDelivery")
-	private Delivery intDelivery;
+	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_EXPRESS_ID, referencedEntityClass = Express.class)
+	private Express express;
 
-	@Column(name = PackageRepository.DB_KEY_PACKAGE_INT_TRACKING_NUMBER, type = DataType.STRING)
-	private String intTrackingNumber;
+	@Column(name = PackageRepository.DB_KEY_PACKAGE_TRACKING_NUMBER, type = DataType.STRING)
+	private String trackingNumber;
 
-	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_DOM_DELIVERY_ID, referencedEntityClass = Delivery.class, referencedEntityAlias = "domDelivery")
-	private Delivery domDelivery;
-
-	@Column(name = PackageRepository.DB_KEY_PACKAGE_DOM_TRACKING_NUMBER, type = DataType.STRING)
-	private String domTrackingNumber;
-
-	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_CLIENT_ID, referencedEntityClass = Client.class, referencedEntityAlias = "client")
+	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_CLIENT_ID, referencedEntityClass = Client.class)
 	private Client client;
 
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_RECEIVER, type = DataType.STRING)
@@ -46,6 +41,8 @@ public class Package extends Model {
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_IS_DIRECT_DELIVERED, type = DataType.BOOLEAN)
 	private Boolean isDirectDelivered;
 
+	private List<ShippingRecord> records;
+
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_DATE, type = DataType.TIMESTAMP)
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	private Timestamp date;
@@ -56,11 +53,8 @@ public class Package extends Model {
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_SHIPPING_FEE, type = DataType.FLOAT)
 	private Float shippingFee;
 
-	@Column(name = PackageRepository.DB_KEY_PACKAGE_ADDITIONAL_CUSTOM_TAX_FEE, type = DataType.FLOAT)
-	private Float additionalCustomTaxFee;
-
-	@Column(name = PackageRepository.DB_KEY_PACKAGE_ADDITIONAL_INSURANCE_FEE, type = DataType.FLOAT)
-	private Float additionalInsuranceFee;
+	@Column(name = PackageRepository.DB_KEY_PACKAGE_ADDITIONAL_FEE, type = DataType.FLOAT)
+	private Float additionalFee;
 
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_STATUS, type = DataType.STRING)
 	private PackageStatus status;
@@ -72,49 +66,26 @@ public class Package extends Model {
 
 	}
 
-	/**
-	 * 
-	 * @param id
-	 * @param intDelivery
-	 * @param intTrackingNumber
-	 * @param domDelivery
-	 * @param domTrackingNumber
-	 * @param client
-	 * @param receiver
-	 * @param destination
-	 * @param isDirectDelivered
-	 * @param date
-	 * @param weight
-	 * @param shippingFee
-	 * @param additionalCustomTaxFee
-	 * @param additionalInsuranceFee
-	 * @param status
-	 * @param note
-	 * @param shop
-	 */
-	public Package(final Long id, final Delivery intDelivery,
-			final String intTrackingNumber, final Delivery domDelivery,
-			final String domTrackingNumber, final Client client,
+	public Package(final Long id, final Express express,
+			final String trackingNumber, final Client client,
 			final String receiver, final String destination,
-			final Boolean isDirectDelivered, final Timestamp date,
+			final Boolean isDirectDelivered,
+			final List<ShippingRecord> records, final Timestamp date,
 			final Integer weight, final Float shippingFee,
-			final Float additionalCustomTaxFee,
-			final Float additionalInsuranceFee, final PackageStatus status,
+			final Float additionalFee, final PackageStatus status,
 			final String note, final Shop shop) {
 		this.id = id;
-		this.intDelivery = intDelivery;
-		this.intTrackingNumber = intTrackingNumber;
-		this.domDelivery = domDelivery;
-		this.domTrackingNumber = domTrackingNumber;
+		this.express = express;
+		this.trackingNumber = trackingNumber;
 		this.client = client;
 		this.receiver = receiver;
 		this.destination = destination;
 		this.isDirectDelivered = isDirectDelivered;
+		this.records = records;
 		this.date = date;
 		this.weight = weight;
 		this.shippingFee = shippingFee;
-		this.additionalCustomTaxFee = additionalCustomTaxFee;
-		this.additionalInsuranceFee = additionalInsuranceFee;
+		this.additionalFee = additionalFee;
 		this.status = status;
 		this.note = note;
 		this.shop = shop;
@@ -124,20 +95,12 @@ public class Package extends Model {
 		return id;
 	}
 
-	public Delivery getIntDelivery() {
-		return intDelivery;
+	public Express getExpress() {
+		return express;
 	}
 
-	public String getIntTrackingNumber() {
-		return intTrackingNumber;
-	}
-
-	public Delivery getDomDelivery() {
-		return domDelivery;
-	}
-
-	public String getDomTrackingNumber() {
-		return domTrackingNumber;
+	public String getTrackingNumber() {
+		return trackingNumber;
 	}
 
 	public Client getClient() {
@@ -156,6 +119,10 @@ public class Package extends Model {
 		return isDirectDelivered;
 	}
 
+	public List<ShippingRecord> getRecords() {
+		return records;
+	}
+
 	public Timestamp getDate() {
 		return date;
 	}
@@ -168,12 +135,8 @@ public class Package extends Model {
 		return shippingFee;
 	}
 
-	public Float getAdditionalCustomTaxFee() {
-		return additionalCustomTaxFee;
-	}
-
-	public Float getAdditionalInsuranceFee() {
-		return additionalInsuranceFee;
+	public Float getAdditionalFee() {
+		return additionalFee;
 	}
 
 	public PackageStatus getStatus() {
@@ -192,20 +155,12 @@ public class Package extends Model {
 		this.id = id;
 	}
 
-	public void setIntDelivery(Delivery intDelivery) {
-		this.intDelivery = intDelivery;
+	public void setExpress(Express express) {
+		this.express = express;
 	}
 
-	public void setIntTrackingNumber(String intTrackingNumber) {
-		this.intTrackingNumber = intTrackingNumber;
-	}
-
-	public void setDomDelivery(Delivery domDelivery) {
-		this.domDelivery = domDelivery;
-	}
-
-	public void setDomTrackingNumber(String domTrackingNumber) {
-		this.domTrackingNumber = domTrackingNumber;
+	public void setTrackingNumber(String trackingNumber) {
+		this.trackingNumber = trackingNumber;
 	}
 
 	public void setClient(Client client) {
@@ -224,6 +179,10 @@ public class Package extends Model {
 		this.isDirectDelivered = isDirectDelivered;
 	}
 
+	public void setRecords(List<ShippingRecord> records) {
+		this.records = records;
+	}
+
 	public void setDate(Timestamp date) {
 		this.date = date;
 	}
@@ -236,12 +195,8 @@ public class Package extends Model {
 		this.shippingFee = shippingFee;
 	}
 
-	public void setAdditionalCustomTaxFee(Float additionalCustomTaxFee) {
-		this.additionalCustomTaxFee = additionalCustomTaxFee;
-	}
-
-	public void setAdditionalInsuranceFee(Float additionalInsuranceFee) {
-		this.additionalInsuranceFee = additionalInsuranceFee;
+	public void setAdditionalFee(Float additionalFee) {
+		this.additionalFee = additionalFee;
 	}
 
 	public void setStatus(PackageStatus status) {

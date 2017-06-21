@@ -14,7 +14,6 @@ import com.logpie.framework.db.basic.Parameter;
 import com.logpie.framework.db.basic.WhereParam;
 import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Brand;
-import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class BrandRepository extends JDBCTemplateRepository<Brand> {
@@ -23,9 +22,9 @@ public class BrandRepository extends JDBCTemplateRepository<Brand> {
 
 	public static final String DB_TABLE_BRAND = "Brand";
 
-	public static final String DB_KEY_BRAND_ID = "BrandId";
-	public static final String DB_KEY_BRAND_NAME = "BrandName";
-	public static final String DB_KEY_BRAND_SHOP_ID = "BrandShopId";
+	public static final String DB_KEY_BRAND_ID = "id";
+	public static final String DB_KEY_BRAND_NAME = "name";
+	public static final String DB_KEY_BRAND_SHOP_ID = "shopId";
 
 	@Autowired
 	private ShopRepository shopRepository;
@@ -46,12 +45,10 @@ public class BrandRepository extends JDBCTemplateRepository<Brand> {
 	@Override
 	public Brand mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		Long id = rs.getLong(DB_KEY_BRAND_ID);
-		if (id == 0) {
-			return null;
-		}
-		String name = rs.getString(DB_KEY_BRAND_NAME);
-		Shop shop = shopRepository.mapRow(rs, rowNum);
-		return new Brand(id, name, shop);
+		Brand brand = new Brand();
+		brand.setId(rs.getLong(DB_KEY_BRAND_ID));
+		brand.setName(rs.getString(DB_KEY_BRAND_NAME));
+		brand.setShop(shopRepository.mapRow(rs, rowNum));
+		return brand;
 	}
 }

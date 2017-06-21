@@ -1,6 +1,33 @@
 var href = window.location.href;
 
-$(document).ready(function(){	
+var clientValidationRules = {
+	rules: {
+		name: {
+			required: true
+		},
+		wechatName: {
+			required: true
+		},
+		phone: {
+			required: true,
+			digits: true
+		}
+	},
+	messages: {
+		name: {
+			required: "请输入姓名"
+		},
+		wechatName: {
+			required: "请输入微信名"
+		},
+		phone: {
+			required: "请输入手机号",
+			digits: "请输入正确的手机号"
+		}
+	}
+}
+
+$(document).ready(function(){
 	/* add onclick event to main tab */
 	$(".main-tab").find("span").click(function(){
 		tabOnClickEvent($(this));
@@ -9,6 +36,18 @@ $(document).ready(function(){
 	/* add onclick event to buttons */
 	$("#btn_create_client").click(function(){
 		popUpEvent($("#popup_create_client"), $("#dismiss_create_client"));
+		
+		// set form validation rules
+		var validator = $("#form_create_client").validate(clientValidationRules);
+		// reset the validator when click the button every time
+		validator.resetForm();
+		
+		$("#submit_btn_create_client").click(function(){
+			// check the form is valid
+			if($("#form_create_client").valid){
+				$("#form_create_client").submit();
+			}
+		});
 	});
 	
 	$(".btn:contains(修改)").click(function(){
@@ -17,24 +56,36 @@ $(document).ready(function(){
 		var id = $(this).parent().parent().children(".id");
 		var url = href.substring(0, href.lastIndexOf("/")) + "/id/" + id.html();
  			
-		/* get properties of this client */
+		/* get properties of this client from server side*/
  		try{
  			$.get(url, function(result){
 				$("#edit_id").val(id.html());
 				$("#edit_name").val(result["name"]);
 				$("#edit_wechat_name").val(result["wechatName"]);
 				$("#edit_wechat_id").val(result["wechatId"]);
-				$("#edit_taobao_name").val(result["taobaoName"]);
 				$("#edit_phone").val(result["phone"]);
 				$("#edit_note").val(result["note"]);
 			}, "json");
  		}catch(error){
  			console.log("cannot fetch any info of this client");
  		}
+ 		
+ 		// set form validation rules
+		var validator = $("#form_edit_client").validate(clientValidationRules);
+		// reset the validator when click the button every time
+		validator.resetForm();
+		
+		$("#submit_btn_edit_client").click(function(){
+			// check the form is valid
+			if($("#form_edit_client").valid){
+				$("#form_edit_client").submit();
+			}
+		});
 	});
 	
 	$(".dropdown").click(function(){
 			var currentRow = $(this).parent().parent();
+			// check if dropdown is unfolded
 			currentRow.find(".id").attr("rowspan")==undefined ? showDropdown(currentRow) : dismissDropdown(currentRow);
 	});
 });
@@ -44,6 +95,7 @@ function showDropdown(row){
 	var url = href.substring(0, href.lastIndexOf("/")) + "/id/" + id.html() + "/address";
 	
 	try{
+		/* get address info of this client from server side and append it */
 		$.get(url, function(result){
 			var size = result["length"];
 			if(size==0){
@@ -78,8 +130,8 @@ function appendDropdownList(row, result, size){
 	var btnClass = "font-extra-small blue underline pointer";
 	
 	for(var i=0; i<size; i++){
-		var addrContent = $("<span>收件人: " + result[i]["recipentName"] + "</span><span>联系电话: " 
-						  + result[i]["recipentPhone"] + "</span><span>地址: " + result[i]["address"] 
+		var addrContent = $("<span>收件人: " + result[i]["recipent"] + "</span><span>联系电话: " 
+						  + result[i]["phone"] + "</span><span>地址: " + result[i]["address"] 
 						  + " " + result[i]["zip"] + "</span>");
 		var addrIdDiv = $("<div class='address-id hide'></div>").append(result[i]["id"]);
 		var addrDiv = $("<div class='address text-omit' style='float:left; width:95%'></div>")
@@ -88,6 +140,7 @@ function appendDropdownList(row, result, size){
 		
 		var editBtn = $("<div class='" + btnClass + "'>修改</div>").click(function(){
 			popUpEvent($("#popup_edit_address"), $("#dismiss_edit_address"));
+			
 			var addrId = $(this).parent().find(".address-id").html();
 			var url = href.substring(0, href.lastIndexOf("/")) + "/id/" + row.find(".id").html() + "/address/" + addrId;
 	 			
@@ -95,8 +148,8 @@ function appendDropdownList(row, result, size){
 	 		try{
 	 			$.get(url, function(result){
 					$("#edit_address_id").val(addrId);
-					$("#edit_recipent_name").val(result["recipentName"]);
-					$("#edit_recipent_phone").val(result["recipentPhone"]);
+					$("#edit_recipent_name").val(result["recipent"]);
+					$("#edit_recipent_phone").val(result["phone"]);
 					$("#edit_address").val(result["address"]);
 					$("#edit_zip").val(result["zip"]);
 				}, "json");
@@ -128,8 +181,8 @@ function appendDropdownList(row, result, size){
 
 function requestToCreateAddress(row){
 	var data = {
-		"recipentName": $("#recipent_name").val(),
-		"recipentPhone": $("#recipent_phone").val(),
+		"recipent": $("#recipent_name").val(),
+		"phone": $("#recipent_phone").val(),
 		"address": $("#address").val(),
 		"zip": $("#zip").val()
 	};
@@ -156,8 +209,8 @@ function requestToCreateAddress(row){
 function requestToEditAddress(row, addrId){
 	var data = {
 		"id": addrId,
-		"recipentName": $("#edit_recipent_name").val(),
-		"recipentPhone": $("#edit_recipent_phone").val(),
+		"recipent": $("#edit_recipent_name").val(),
+		"phone": $("#edit_recipent_phone").val(),
 		"address": $("#edit_address").val(),
 		"zip": $("#edit_zip").val()
 	};

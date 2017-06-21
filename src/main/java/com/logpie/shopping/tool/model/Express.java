@@ -8,28 +8,40 @@ import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
-import com.logpie.shopping.tool.repository.SizeRepository;
+import com.logpie.shopping.tool.repository.ExpressRepository;
 
-@Entity(name = SizeRepository.DB_TABLE_SIZE)
-public class Size extends Model {
+@Entity(name = ExpressRepository.DB_TABLE_EXPRESS)
+public class Express extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = SizeRepository.DB_KEY_SIZE_ID, type = DataType.LONG)
+	@Column(name = ExpressRepository.DB_KEY_EXPRESS_ID, type = DataType.LONG)
 	private Long id;
 
-	@Column(name = SizeRepository.DB_KEY_SIZE_NAME, type = DataType.STRING)
+	@Column(name = ExpressRepository.DB_KEY_EXPRESS_NAME, type = DataType.STRING)
 	private String name;
 
-	@ForeignKeyColumn(name = SizeRepository.DB_KEY_SIZE_SHOP_ID, referencedEntityClass = Shop.class)
+	@Column(name = ExpressRepository.DB_KEY_EXPRESS_IS_INTERNATIONAL, type = DataType.BOOLEAN)
+	private Boolean isInternational;
+
+	@ForeignKeyColumn(name = ExpressRepository.DB_KEY_EXPRESS_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
-	public Size() {
+	public Express() {
 
 	}
 
-	public Size(Long id, String name, Shop shop) {
+	/**
+	 * 
+	 * @param id
+	 * @param name
+	 * @param isInternational
+	 * @param shop
+	 */
+	public Express(final Long id, final String name,
+			final Boolean isInternational, final Shop shop) {
 		this.id = id;
 		this.name = name;
+		this.isInternational = isInternational;
 		this.shop = shop;
 	}
 
@@ -39,6 +51,10 @@ public class Size extends Model {
 
 	public String getName() {
 		return name;
+	}
+
+	public Boolean getIsInternational() {
+		return isInternational;
 	}
 
 	public Shop getShop() {
@@ -51,6 +67,10 @@ public class Size extends Model {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setIsInternational(Boolean isInternational) {
+		this.isInternational = isInternational;
 	}
 
 	public void setShop(Shop shop) {

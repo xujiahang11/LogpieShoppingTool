@@ -64,4 +64,5 @@ public class ClientController {
 		service.updateClient(client);
 		return "redirect:/{shopPath}/clients/1";
 	}
+
 }

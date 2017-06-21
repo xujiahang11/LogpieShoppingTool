@@ -8,22 +8,22 @@ import org.springframework.util.Assert;
 import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
-import com.logpie.shopping.tool.model.Delivery;
-import com.logpie.shopping.tool.repository.DeliveryRepository;
+import com.logpie.shopping.tool.model.Express;
+import com.logpie.shopping.tool.repository.ExpressRepository;
 
 @Service
-public class DeliveryService {
+public class ExpressService {
 	@Autowired
-	private DeliveryRepository repository;
+	private ExpressRepository repository;
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createDelivery(final Delivery delivery) {
-		logger.trace("createDelivery service is started...");
-		Assert.notNull(delivery, "Delivery must not be null");
+	public Long createExpress(final Express express) {
+		logger.trace("createExpress service is started...");
+		Assert.notNull(express, "Express must not be null");
 
 		try {
-			return repository.insert(delivery);
+			return repository.insert(express);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,23 +31,23 @@ public class DeliveryService {
 		return null;
 	}
 
-	public void updateDelivery(final Delivery delivery) {
-		logger.trace("updateDelivery service is started...");
-		Assert.notNull(delivery, "Delivery must not be null");
+	public void updateExpress(final Express express) {
+		logger.trace("updateExpress service is started...");
+		Assert.notNull(express, "Express must not be null");
 
-		repository.update(delivery);
+		repository.update(express);
 	}
 
-	public Delivery getDeliveryById(final Long id) {
-		logger.trace("QueryDeliveryById service is started...");
+	public Express getExpressById(final Long id) {
+		logger.trace("QueryExpressById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
-	public Page<Delivery> getDeliverysByShopId(final int pageNumber,
+	public Page<Express> getExpressByShopId(final int pageNumber,
 			final Long shopId) {
-		logger.trace("QueryDeliverysByShopId service is started...");
+		logger.trace("QueryExpressByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);

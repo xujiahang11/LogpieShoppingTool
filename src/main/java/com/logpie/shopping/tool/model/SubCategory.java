@@ -4,9 +4,9 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.SubCategoryRepository;
 
@@ -23,9 +23,6 @@ public class SubCategory extends Model {
 	@ForeignKeyColumn(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_CATEGORY_ID, referencedEntityClass = Category.class)
 	private Category category;
 
-	@ForeignKeyColumn(name = SubCategoryRepository.DB_KEY_SUBCATEGORY_SHOP_ID, referencedEntityClass = Shop.class)
-	private Shop shop;
-
 	public SubCategory() {
 
 	}
@@ -37,12 +34,10 @@ public class SubCategory extends Model {
 	 * @param category
 	 * @param shop
 	 */
-	public SubCategory(final Long id, final String name,
-			final Category category, final Shop shop) {
+	public SubCategory(final Long id, final String name, final Category category) {
 		this.id = id;
 		this.name = name;
 		this.category = category;
-		this.shop = shop;
 	}
 
 	public Long getId() {
@@ -57,10 +52,6 @@ public class SubCategory extends Model {
 		return category;
 	}
 
-	public Shop getShop() {
-		return shop;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -72,9 +63,4 @@ public class SubCategory extends Model {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
-	}
-
 }

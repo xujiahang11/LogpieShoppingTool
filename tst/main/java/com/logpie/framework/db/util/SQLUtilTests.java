@@ -9,7 +9,7 @@ import com.logpie.shopping.tool.model.Address;
 import com.logpie.shopping.tool.model.Brand;
 import com.logpie.shopping.tool.model.Category;
 import com.logpie.shopping.tool.model.Client;
-import com.logpie.shopping.tool.model.Delivery;
+import com.logpie.shopping.tool.model.Express;
 import com.logpie.shopping.tool.model.Package;
 import com.logpie.shopping.tool.model.SubCategory;
 
@@ -18,8 +18,8 @@ public class SQLUtilTests extends TestCase {
 	private Brand mTestBrand;
 	private Category mTestCategory;
 	private Client mTestClient;
-	private Delivery mTestIntDelivery;
-	private Delivery mTestDomDelivery;
+	private Express mTestIntDelivery;
+	private Express mTestDomDelivery;
 	private Package mTestPackage;
 	private SubCategory mTestSubcategory;
 

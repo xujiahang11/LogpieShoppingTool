@@ -28,7 +28,6 @@
 							<th>用户姓名</th>
 							<th style="width: 150px;">微信名</th>
 							<th>微信号</th>
-							<th>淘宝号</th>
 							<th>常用地址</th>
 							<th>手机号</th>
 							<th style="width: 140px;">备注</th>
@@ -41,7 +40,6 @@
 							<td th:text="${client.name}"></td>
 							<td th:text="${client.wechatName}"></td>
 							<td th:text="${client.wechatId}"></td>
-							<td th:text="${client.taobaoName}"></td>
 							<td><div class="dropdown font-extra-small blue" style="margin-left: 20px;">地址管理<img th:src="@{/img/array_down.svg}" class="img-updown"/></div></td>
 							<td th:text="${client.phone}"></td>
 							<td class="border-right" th:text="${client.note}" style="padding-left: 5px; padding-right: 5px;"></td>
@@ -57,8 +55,10 @@
 		<div th:replace="address/create_address::#popup_create_address(${new_address})"></div>
 		<div th:replace="address/edit_address::#popup_edit_address(${edit_address})"></div>
 		<div id="mask"></div>
-		<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
-		<script th:src="@{/js/global.js}" type="text/javascript"></script>
-		<script th:src="@{/js/client.js}" type="text/javascript"></script>
+		
+		<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+		<script th:src="@{/js/jquery.validate.js}"></script>
+		<script th:src="@{/js/global.js}"></script>
+		<script th:src="@{/js/client.js}"></script>
 	</body>
 </html>

@@ -2,7 +2,6 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,11 +14,8 @@ import com.logpie.framework.db.basic.Parameter;
 import com.logpie.framework.db.basic.Sort;
 import com.logpie.framework.db.basic.WhereParam;
 import com.logpie.framework.db.repository.JDBCTemplateRepository;
-import com.logpie.shopping.tool.model.Client;
-import com.logpie.shopping.tool.model.Delivery;
 import com.logpie.shopping.tool.model.Package;
 import com.logpie.shopping.tool.model.Package.PackageStatus;
-import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class PackageRepository extends JDBCTemplateRepository<Package> {
@@ -28,28 +24,27 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 
 	public static final String DB_TABLE_PACKAGE = "Package";
 
-	public static final String DB_KEY_PACKAGE_ID = "PackageId";
-	public static final String DB_KEY_PACKAGE_INT_DELIVERY_ID = "PackageIntDeliveryId";
-	public static final String DB_KEY_PACKAGE_INT_TRACKING_NUMBER = "PackageIntTrackingNumber";
-	public static final String DB_KEY_PACKAGE_DOM_DELIVERY_ID = "PackageDomDeliveryId";
-	public static final String DB_KEY_PACKAGE_DOM_TRACKING_NUMBER = "PackageDomTrackingNumber";
-	public static final String DB_KEY_PACKAGE_CLIENT_ID = "PackageClientId";
-	public static final String DB_KEY_PACKAGE_RECEIVER = "PackageReceiver";
-	public static final String DB_KEY_PACKAGE_DESTINATION = "PackageDestination";
-	public static final String DB_KEY_PACKAGE_IS_DIRECT_DELIVERED = "PackageIsDirectDelivered";
-	public static final String DB_KEY_PACKAGE_DATE = "PackageDate";
-	public static final String DB_KEY_PACKAGE_WEIGHT = "PackageWeight";
-	public static final String DB_KEY_PACKAGE_SHIPPING_FEE = "PackageShippingFee";
-	public static final String DB_KEY_PACKAGE_ADDITIONAL_CUSTOM_TAX_FEE = "PackageAdditionalCustomTaxFee";
-	public static final String DB_KEY_PACKAGE_ADDITIONAL_INSURANCE_FEE = "PackageAdditionalInsuranceFee";
-	public static final String DB_KEY_PACKAGE_STATUS = "PackageStatus";
-	public static final String DB_KEY_PACKAGE_NOTE = "PackageNote";
-	public static final String DB_KEY_PACKAGE_SHOP_ID = "PackageShopId";
+	public static final String DB_KEY_PACKAGE_ID = "id";
+	public static final String DB_KEY_PACKAGE_EXPRESS_ID = "expressId";
+	public static final String DB_KEY_PACKAGE_TRACKING_NUMBER = "trackingNumber";
+	public static final String DB_KEY_PACKAGE_CLIENT_ID = "clientId";
+	public static final String DB_KEY_PACKAGE_RECEIVER = "receiver";
+	public static final String DB_KEY_PACKAGE_DESTINATION = "destination";
+	public static final String DB_KEY_PACKAGE_IS_DIRECT_DELIVERED = "isDirectDelivered";
+	public static final String DB_KEY_PACKAGE_DATE = "postDate";
+	public static final String DB_KEY_PACKAGE_WEIGHT = "weight";
+	public static final String DB_KEY_PACKAGE_SHIPPING_FEE = "shippingFee";
+	public static final String DB_KEY_PACKAGE_ADDITIONAL_FEE = "additionalFee";
+	public static final String DB_KEY_PACKAGE_STATUS = "status";
+	public static final String DB_KEY_PACKAGE_NOTE = "note";
+	public static final String DB_KEY_PACKAGE_SHOP_ID = "shopId";
 
 	@Autowired
-	private DeliveryRepository deliveryRepository;
+	private ExpressRepository expressRepository;
 	@Autowired
 	private ClientRepository clientRepository;
+	@Autowired
+	private ShippingRecordRepository recordRepository;
 	@Autowired
 	private ShopRepository shopRepository;
 
@@ -78,19 +73,10 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 		return super.queryBy(request, param);
 	}
 
-	public Page<Package> queryByIntDeliveryId(final int pageNumber,
-			final Long deliveryId) throws DataAccessException {
+	public Page<Package> queryByExpressId(final int pageNumber,
+			final Long expressId) throws DataAccessException {
 		Parameter param = new WhereParam(Package.class,
-				DB_KEY_PACKAGE_INT_DELIVERY_ID, deliveryId);
-		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
-
-		return super.queryBy(request, param);
-	}
-
-	public Page<Package> queryByDomDeliveryId(final int pageNumber,
-			final Long deliveryId) throws DataAccessException {
-		Parameter param = new WhereParam(Package.class,
-				DB_KEY_PACKAGE_DOM_DELIVERY_ID, deliveryId);
+				DB_KEY_PACKAGE_EXPRESS_ID, expressId);
 		Pageable request = new PageRequest(pageNumber, PAGE_SIZE, sort);
 
 		return super.queryBy(request, param);
@@ -110,32 +96,25 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 	@Override
 	public Package mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		Long id = rs.getLong(DB_KEY_PACKAGE_ID);
-		if (id == 0) {
-			return null;
-		}
-		Delivery intDelivery = deliveryRepository.mapRow(rs, rowNum);
-		String intTracking = rs.getString(DB_KEY_PACKAGE_INT_TRACKING_NUMBER);
-		Delivery domDelivery = deliveryRepository.mapRow(rs, rowNum);
-		String domTracking = rs.getString(DB_KEY_PACKAGE_DOM_TRACKING_NUMBER);
-		Client client = clientRepository.mapRow(rs, rowNum);
-		String receiver = rs.getString(DB_KEY_PACKAGE_RECEIVER);
-		String destination = rs.getString(DB_KEY_PACKAGE_DESTINATION);
-		Boolean isDirect = rs.getBoolean(DB_KEY_PACKAGE_IS_DIRECT_DELIVERED);
-		Timestamp date = rs.getTimestamp(DB_KEY_PACKAGE_DATE);
-		Integer weight = rs.getInt(DB_KEY_PACKAGE_WEIGHT);
-		Float shippingFee = rs.getFloat(DB_KEY_PACKAGE_SHIPPING_FEE);
-		Float customFee = rs.getFloat(DB_KEY_PACKAGE_ADDITIONAL_CUSTOM_TAX_FEE);
-		Float insuranceFee = rs
-				.getFloat(DB_KEY_PACKAGE_ADDITIONAL_INSURANCE_FEE);
-		PackageStatus status = PackageStatus.fromCode(rs
-				.getString(DB_KEY_PACKAGE_STATUS));
-		String note = rs.getString(DB_KEY_PACKAGE_NOTE);
-		Shop shop = shopRepository.mapRow(rs, rowNum);
+		Package pack = new Package();
+		pack.setId(rs.getLong(DB_KEY_PACKAGE_ID));
+		pack.setExpress(expressRepository.mapRow(rs, rowNum));
+		pack.setTrackingNumber(rs.getString(DB_KEY_PACKAGE_TRACKING_NUMBER));
+		pack.setClient(clientRepository.mapRow(rs, rowNum));
+		pack.setReceiver(rs.getString(DB_KEY_PACKAGE_RECEIVER));
+		pack.setDestination(rs.getString(DB_KEY_PACKAGE_DESTINATION));
+		pack.setIsDirectDelivered(rs
+				.getBoolean(DB_KEY_PACKAGE_IS_DIRECT_DELIVERED));
+		pack.setRecords(recordRepository.extractData(rs));
+		pack.setDate(rs.getTimestamp(DB_KEY_PACKAGE_DATE));
+		pack.setWeight(rs.getInt(DB_KEY_PACKAGE_WEIGHT));
+		pack.setShippingFee(rs.getFloat(DB_KEY_PACKAGE_SHIPPING_FEE));
+		pack.setAdditionalFee(rs.getFloat(DB_KEY_PACKAGE_ADDITIONAL_FEE));
+		pack.setStatus(PackageStatus.fromCode(rs
+				.getString(DB_KEY_PACKAGE_STATUS)));
+		pack.setNote(rs.getString(DB_KEY_PACKAGE_NOTE));
+		pack.setShop(shopRepository.mapRow(rs, rowNum));
 
-		return new Package(id, intDelivery, intTracking, domDelivery,
-				domTracking, client, receiver, destination, isDirect, date,
-				weight, shippingFee, customFee, insuranceFee, status, note,
-				shop);
+		return pack;
 	}
 }

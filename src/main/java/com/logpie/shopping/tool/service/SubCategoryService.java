@@ -55,11 +55,4 @@ public class SubCategoryService {
 
 		return repository.queryByCategoryId(categoryId);
 	}
-
-	public List<SubCategory> getSubCategoriesByShopId(final Long shopId) {
-		logger.trace("QuerySubCategoriesByShopId service is started...");
-		Assert.notNull(shopId, "Shop id must not be null");
-
-		return repository.queryByShopId(shopId);
-	}
 }

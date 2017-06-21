@@ -23,7 +23,7 @@ public class Admin extends Model {
 	@Column(name = AdminRepository.DB_KEY_ADMIN_PHONE, type = DataType.STRING)
 	private String phone;
 
-	@Column(name = AdminRepository.DB_KEY_ADMIN_WECHAT, type = DataType.STRING)
+	@Column(name = AdminRepository.DB_KEY_ADMIN_EMAIL, type = DataType.STRING)
 	private String wechat;
 
 	@Column(name = AdminRepository.DB_KEY_ADMIN_PROFIT_PERCENTAGE, type = DataType.FLOAT)

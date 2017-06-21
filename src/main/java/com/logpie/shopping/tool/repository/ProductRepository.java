@@ -2,7 +2,6 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,12 +14,7 @@ import com.logpie.framework.db.basic.Parameter;
 import com.logpie.framework.db.basic.Sort;
 import com.logpie.framework.db.basic.WhereParam;
 import com.logpie.framework.db.repository.JDBCTemplateRepository;
-import com.logpie.shopping.tool.model.Brand;
-import com.logpie.shopping.tool.model.Color;
 import com.logpie.shopping.tool.model.Product;
-import com.logpie.shopping.tool.model.Shop;
-import com.logpie.shopping.tool.model.Size;
-import com.logpie.shopping.tool.model.SubCategory;
 
 @Repository
 public class ProductRepository extends JDBCTemplateRepository<Product> {
@@ -29,25 +23,22 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 
 	public static final String DB_TABLE_PRODUCT = "Product";
 
-	public static final String DB_KEY_PRODUCT_ID = "ProductId";
-	public static final String DB_KEY_PRODUCT_NAME = "ProductName";
-	public static final String DB_KEY_PRODUCT_WEIGHT = "ProductWeight";
-	public static final String DB_KEY_PRODUCT_POST_DATE = "ProductPostDate";
-	public static final String DB_KEY_PRODUCT_BRAND_ID = "ProductBrandId";
-	public static final String DB_KEY_PRODUCT_SUBCATEGORY_ID = "ProductSubCategoryId";
-	public static final String DB_KEY_PRODUCT_COLOR_ID = "ProductColorId";
-	public static final String DB_KEY_PRODUCT_SIZE_ID = "ProductSizeId";
-	public static final String DB_KEY_PRODUCT_ORIGINAL_ID = "ProductOriginalId";
-	public static final String DB_KEY_PRODUCT_SHOP_ID = "ProductShopId";
+	public static final String DB_KEY_PRODUCT_ID = "id";
+	public static final String DB_KEY_PRODUCT_NAME = "name";
+	public static final String DB_KEY_PRODUCT_PRICE = "price";
+	public static final String DB_KEY_PRODUCT_WEIGHT = "weight";
+	public static final String DB_KEY_PRODUCT_POST_DATE = "postDate";
+	public static final String DB_KEY_PRODUCT_BRAND_ID = "brandId";
+	public static final String DB_KEY_PRODUCT_SUBCATEGORY_ID = "subCategoryId";
+	public static final String DB_KEY_PRODUCT_ORIGINAL_ID = "originalId";
+	public static final String DB_KEY_PRODUCT_SHOP_ID = "shopId";
 
 	@Autowired
 	private BrandRepository brandRepository;
 	@Autowired
 	private SubCategoryRepository subcategoryRepository;
 	@Autowired
-	private ColorRepository colorRepository;
-	@Autowired
-	private SizeRepository sizeRepository;
+	private ProductConfigRepository sizeRepository;
 	@Autowired
 	private ShopRepository shopRepository;
 
@@ -80,21 +71,17 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 	@Override
 	public Product mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		Long id = rs.getLong(DB_KEY_PRODUCT_ID);
-		if (id == 0) {
-			return null;
-		}
-		String name = rs.getString(DB_KEY_PRODUCT_NAME);
-		Integer weight = rs.getInt(DB_KEY_PRODUCT_WEIGHT);
-		Timestamp date = rs.getTimestamp(DB_KEY_PRODUCT_POST_DATE);
-		Brand brand = brandRepository.mapRow(rs, rowNum);
-		SubCategory subcategory = subcategoryRepository.mapRow(rs, rowNum);
-		Color color = colorRepository.mapRow(rs, rowNum);
-		Size size = sizeRepository.mapRow(rs, rowNum);
-		String originalId = rs.getString(DB_KEY_PRODUCT_ORIGINAL_ID);
-		Shop shop = shopRepository.mapRow(rs, rowNum);
+		Product product = new Product();
+		product.setId(rs.getLong(DB_KEY_PRODUCT_ID));
+		product.setName(rs.getString(DB_KEY_PRODUCT_NAME));
+		product.setPrice(rs.getFloat(DB_KEY_PRODUCT_PRICE));
+		product.setWeight(rs.getInt(DB_KEY_PRODUCT_WEIGHT));
+		product.setPostDate(rs.getTimestamp(DB_KEY_PRODUCT_POST_DATE));
+		product.setBrand(brandRepository.mapRow(rs, rowNum));
+		product.setSubCategory(subcategoryRepository.mapRow(rs, rowNum));
+		product.setOriginalId(rs.getString(DB_KEY_PRODUCT_ORIGINAL_ID));
+		product.setShop(shopRepository.mapRow(rs, rowNum));
 
-		return new Product(id, name, weight, date, brand, subcategory, color,
-				size, originalId, shop);
+		return product;
 	}
 }

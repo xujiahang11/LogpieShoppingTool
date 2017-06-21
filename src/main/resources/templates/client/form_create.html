@@ -13,28 +13,22 @@
 						<table class="no-border text-left">
 							<tr>
 								<td>真实姓名<span class="required">*</span></td>
-								<td><input type="text" th:field="*{name}"/></td>
-								<td><div>微信名<span class="required">*</span></div></td>
-								<td><input type="text" th:field="*{wechatName}"/></td>
+								<td><input name="name" type="text" th:field="*{name}"/></td>
+								<td><div>手机号<span class="required">*</span></div></td>
+								<td><input name="phone" type="text" th:field="*{phone}"/></td>
 							</tr>
 							<tr>
-								<td>淘宝号</td>
-								<td><input type="text" th:field="*{taobaoName}"/></td>
+								<td>微信名<span class="required">*</span></td>
+								<td><input name="wechatName" type="text" th:field="*{wechatName}"/></td>
 								<td><div>微信号</div></td>
 								<td><input type="text" th:field="*{wechatId}"/></td>
 							</tr>
 							<tr>
-								<td>常用地址<span class="required">*</span></td>
-								<td colspan="3"><input type="text" name="address" style="width: 360px;"/></td>
-							</tr>
-							<tr>
-								<td>手机号</td>
-								<td><input type="text" th:field="*{phone}"/></td>
-								<td><div>备注</div></td>
-								<td><input type="text" th:field="*{note}"/></td>
+								<td>备注</td>
+								<td colspan="3"><input type="text" th:field="*{note}"/></td>
 							</tr>
 						</table>
-						<div class="btn confirm-btn bg-green" style="width: 480px;" onclick="document.getElementById('form_create_client').submit();">确定</div>
+						<div id="submit_btn_create_client" class="btn confirm-btn bg-green" style="width: 480px;">确定</div>
 					</fieldset>
 				</form>
 			</div>

@@ -6,9 +6,9 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.ClientRepository;
 
@@ -33,9 +33,6 @@ public class Client extends Model {
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_WECHAT_NAME, type = DataType.STRING)
 	private String wechatName;
-
-	@Column(name = ClientRepository.DB_KEY_CLIENT_TAOBAO_NAME, type = DataType.STRING)
-	private String taobaoName;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_NOTE, type = DataType.STRING)
 	private String note;
@@ -65,7 +62,7 @@ public class Client extends Model {
 	 * @param shop
 	 */
 	public Client(Long id, String wechatDirectedId, String name, String phone,
-			String wechatId, String wechatName, String taobaoName, String note,
+			String wechatId, String wechatName, String note,
 			Timestamp registerTime, Shop shop) {
 		this.id = id;
 		this.wechatDirectedId = wechatDirectedId;
@@ -73,7 +70,6 @@ public class Client extends Model {
 		this.phone = phone;
 		this.wechatId = wechatId;
 		this.wechatName = wechatName;
-		this.taobaoName = taobaoName;
 		this.note = note;
 		this.registerTime = registerTime;
 		this.shop = shop;
@@ -101,10 +97,6 @@ public class Client extends Model {
 
 	public String getWechatName() {
 		return wechatName;
-	}
-
-	public String getTaobaoName() {
-		return taobaoName;
 	}
 
 	public String getNote() {
@@ -141,10 +133,6 @@ public class Client extends Model {
 
 	public void setWechatName(String wechatName) {
 		this.wechatName = wechatName;
-	}
-
-	public void setTaobaoName(String taobaoName) {
-		this.taobaoName = taobaoName;
 	}
 
 	public void setNote(String note) {

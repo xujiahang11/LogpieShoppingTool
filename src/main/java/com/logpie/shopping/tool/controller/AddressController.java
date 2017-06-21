@@ -44,10 +44,8 @@ public class AddressController {
 	}
 
 	@RequestMapping(path = "/id/{clientId}/address/create", method = RequestMethod.POST)
-	public @ResponseBody String createByAJAX(
-			@PathVariable final String shopPath,
-			@PathVariable final Long clientId, @RequestBody final Address addr) {
-		addr.setShop(shopService.getShopByPath(shopPath));
+	public @ResponseBody String createByAJAX(@PathVariable final Long clientId,
+			@RequestBody final Address addr) {
 		addr.setClient(clientService.getClientById(clientId));
 		service.createAddress(addr);
 		return "success";

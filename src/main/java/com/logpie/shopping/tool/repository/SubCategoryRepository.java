@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 import com.logpie.framework.db.basic.Parameter;
 import com.logpie.framework.db.basic.WhereParam;
 import com.logpie.framework.db.repository.JDBCTemplateRepository;
-import com.logpie.shopping.tool.model.Category;
-import com.logpie.shopping.tool.model.Shop;
 import com.logpie.shopping.tool.model.SubCategory;
 
 @Repository
@@ -20,25 +18,15 @@ public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
 
 	public static final String DB_TABLE_SUBCATEGORY = "SubCategory";
 
-	public static final String DB_KEY_SUBCATEGORY_ID = "SubCategoryId";
-	public static final String DB_KEY_SUBCATEGORY_NAME = "SubCategoryName";
-	public static final String DB_KEY_SUBCATEGORY_CATEGORY_ID = "SubCategoryCategoryId";
-	public static final String DB_KEY_SUBCATEGORY_SHOP_ID = "SubCategoryShopId";
+	public static final String DB_KEY_SUBCATEGORY_ID = "id";
+	public static final String DB_KEY_SUBCATEGORY_NAME = "name";
+	public static final String DB_KEY_SUBCATEGORY_CATEGORY_ID = "categoryId";
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	@Autowired
-	private ShopRepository shopRepository;
 
 	public SubCategoryRepository() {
 		super(SubCategory.class);
-	}
-
-	public List<SubCategory> queryByShopId(final Long shopId)
-			throws DataAccessException {
-		Parameter param = new WhereParam(SubCategory.class,
-				DB_KEY_SUBCATEGORY_SHOP_ID, shopId);
-		return (List<SubCategory>) super.queryBy(param);
 	}
 
 	public List<SubCategory> queryByCategoryId(final Long categoryId)
@@ -51,13 +39,11 @@ public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
 	@Override
 	public SubCategory mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		Long id = rs.getLong(DB_KEY_SUBCATEGORY_ID);
-		if (id == 0) {
-			return null;
-		}
-		String name = rs.getString(DB_KEY_SUBCATEGORY_NAME);
-		Category category = categoryRepository.mapRow(rs, rowNum);
-		Shop shop = shopRepository.mapRow(rs, rowNum);
-		return new SubCategory(id, name, category, shop);
+		SubCategory subCategory = new SubCategory();
+		subCategory.setId(rs.getLong(DB_KEY_SUBCATEGORY_ID));
+		subCategory.setName(rs.getString(DB_KEY_SUBCATEGORY_NAME));
+		subCategory.setCategory(categoryRepository.mapRow(rs, rowNum));
+
+		return subCategory;
 	}
 }

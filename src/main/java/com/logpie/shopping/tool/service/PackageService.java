@@ -17,7 +17,7 @@ public class PackageService {
 	@Autowired
 	private PackageRepository repository;
 	@Autowired
-	private DeliveryService deliveryService;
+	private ExpressService deliveryService;
 	@Autowired
 	private ClientService clientService;
 

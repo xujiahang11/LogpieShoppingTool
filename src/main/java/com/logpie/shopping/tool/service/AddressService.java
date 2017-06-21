@@ -7,7 +7,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Address;
@@ -52,20 +51,6 @@ public class AddressService {
 
 		try {
 			return repository.queryOne(id);
-		} catch (DataAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public Page<Address> getAddressesByShopId(final int pageNumber,
-			final Long shopId) {
-		logger.trace("QueryAddressesByShopId service is started...");
-		Assert.notNull(shopId, "Shop id must not be null");
-
-		try {
-			return repository.queryByShopId(pageNumber, shopId);
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

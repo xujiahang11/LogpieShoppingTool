@@ -20,9 +20,7 @@ public class ProductService {
 	@Autowired
 	private SubCategoryService subcategoryService;
 	@Autowired
-	private ColorService colorService;
-	@Autowired
-	private SizeService sizeService;
+	private ProductConfigService sizeService;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());

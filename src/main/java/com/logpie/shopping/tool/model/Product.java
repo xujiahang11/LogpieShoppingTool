@@ -6,9 +6,9 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
+import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.annotation.ForeignKeyColumn;
 import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.ProductRepository;
 
@@ -22,6 +22,9 @@ public class Product extends Model {
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_NAME, type = DataType.STRING)
 	private String name;
 
+	@Column(name = ProductRepository.DB_KEY_PRODUCT_PRICE, type = DataType.FLOAT)
+	private Float price;
+
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_WEIGHT, type = DataType.INTEGER)
 	private Integer weight;
 
@@ -34,12 +37,6 @@ public class Product extends Model {
 
 	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SUBCATEGORY_ID, referencedEntityClass = SubCategory.class)
 	private SubCategory subCategory;
-
-	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_COLOR_ID, referencedEntityClass = Color.class)
-	private Color color;
-
-	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SIZE_ID, referencedEntityClass = Size.class)
-	private Size size;
 
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_ORIGINAL_ID, type = DataType.STRING)
 	private String originalId;
@@ -59,23 +56,20 @@ public class Product extends Model {
 	 * @param postDate
 	 * @param brand
 	 * @param subCategory
-	 * @param color
-	 * @param size
 	 * @param originalId
 	 * @param shop
 	 */
-	public Product(final Long id, final String name, final Integer weight,
-			final Timestamp postDate, final Brand brand,
-			final SubCategory subCategory, final Color color, final Size size,
-			final String originalId, final Shop shop) {
+	public Product(final Long id, final String name, final Float price,
+			final Integer weight, final Timestamp postDate, final Brand brand,
+			final SubCategory subCategory, final String originalId,
+			final Shop shop) {
 		this.id = id;
 		this.name = name;
+		this.price = price;
 		this.weight = weight;
 		this.postDate = postDate;
 		this.brand = brand;
 		this.subCategory = subCategory;
-		this.color = color;
-		this.size = size;
 		this.originalId = originalId;
 		this.shop = shop;
 	}
@@ -86,6 +80,10 @@ public class Product extends Model {
 
 	public String getName() {
 		return name;
+	}
+
+	public Float getPrice() {
+		return price;
 	}
 
 	public Integer getWeight() {
@@ -104,14 +102,6 @@ public class Product extends Model {
 		return subCategory;
 	}
 
-	public Color getColor() {
-		return color;
-	}
-
-	public Size getSize() {
-		return size;
-	}
-
 	public String getOriginalId() {
 		return originalId;
 	}
@@ -128,6 +118,10 @@ public class Product extends Model {
 		this.name = name;
 	}
 
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
 	public void setWeight(Integer weight) {
 		this.weight = weight;
 	}
@@ -142,14 +136,6 @@ public class Product extends Model {
 
 	public void setSubCategory(SubCategory subCategory) {
 		this.subCategory = subCategory;
-	}
-
-	public void setColor(Color color) {
-		this.color = color;
-	}
-
-	public void setSize(Size size) {
-		this.size = size;
 	}
 
 	public void setOriginalId(String originalId) {

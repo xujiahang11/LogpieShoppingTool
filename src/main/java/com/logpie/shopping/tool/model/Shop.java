@@ -6,8 +6,8 @@ import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
 import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.annotation.Entity;
+import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.shopping.tool.repository.ShopRepository;
 
@@ -24,11 +24,11 @@ public class Shop extends Model {
 	@Column(name = ShopRepository.DB_KEY_SHOP_SMALL_LOGO, type = DataType.STRING)
 	private String smallLogo;
 
-	@Column(name = ShopRepository.DB_KEY_SHOP_LARGE_LOGO, type = DataType.STRING)
-	private String largeLogo;
+	@Column(name = ShopRepository.DB_KEY_SHOP_LOGO, type = DataType.STRING)
+	private String logo;
 
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
-	@Column(name = ShopRepository.DB_KEY_SHOP_DATE, type = DataType.TIMESTAMP)
+	@Column(name = ShopRepository.DB_KEY_SHOP_REGISTER_DATE, type = DataType.TIMESTAMP)
 	private Timestamp date;
 
 	@Column(name = ShopRepository.DB_KEY_SHOP_PATH, type = DataType.STRING)
@@ -51,12 +51,12 @@ public class Shop extends Model {
 	 * @param path
 	 * @param exp
 	 */
-	public Shop(Long id, String name, String smallLogo, String largeLogo,
+	public Shop(Long id, String name, String smallLogo, String logo,
 			Timestamp date, String path, Integer exp) {
 		this.id = id;
 		this.name = name;
 		this.smallLogo = smallLogo;
-		this.largeLogo = largeLogo;
+		this.logo = logo;
 		this.date = date;
 		this.path = path;
 		this.exp = exp;
@@ -74,8 +74,8 @@ public class Shop extends Model {
 		return smallLogo;
 	}
 
-	public String getLargeLogo() {
-		return largeLogo;
+	public String getLogo() {
+		return logo;
 	}
 
 	public Timestamp getDate() {
@@ -102,8 +102,12 @@ public class Shop extends Model {
 		this.smallLogo = smallLogo;
 	}
 
-	public void setLargeLogo(String largeLogo) {
-		this.largeLogo = largeLogo;
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public void setDate(Timestamp date) {
+		this.date = date;
 	}
 
 	public void setPath(String path) {

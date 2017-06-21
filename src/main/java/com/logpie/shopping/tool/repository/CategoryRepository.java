@@ -14,7 +14,6 @@ import com.logpie.framework.db.basic.Parameter;
 import com.logpie.framework.db.basic.WhereParam;
 import com.logpie.framework.db.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Category;
-import com.logpie.shopping.tool.model.Shop;
 
 @Repository
 public class CategoryRepository extends JDBCTemplateRepository<Category> {
@@ -23,9 +22,9 @@ public class CategoryRepository extends JDBCTemplateRepository<Category> {
 
 	public static final String DB_TABLE_CATEGORY = "Category";
 
-	public static final String DB_KEY_CATEGORY_ID = "CategoryId";
-	public static final String DB_KEY_CATEGORY_NAME = "CategoryName";
-	public static final String DB_KEY_CATEGORY_SHOP_ID = "CategoryShopId";
+	public static final String DB_KEY_CATEGORY_ID = "id";
+	public static final String DB_KEY_CATEGORY_NAME = "name";
+	public static final String DB_KEY_CATEGORY_SHOP_ID = "shopId";
 
 	@Autowired
 	private ShopRepository shopRepository;
@@ -46,13 +45,11 @@ public class CategoryRepository extends JDBCTemplateRepository<Category> {
 	@Override
 	public Category mapRow(final ResultSet rs, final int rowNum)
 			throws SQLException {
-		Long id = rs.getLong(DB_KEY_CATEGORY_ID);
-		if (id == 0) {
-			return null;
-		}
-		String name = rs.getString(DB_KEY_CATEGORY_NAME);
-		Shop shop = shopRepository.mapRow(rs, rowNum);
-		return new Category(id, name, shop);
+		Category category = new Category();
+		category.setId(rs.getLong(DB_KEY_CATEGORY_ID));
+		category.setName(rs.getString(DB_KEY_CATEGORY_NAME));
+		category.setShop(shopRepository.mapRow(rs, rowNum));
+		return category;
 	}
 
 }

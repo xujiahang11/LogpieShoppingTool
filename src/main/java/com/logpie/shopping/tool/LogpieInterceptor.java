@@ -79,11 +79,10 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 		String performanceMsg = "Request execution time --- ".toUpperCase();
 		logger.info(performanceMsg
 				+ LogColor.setPurple(String.valueOf(executeTime) + "ms"));
+		logger.trace("Interceptor is done with posthandle...");
 
 		// output logs
 		LogpieLoggerFactory.outputLog();
-
-		logger.trace("Interceptor is done with posthandle...");
 	}
 
 	/*
