@@ -23,15 +23,16 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 
 	public static final String DB_TABLE_PRODUCT = "Product";
 
-	public static final String DB_KEY_PRODUCT_ID = "id";
-	public static final String DB_KEY_PRODUCT_NAME = "name";
-	public static final String DB_KEY_PRODUCT_PRICE = "price";
-	public static final String DB_KEY_PRODUCT_WEIGHT = "weight";
-	public static final String DB_KEY_PRODUCT_POST_DATE = "postDate";
-	public static final String DB_KEY_PRODUCT_BRAND_ID = "brandId";
-	public static final String DB_KEY_PRODUCT_SUBCATEGORY_ID = "subCategoryId";
-	public static final String DB_KEY_PRODUCT_ORIGINAL_ID = "originalId";
-	public static final String DB_KEY_PRODUCT_SHOP_ID = "shopId";
+	public static final String DB_KEY_PRODUCT_ID = "productId";
+	public static final String DB_KEY_PRODUCT_NAME = "productName";
+	public static final String DB_KEY_PRODUCT_PRICE = "productPrice";
+	public static final String DB_KEY_PRODUCT_WEIGHT = "productWeight";
+	public static final String DB_KEY_PRODUCT_POST_DATE = "productPostDate";
+	public static final String DB_KEY_PRODUCT_BRAND_ID = "productBrandId";
+	public static final String DB_KEY_PRODUCT_SUBCATEGORY_ID = "productSubCategoryId";
+	public static final String DB_KEY_PRODUCT_ORIGINAL_ID = "productOriginalId";
+	public static final String DB_KEY_PRODUCT_NOTE = "productNote";
+	public static final String DB_KEY_PRODUCT_SHOP_ID = "productShopId";
 
 	@Autowired
 	private BrandRepository brandRepository;
@@ -78,6 +79,7 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 		product.setBrand(brandRepository.mapRow(rs, rowNum));
 		product.setSubCategory(subcategoryRepository.mapRow(rs, rowNum));
 		product.setOriginalId(rs.getString(DB_KEY_PRODUCT_ORIGINAL_ID));
+		product.setNote(rs.getString(DB_KEY_PRODUCT_NOTE));
 		product.setShop(shopRepository.mapRow(rs, rowNum));
 
 		return product;

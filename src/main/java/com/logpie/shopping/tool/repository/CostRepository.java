@@ -16,13 +16,13 @@ public class CostRepository extends JDBCTemplateRepository<Cost> {
 
 	public static final String DB_TABLE_COST = "Cost";
 
-	public static final String DB_KEY_COST_ID = "id";
-	public static final String DB_KEY_COST_NAME = "name";
-	public static final String DB_KEY_COST_TYPE = "type";
-	public static final String DB_KEY_COST_DESC = "desc";
-	public static final String DB_KEY_COST_VALUE = "value";
-	public static final String DB_KEY_COST_CREATION_TIME = "creationTime";
-	public static final String DB_KEY_COST_SHOP_ID = "shopId";
+	public static final String DB_KEY_COST_ID = "costId";
+	public static final String DB_KEY_COST_NAME = "costName";
+	public static final String DB_KEY_COST_TYPE = "costType";
+	public static final String DB_KEY_COST_DESC = "costDescription";
+	public static final String DB_KEY_COST_VALUE = "costValue";
+	public static final String DB_KEY_COST_CREATION_TIME = "costCreationTime";
+	public static final String DB_KEY_COST_SHOP_ID = "costShopId";
 
 	@Autowired
 	private ShopRepository shopRepository;

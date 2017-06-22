@@ -28,7 +28,7 @@ public class Shop extends Model {
 	private String logo;
 
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
-	@Column(name = ShopRepository.DB_KEY_SHOP_REGISTER_DATE, type = DataType.TIMESTAMP)
+	@Column(name = ShopRepository.DB_KEY_SHOP_REGISTER_TIME, type = DataType.TIMESTAMP)
 	private Timestamp date;
 
 	@Column(name = ShopRepository.DB_KEY_SHOP_PATH, type = DataType.STRING)

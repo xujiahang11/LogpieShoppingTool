@@ -24,15 +24,15 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 
 	public static final String DB_TABLE_ORDER = "Orders";
 
-	public static final String DB_KEY_ORDER_ID = "id";
-	public static final String DB_KEY_ORDER_DATE = "postDate";
-	public static final String DB_KEY_ORDER_CUSTOMER = "customer";
-	public static final String DB_KEY_ORDER_CLIENT_ID = "clientId";
-	public static final String DB_KEY_ORDER_ADMIN_ID = "adminId";
-	public static final String DB_KEY_ORDER_FINAL_PRICE = "finalPrice";
-	public static final String DB_KEY_ORDER_STATUS = "status";
-	public static final String DB_KEY_ORDER_NOTE = "note";
-	public static final String DB_KEY_ORDER_SHOP_ID = "shopId";
+	public static final String DB_KEY_ORDER_ID = "orderId";
+	public static final String DB_KEY_ORDER_DATE = "orderPostDate";
+	public static final String DB_KEY_ORDER_CUSTOMER = "orderCustomer";
+	public static final String DB_KEY_ORDER_CLIENT_ID = "orderClientId";
+	public static final String DB_KEY_ORDER_ADMIN_ID = "orderAdminId";
+	public static final String DB_KEY_ORDER_FINAL_PRICE = "orderFinalPrice";
+	public static final String DB_KEY_ORDER_STATUS = "orderStatus";
+	public static final String DB_KEY_ORDER_NOTE = "orderNote";
+	public static final String DB_KEY_ORDER_SHOP_ID = "orderShopId";
 
 	@Autowired
 	private ClientRepository clientRepository;

@@ -22,9 +22,9 @@ public class CategoryRepository extends JDBCTemplateRepository<Category> {
 
 	public static final String DB_TABLE_CATEGORY = "Category";
 
-	public static final String DB_KEY_CATEGORY_ID = "id";
-	public static final String DB_KEY_CATEGORY_NAME = "name";
-	public static final String DB_KEY_CATEGORY_SHOP_ID = "shopId";
+	public static final String DB_KEY_CATEGORY_ID = "categoryId";
+	public static final String DB_KEY_CATEGORY_NAME = "categoryName";
+	public static final String DB_KEY_CATEGORY_SHOP_ID = "categoryShopId";
 
 	@Autowired
 	private ShopRepository shopRepository;

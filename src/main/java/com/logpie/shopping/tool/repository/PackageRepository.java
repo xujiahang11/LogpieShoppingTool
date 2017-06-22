@@ -24,20 +24,20 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 
 	public static final String DB_TABLE_PACKAGE = "Package";
 
-	public static final String DB_KEY_PACKAGE_ID = "id";
-	public static final String DB_KEY_PACKAGE_EXPRESS_ID = "expressId";
+	public static final String DB_KEY_PACKAGE_ID = "packageId";
+	public static final String DB_KEY_PACKAGE_EXPRESS_ID = "packageExpressId";
 	public static final String DB_KEY_PACKAGE_TRACKING_NUMBER = "trackingNumber";
-	public static final String DB_KEY_PACKAGE_CLIENT_ID = "clientId";
+	public static final String DB_KEY_PACKAGE_CLIENT_ID = "packageClientId";
 	public static final String DB_KEY_PACKAGE_RECEIVER = "receiver";
 	public static final String DB_KEY_PACKAGE_DESTINATION = "destination";
 	public static final String DB_KEY_PACKAGE_IS_DIRECT_DELIVERED = "isDirectDelivered";
-	public static final String DB_KEY_PACKAGE_DATE = "postDate";
-	public static final String DB_KEY_PACKAGE_WEIGHT = "weight";
+	public static final String DB_KEY_PACKAGE_DATE = "packagePostDate";
+	public static final String DB_KEY_PACKAGE_WEIGHT = "packageWeight";
 	public static final String DB_KEY_PACKAGE_SHIPPING_FEE = "shippingFee";
 	public static final String DB_KEY_PACKAGE_ADDITIONAL_FEE = "additionalFee";
-	public static final String DB_KEY_PACKAGE_STATUS = "status";
-	public static final String DB_KEY_PACKAGE_NOTE = "note";
-	public static final String DB_KEY_PACKAGE_SHOP_ID = "shopId";
+	public static final String DB_KEY_PACKAGE_STATUS = "packageStatus";
+	public static final String DB_KEY_PACKAGE_NOTE = "packageNote";
+	public static final String DB_KEY_PACKAGE_SHOP_ID = "packageShopId";
 
 	@Autowired
 	private ExpressRepository expressRepository;

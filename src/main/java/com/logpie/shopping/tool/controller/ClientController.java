@@ -27,7 +27,7 @@ public class ClientController {
 	private ShopService shopService;
 
 	private LogpieLogger logger = LogpieLoggerFactory
-			.getLogger(AddressController.class);
+			.getLogger(this.getClass());
 
 	@RequestMapping(path = "/{page}", method = RequestMethod.GET)
 	public String getAll(@PathVariable final String shopPath,

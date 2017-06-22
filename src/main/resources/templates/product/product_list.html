@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<table id="table_products" class="font-small text-center">
+			<thead>
+				<tr class="border-bottom light-grey bg-light-grey">
+					<th style="width: 80px;">商品编号</th>
+					<th class="text-left" style="width: 120px;">品牌</th>
+					<th class="text-left" style="width: 120px;">类别</th>
+					<th class="text-left" style="width: 160px;">商品名称</th>
+					<th>规格</th>
+					<th>货号</th>
+					<th>售价</th>
+					<th>重量</th>
+					<th style="width: 160px;">备注</th>
+					<th style="width: 70px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td th:if="${products.isEmpty()}" colspan="10"><div class="grey" style="padding-top: 30px;">暂无任何数据</div></td>
+				</tr>
+				<tr class="border-bottom" th:each="product,iterStat:${products}" th:unless="${products.isEmpty()}" th:id="'row-id-' + ${iterStat.index}">
+					<td class="border-right id" th:text="${product.id}"></td>
+					<td class="text-left"><div class="text-omit font-median" th:text="${product.brand.name}"></div></td>
+					<td class="text-left"><div class="text-omit font-median" th:text="${product.subCategory.category.name} + ' - ' + ${product.subCategory.name}"></div></td>
+					<td class="text-left"><div class="text-omit font-median" th:text="${product.name}"></div></td>
+					<td>
+						<select>  
+ 							<option>XS</option>  
+							<option>S</option>  
+							<option>M</option>
+							<option>L</option>
+							<option>XL</option>  
+						</select>
+					</td>
+					<td th:text="${product.originalId}"></td>
+					<td th:text="${product.price}"></td>
+					<td th:text="${product.weight}"></td>
+					<td class="border-right" th:text="${product.note}" style="padding-left: 5px; padding-right: 5px;"></td>
+					<td class="edit"><div class="btn action-btn font-small white bg-grey">修改</div></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

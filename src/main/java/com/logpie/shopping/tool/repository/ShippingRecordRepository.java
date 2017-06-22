@@ -22,9 +22,9 @@ public class ShippingRecordRepository extends
 
 	public static final String DB_TABLE_SHIPPING_RECORD = "ShippingRecord";
 
-	public static final String DB_KEY_SHIPPING_RECORD_ID = "id";
-	public static final String DB_KEY_SHIPPING_RECORD_PACKAGE_ID = "packageId";
-	public static final String DB_KEY_SHIPPING_RECORD_TRANSACTION_ID = "transactionId";
+	public static final String DB_KEY_SHIPPING_RECORD_ID = "recordId";
+	public static final String DB_KEY_SHIPPING_RECORD_PACKAGE_ID = "recordPackageId";
+	public static final String DB_KEY_SHIPPING_RECORD_TRANSACTION_ID = "recordTransactionId";
 
 	@Autowired
 	private TransactionRepository transactionRepository;

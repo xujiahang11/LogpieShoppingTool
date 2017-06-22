@@ -19,9 +19,9 @@ public class ProductConfigRepository extends
 
 	public static final String DB_TABLE_SIZE = "ProductConfig";
 
-	public static final String DB_KEY_CONFIG_ID = "id";
-	public static final String DB_KEY_CONFIG_DESC = "desc";
-	public static final String DB_KEY_CONFIG_PRODUCT_ID = "productId";
+	public static final String DB_KEY_CONFIG_ID = "configId";
+	public static final String DB_KEY_CONFIG_DESC = "configDescription";
+	public static final String DB_KEY_CONFIG_PRODUCT_ID = "configProductId";
 
 	@Autowired
 	private ProductRepository productRepository;

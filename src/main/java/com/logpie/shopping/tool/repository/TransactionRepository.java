@@ -21,13 +21,13 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 
 	public static final String DB_TABLE_TRANSACTION = "Transaction";
 
-	public static final String DB_KEY_TRANSACTION_ID = "id";
-	public static final String DB_KEY_TRANSACTION_PRODUCT_ID = "productId";
-	public static final String DB_KEY_TRANSACTION_QUANTITY = "quantity";
-	public static final String DB_KEY_TRANSACTION_UNIT_PRICE = "unitPrice";
-	public static final String DB_KEY_TRANSACTION_PAYMENT = "payment";
-	public static final String DB_KEY_TRANSACTION_ORDER_ID = "orderId";
-	public static final String DB_KEY_TRANSACTION_IS_RETURNED = "isReturned";
+	public static final String DB_KEY_TRANSACTION_ID = "transactionId";
+	public static final String DB_KEY_TRANSACTION_PRODUCT_ID = "transactionProductId";
+	public static final String DB_KEY_TRANSACTION_QUANTITY = "transactionQuantity";
+	public static final String DB_KEY_TRANSACTION_UNIT_PRICE = "transactionUnitPrice";
+	public static final String DB_KEY_TRANSACTION_PAYMENT = "transactionPayment";
+	public static final String DB_KEY_TRANSACTION_ORDER_ID = "transactionOrderId";
+	public static final String DB_KEY_TRANSACTION_IS_RETURNED = "transactionIsReturned";
 
 	@Autowired
 	private ClientRepository clientRepository;

@@ -41,6 +41,9 @@ public class Product extends Model {
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_ORIGINAL_ID, type = DataType.STRING)
 	private String originalId;
 
+	@Column(name = ProductRepository.DB_KEY_PRODUCT_NOTE, type = DataType.STRING)
+	private String note;
+
 	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
 
@@ -63,7 +66,7 @@ public class Product extends Model {
 	public Product(final Long id, final String name, final Float price,
 			final Integer weight, final Timestamp postDate, final Brand brand,
 			final SubCategory subCategory, final String originalId,
-			final Shop shop) {
+			final String note, final Shop shop) {
 		this.id = id;
 		this.name = name;
 		this.price = price;
@@ -72,6 +75,7 @@ public class Product extends Model {
 		this.brand = brand;
 		this.subCategory = subCategory;
 		this.originalId = originalId;
+		this.note = note;
 		this.shop = shop;
 	}
 
@@ -105,6 +109,10 @@ public class Product extends Model {
 
 	public String getOriginalId() {
 		return originalId;
+	}
+
+	public String getNote() {
+		return note;
 	}
 
 	public Shop getShop() {
@@ -141,6 +149,10 @@ public class Product extends Model {
 
 	public void setOriginalId(String originalId) {
 		this.originalId = originalId;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
 	}
 
 	public void setShop(Shop shop) {

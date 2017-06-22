@@ -20,12 +20,12 @@ public class AddressRepository extends JDBCTemplateRepository<Address> {
 
 	public static final String DB_TABLE_ADDRESS = "Address";
 
-	public static final String DB_KEY_ADDRESS_ID = "id";
+	public static final String DB_KEY_ADDRESS_ID = "addressId";
 	public static final String DB_KEY_ADDRESS_ADDR = "address";
-	public static final String DB_KEY_ADDRESS_RECIPENT = "recipient";
-	public static final String DB_KEY_ADDRESS_PHONE = "phone";
-	public static final String DB_KEY_ADDRESS_ZIP = "zip";
-	public static final String DB_KEY_ADDRESS_CLIENT_ID = "clientId";
+	public static final String DB_KEY_ADDRESS_RECIPENT = "addressRecipient";
+	public static final String DB_KEY_ADDRESS_PHONE = "addressPhone";
+	public static final String DB_KEY_ADDRESS_ZIP = "addressZip";
+	public static final String DB_KEY_ADDRESS_CLIENT_ID = "addressClientId";
 
 	@Autowired
 	private ClientRepository clientRepository;

@@ -18,9 +18,9 @@ public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
 
 	public static final String DB_TABLE_SUBCATEGORY = "SubCategory";
 
-	public static final String DB_KEY_SUBCATEGORY_ID = "id";
-	public static final String DB_KEY_SUBCATEGORY_NAME = "name";
-	public static final String DB_KEY_SUBCATEGORY_CATEGORY_ID = "categoryId";
+	public static final String DB_KEY_SUBCATEGORY_ID = "subcategoryId";
+	public static final String DB_KEY_SUBCATEGORY_NAME = "subcategoryName";
+	public static final String DB_KEY_SUBCATEGORY_CATEGORY_ID = "subcategoryCategoryId";
 
 	@Autowired
 	private CategoryRepository categoryRepository;

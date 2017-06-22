@@ -22,15 +22,15 @@ public class ClientRepository extends JDBCTemplateRepository<Client> {
 
 	public static final String DB_TABLE_CLIENT = "Client";
 
-	public static final String DB_KEY_CLIENT_ID = "id";
-	public static final String DB_KEY_CLIENT_WECHAT_DIRECTED_ID = "wechatDirectedId";
-	public static final String DB_KEY_CLIENT_NAME = "name";
-	public static final String DB_KEY_CLIENT_PHONE = "phone";
-	public static final String DB_KEY_CLIENT_WECHAT_ID = "wechatId";
-	public static final String DB_KEY_CLIENT_WECHAT_NAME = "wechatName";
-	public static final String DB_KEY_CLIENT_NOTE = "note";
-	public static final String DB_KEY_CLIENT_REGISTER_TIME = "registerTime";
-	public static final String DB_KEY_CLIENT_SHOP_ID = "shopId";
+	public static final String DB_KEY_CLIENT_ID = "clientId";
+	public static final String DB_KEY_CLIENT_WECHAT_DIRECTED_ID = "clientWechatDirectedId";
+	public static final String DB_KEY_CLIENT_NAME = "clientName";
+	public static final String DB_KEY_CLIENT_PHONE = "clientPhone";
+	public static final String DB_KEY_CLIENT_WECHAT_ID = "clientWechatId";
+	public static final String DB_KEY_CLIENT_WECHAT_NAME = "clientWechatName";
+	public static final String DB_KEY_CLIENT_NOTE = "clientNote";
+	public static final String DB_KEY_CLIENT_REGISTER_TIME = "clientRegisterTime";
+	public static final String DB_KEY_CLIENT_SHOP_ID = "clientShopId";
 
 	@Autowired
 	private ShopRepository shopRepository;

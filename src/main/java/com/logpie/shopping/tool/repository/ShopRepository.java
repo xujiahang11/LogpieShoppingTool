@@ -21,13 +21,13 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 
 	public static final String DB_TABLE_SHOP = "Shop";
 
-	public static final String DB_KEY_SHOP_ID = "id";
-	public static final String DB_KEY_SHOP_NAME = "name";
+	public static final String DB_KEY_SHOP_ID = "shopId";
+	public static final String DB_KEY_SHOP_NAME = "shopName";
 	public static final String DB_KEY_SHOP_SMALL_LOGO = "sLogo";
 	public static final String DB_KEY_SHOP_LOGO = "logo";
-	public static final String DB_KEY_SHOP_REGISTER_DATE = "registerDate";
-	public static final String DB_KEY_SHOP_PATH = "path";
-	public static final String DB_KEY_SHOP_EXP = "exp";
+	public static final String DB_KEY_SHOP_REGISTER_TIME = "shopRegisterTime";
+	public static final String DB_KEY_SHOP_PATH = "shopPath";
+	public static final String DB_KEY_SHOP_EXP = "shopExp";
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
@@ -53,7 +53,7 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 		shop.setName(rs.getString(DB_KEY_SHOP_NAME));
 		shop.setSmallLogo(rs.getString(DB_KEY_SHOP_SMALL_LOGO));
 		shop.setLogo(rs.getString(DB_KEY_SHOP_LOGO));
-		shop.setDate(rs.getTimestamp(DB_KEY_SHOP_REGISTER_DATE));
+		shop.setDate(rs.getTimestamp(DB_KEY_SHOP_REGISTER_TIME));
 		shop.setPath(rs.getString(DB_KEY_SHOP_PATH));
 		shop.setExp(rs.getInt(DB_KEY_SHOP_EXP));
 

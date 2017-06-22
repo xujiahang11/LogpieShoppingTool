@@ -22,10 +22,10 @@ public class ExpressRepository extends JDBCTemplateRepository<Express> {
 
 	public static final String DB_TABLE_EXPRESS = "Express";
 
-	public static final String DB_KEY_EXPRESS_ID = "id";
-	public static final String DB_KEY_EXPRESS_NAME = "name";
-	public static final String DB_KEY_EXPRESS_IS_INTERNATIONAL = "isInternational";
-	public static final String DB_KEY_EXPRESS_SHOP_ID = "shopId";
+	public static final String DB_KEY_EXPRESS_ID = "expressId";
+	public static final String DB_KEY_EXPRESS_NAME = "expressName";
+	public static final String DB_KEY_EXPRESS_IS_INTERNATIONAL = "expressIsInternational";
+	public static final String DB_KEY_EXPRESS_SHOP_ID = "expressShopId";
 
 	@Autowired
 	private ShopRepository shopRepository;

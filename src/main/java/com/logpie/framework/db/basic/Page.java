@@ -36,6 +36,12 @@ public interface Page<T extends Model> extends Iterable<T> {
 
 	/**
 	 * 
+	 * @return whether the page list is empty
+	 */
+	public boolean isEmpty();
+
+	/**
+	 * 
 	 * @return the page content as List
 	 */
 	public List<T> getContent();

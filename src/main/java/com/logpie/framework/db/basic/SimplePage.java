@@ -112,4 +112,9 @@ public class SimplePage<T extends Model> implements Page<T> {
 		return contents.iterator();
 	}
 
+	@Override
+	public boolean isEmpty() {
+		return contents.isEmpty();
+	}
+
 }

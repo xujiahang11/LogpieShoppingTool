@@ -22,9 +22,9 @@ public class BrandRepository extends JDBCTemplateRepository<Brand> {
 
 	public static final String DB_TABLE_BRAND = "Brand";
 
-	public static final String DB_KEY_BRAND_ID = "id";
-	public static final String DB_KEY_BRAND_NAME = "name";
-	public static final String DB_KEY_BRAND_SHOP_ID = "shopId";
+	public static final String DB_KEY_BRAND_ID = "brandId";
+	public static final String DB_KEY_BRAND_NAME = "brandName";
+	public static final String DB_KEY_BRAND_SHOP_ID = "brandShopId";
 
 	@Autowired
 	private ShopRepository shopRepository;

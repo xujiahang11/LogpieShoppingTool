@@ -22,12 +22,12 @@ public class AdminRepository extends JDBCTemplateRepository<Admin> {
 
 	public static final String DB_TABLE_ADMIN = "Admin";
 
-	public static final String DB_KEY_ADMIN_ID = "id";
-	public static final String DB_KEY_ADMIN_NAME = "name";
-	public static final String DB_KEY_ADMIN_PHONE = "phone";
-	public static final String DB_KEY_ADMIN_EMAIL = "email";
+	public static final String DB_KEY_ADMIN_ID = "adminId";
+	public static final String DB_KEY_ADMIN_NAME = "adminName";
+	public static final String DB_KEY_ADMIN_PHONE = "adminPhone";
+	public static final String DB_KEY_ADMIN_EMAIL = "adminEmail";
 	public static final String DB_KEY_ADMIN_PROFIT_PERCENTAGE = "profitPercentage";
-	public static final String DB_KEY_ADMIN_SHOP_ID = "shopId";
+	public static final String DB_KEY_ADMIN_SHOP_ID = "adminShopId";
 
 	@Autowired
 	private ShopRepository shopRepository;
