@@ -163,7 +163,7 @@ function appendDropdownList(row, result, size){
 		});
 		
 		var dropdownRow = $("<tr class='" + dropdownRowClass + "'></tr>");
-		var dropdownCell = $("<td colspan='7' style='padding-left:20px'></td>").append(addrDiv).append(editBtn);
+		var dropdownCell = $("<td colspan='6' style='padding-left:20px'></td>").append(addrDiv).append(editBtn);
 		dropdownRow.append(dropdownCell).insertAfter(pointer);
 		pointer = dropdownRow;
 	}
@@ -175,7 +175,7 @@ function appendDropdownList(row, result, size){
 		});
 	});
 	
-	var dropdownCell = $("<td colspan='7' style='padding-left:20px'></td>").append(createBtn);
+	var dropdownCell = $("<td colspan='6' style='padding-left:20px'></td>").append(createBtn);
 	$("<tr class='" + dropdownRowClass + "'></tr>").append(dropdownCell).insertAfter(pointer);
 }
 

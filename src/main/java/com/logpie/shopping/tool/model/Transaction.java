@@ -1,7 +1,5 @@
 package com.logpie.shopping.tool.model;
 
-import java.util.List;
-
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
 import com.logpie.framework.db.annotation.Column;
@@ -37,16 +35,13 @@ public class Transaction extends Model {
 	@Column(name = TransactionRepository.DB_KEY_TRANSACTION_PAYMENT, type = DataType.FLOAT)
 	private Float payment;
 
-	private List<ShippingRecord> records;
-
 	public Transaction() {
 
 	}
 
 	public Transaction(final Long id, final Boolean isReturned,
 			final Product product, final Integer quantity, final Order order,
-			final Float unitPrice, final Float payment,
-			final List<ShippingRecord> records) {
+			final Float unitPrice, final Float payment) {
 		this.id = id;
 		this.isReturned = isReturned;
 		this.product = product;
@@ -54,7 +49,6 @@ public class Transaction extends Model {
 		this.order = order;
 		this.unitPrice = unitPrice;
 		this.payment = payment;
-		this.records = records;
 	}
 
 	public Long getId() {
@@ -85,10 +79,6 @@ public class Transaction extends Model {
 		return payment;
 	}
 
-	public List<ShippingRecord> getRecords() {
-		return records;
-	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -115,9 +105,5 @@ public class Transaction extends Model {
 
 	public void setPayment(Float payment) {
 		this.payment = payment;
-	}
-
-	public void setRecords(List<ShippingRecord> records) {
-		this.records = records;
 	}
 }

@@ -1,7 +1,6 @@
 package com.logpie.shopping.tool.model;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
@@ -41,8 +40,6 @@ public class Package extends Model {
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_IS_DIRECT_DELIVERED, type = DataType.BOOLEAN)
 	private Boolean isDirectDelivered;
 
-	private List<ShippingRecord> records;
-
 	@Column(name = PackageRepository.DB_KEY_PACKAGE_DATE, type = DataType.TIMESTAMP)
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	private Timestamp date;
@@ -69,8 +66,7 @@ public class Package extends Model {
 	public Package(final Long id, final Express express,
 			final String trackingNumber, final Client client,
 			final String receiver, final String destination,
-			final Boolean isDirectDelivered,
-			final List<ShippingRecord> records, final Timestamp date,
+			final Boolean isDirectDelivered, final Timestamp date,
 			final Integer weight, final Float shippingFee,
 			final Float additionalFee, final PackageStatus status,
 			final String note, final Shop shop) {
@@ -81,7 +77,6 @@ public class Package extends Model {
 		this.receiver = receiver;
 		this.destination = destination;
 		this.isDirectDelivered = isDirectDelivered;
-		this.records = records;
 		this.date = date;
 		this.weight = weight;
 		this.shippingFee = shippingFee;
@@ -117,10 +112,6 @@ public class Package extends Model {
 
 	public Boolean getIsDirectDelivered() {
 		return isDirectDelivered;
-	}
-
-	public List<ShippingRecord> getRecords() {
-		return records;
 	}
 
 	public Timestamp getDate() {
@@ -177,10 +168,6 @@ public class Package extends Model {
 
 	public void setIsDirectDelivered(Boolean isDirectDelivered) {
 		this.isDirectDelivered = isDirectDelivered;
-	}
-
-	public void setRecords(List<ShippingRecord> records) {
-		this.records = records;
 	}
 
 	public void setDate(Timestamp date) {

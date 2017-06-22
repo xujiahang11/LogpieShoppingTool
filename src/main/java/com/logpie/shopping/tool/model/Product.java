@@ -52,6 +52,7 @@ public class Product extends Model {
 	 * 
 	 * @param id
 	 * @param name
+	 * @param price
 	 * @param weight
 	 * @param postDate
 	 * @param brand

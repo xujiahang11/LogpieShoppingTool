@@ -44,8 +44,6 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 	@Autowired
 	private ClientRepository clientRepository;
 	@Autowired
-	private ShippingRecordRepository recordRepository;
-	@Autowired
 	private ShopRepository shopRepository;
 
 	private Sort sort;
@@ -105,7 +103,6 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 		pack.setDestination(rs.getString(DB_KEY_PACKAGE_DESTINATION));
 		pack.setIsDirectDelivered(rs
 				.getBoolean(DB_KEY_PACKAGE_IS_DIRECT_DELIVERED));
-		pack.setRecords(recordRepository.extractData(rs));
 		pack.setDate(rs.getTimestamp(DB_KEY_PACKAGE_DATE));
 		pack.setWeight(rs.getInt(DB_KEY_PACKAGE_WEIGHT));
 		pack.setShippingFee(rs.getFloat(DB_KEY_PACKAGE_SHIPPING_FEE));

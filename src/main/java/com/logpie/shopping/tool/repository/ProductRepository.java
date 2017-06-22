@@ -38,8 +38,6 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 	@Autowired
 	private SubCategoryRepository subcategoryRepository;
 	@Autowired
-	private ProductConfigRepository sizeRepository;
-	@Autowired
 	private ShopRepository shopRepository;
 
 	private Sort sort;

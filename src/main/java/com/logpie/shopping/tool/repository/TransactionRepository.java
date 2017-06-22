@@ -35,8 +35,6 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 	private ProductRepository productRepository;
 	@Autowired
 	private OrderRepository orderRepository;
-	@Autowired
-	private ShippingRecordRepository recordRepository;
 
 	public TransactionRepository() {
 		super(Transaction.class);
@@ -62,7 +60,6 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 		transaction.setOrder(orderRepository.mapRow(rs, rs.getRow()));
 		transaction
 				.setIsReturned(rs.getBoolean(DB_KEY_TRANSACTION_IS_RETURNED));
-		transaction.setRecords(recordRepository.extractData(rs));
 
 		return transaction;
 	}
@@ -82,7 +79,6 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 			transaction.setOrder(orderRepository.mapRow(rs, rs.getRow()));
 			transaction.setIsReturned(rs
 					.getBoolean(DB_KEY_TRANSACTION_IS_RETURNED));
-			transaction.setRecords(recordRepository.extractData(rs));
 			transactionList.add(transaction);
 		}
 		return transactionList;

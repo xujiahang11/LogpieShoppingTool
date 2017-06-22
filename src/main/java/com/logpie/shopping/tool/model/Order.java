@@ -1,7 +1,6 @@
 package com.logpie.shopping.tool.model;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
@@ -33,8 +32,6 @@ public class Order extends Model {
 	@ForeignKeyColumn(name = OrderRepository.DB_KEY_ORDER_ADMIN_ID, referencedEntityClass = Admin.class)
 	private Admin admin;
 
-	private List<Transaction> transactionList;
-
 	@Column(name = OrderRepository.DB_KEY_ORDER_FINAL_PRICE, type = DataType.FLOAT)
 	private Float finalPrice;
 
@@ -51,16 +48,26 @@ public class Order extends Model {
 
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @param date
+	 * @param client
+	 * @param customer
+	 * @param admin
+	 * @param finalPrice
+	 * @param status
+	 * @param note
+	 * @param shop
+	 */
 	public Order(final Long id, final Timestamp date, final Client client,
-			final String customer, final Admin admin,
-			final List<Transaction> transactionList, final Float finalPrice,
+			final String customer, final Admin admin, final Float finalPrice,
 			final OrderStatus status, final String note, final Shop shop) {
 		this.id = id;
 		this.date = date;
 		this.client = client;
 		this.customer = customer;
 		this.admin = admin;
-		this.transactionList = transactionList;
 		this.finalPrice = finalPrice;
 		this.status = status;
 		this.note = note;
@@ -85,10 +92,6 @@ public class Order extends Model {
 
 	public Admin getAdmin() {
 		return admin;
-	}
-
-	public List<Transaction> getTransactionList() {
-		return transactionList;
 	}
 
 	public Float getFinalPrice() {
@@ -125,10 +128,6 @@ public class Order extends Model {
 
 	public void setAdmin(Admin admin) {
 		this.admin = admin;
-	}
-
-	public void setTransactionList(List<Transaction> transactionList) {
-		this.transactionList = transactionList;
 	}
 
 	public void setFinalPrice(Float finalPrice) {
