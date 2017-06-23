@@ -33,6 +33,17 @@ public class LogpieLogger {
 		appendLog(msg, LogLevel.ERROR);
 	}
 
+    public void error(final String msg, final Throwable throwable) {
+        appendLog(msg, LogLevel.ERROR);
+        if (throwable != null) {
+            final StackTraceElement[] elements = throwable.getStackTrace();
+            for (final StackTraceElement element : elements) {
+                appendLog(element.toString(), LogLevel.ERROR);
+            }
+        }
+
+    }
+
 	private void appendLog(String msg, LogLevel level) {
 		StringBuffer logBuffer = LogpieLoggerFactory
 				.getLogBufferOnCurrentThread();
