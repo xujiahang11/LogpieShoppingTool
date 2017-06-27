@@ -17,12 +17,13 @@ public class WhereParam implements Parameter {
 	/**
 	 * 
 	 * @param c
-	 *            the table which the foreign key belongs to
+	 *            the model class which requested column or foreign key belongs
+	 *            to
 	 * @param key
-	 *            the foreign key's name
+	 *            name of column or foreign key
 	 * @param operator
 	 * @param value
-	 *            the foreign key's value
+	 *            value of column or foreign key
 	 */
 	public WhereParam(Class<?> c, String key, String operator, Object value) {
 		this.key = key;

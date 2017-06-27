@@ -20,16 +20,22 @@ public class ProductConfig extends Model {
 	@Column(name = ProductConfigRepository.DB_KEY_CONFIG_DESC, type = DataType.STRING)
 	private String desc;
 
+	@Column(name = ProductConfigRepository.DB_KEY_CONFIG_PRICE, type = DataType.FLOAT)
+	private Float price;
+
 	@ForeignKeyColumn(name = ProductConfigRepository.DB_KEY_CONFIG_PRODUCT_ID, referencedEntityClass = Product.class)
 	private Product product;
+
+	private static final String ONE_SIZE = "ONE_SIZE";
 
 	public ProductConfig() {
 
 	}
 
-	public ProductConfig(Long id, String desc, Product product) {
+	public ProductConfig(Long id, String desc, Float price, Product product) {
 		this.id = id;
-		this.desc = desc;
+		setDesc(desc);
+		this.price = price;
 		this.product = product;
 	}
 
@@ -41,6 +47,10 @@ public class ProductConfig extends Model {
 		return desc;
 	}
 
+	public Float getPrice() {
+		return price;
+	}
+
 	public Product getProduct() {
 		return product;
 	}
@@ -50,7 +60,11 @@ public class ProductConfig extends Model {
 	}
 
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.desc = (desc == null || desc.equals("")) ? ONE_SIZE : desc;
+	}
+
+	public void setPrice(Float price) {
+		this.price = price;
 	}
 
 	public void setProduct(Product product) {

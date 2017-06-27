@@ -1,5 +1,7 @@
 package com.logpie.shopping.tool.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -53,5 +55,12 @@ public class BrandService {
 		Assert.notNull(shopId, "Shop id must not be null");
 
 		return repository.queryByShopId(pageNumber, shopId);
+	}
+
+	public List<Brand> getBrandsByShopId(final Long shopId) {
+		logger.trace("QueryBrandsByShopId service is started...");
+		Assert.notNull(shopId, "Shop id must not be null");
+
+		return repository.queryByShopId(shopId);
 	}
 }

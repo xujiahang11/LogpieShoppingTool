@@ -5,7 +5,7 @@
 		<table id="table_products" class="font-small text-center">
 			<thead>
 				<tr class="border-bottom light-grey bg-light-grey">
-					<th style="width: 80px;">商品编号</th>
+					<th style="width: 60px;">商品编号</th>
 					<th class="text-left" style="width: 120px;">品牌</th>
 					<th class="text-left" style="width: 120px;">类别</th>
 					<th class="text-left" style="width: 160px;">商品名称</th>
@@ -36,7 +36,7 @@
 						</select>
 					</td>
 					<td th:text="${product.originalId}"></td>
-					<td th:text="${product.price}"></td>
+					<td th:text="价格"></td>
 					<td th:text="${product.weight}"></td>
 					<td class="border-right" th:text="${product.note}" style="padding-left: 5px; padding-right: 5px;"></td>
 					<td class="edit"><div class="btn action-btn font-small white bg-grey">修改</div></td>

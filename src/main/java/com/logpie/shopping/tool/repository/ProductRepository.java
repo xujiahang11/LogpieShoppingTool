@@ -25,7 +25,6 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 
 	public static final String DB_KEY_PRODUCT_ID = "productId";
 	public static final String DB_KEY_PRODUCT_NAME = "productName";
-	public static final String DB_KEY_PRODUCT_PRICE = "productPrice";
 	public static final String DB_KEY_PRODUCT_WEIGHT = "productWeight";
 	public static final String DB_KEY_PRODUCT_POST_DATE = "productPostDate";
 	public static final String DB_KEY_PRODUCT_BRAND_ID = "productBrandId";
@@ -73,7 +72,6 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 		Product product = new Product();
 		product.setId(rs.getLong(DB_KEY_PRODUCT_ID));
 		product.setName(rs.getString(DB_KEY_PRODUCT_NAME));
-		product.setPrice(rs.getFloat(DB_KEY_PRODUCT_PRICE));
 		product.setWeight(rs.getInt(DB_KEY_PRODUCT_WEIGHT));
 		product.setPostDate(rs.getTimestamp(DB_KEY_PRODUCT_POST_DATE));
 		product.setBrand(brandRepository.mapRow(rs, rowNum));

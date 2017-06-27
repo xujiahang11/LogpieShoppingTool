@@ -2,6 +2,7 @@ package com.logpie.shopping.tool.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -40,6 +41,14 @@ public class CategoryRepository extends JDBCTemplateRepository<Category> {
 		Pageable request = new PageRequest(pageNumber, PAGE_SIZE);
 
 		return super.queryBy(request, param);
+	}
+
+	public List<Category> queryByShopId(final Long shopId)
+			throws DataAccessException {
+		Parameter param = new WhereParam(Category.class,
+				DB_KEY_CATEGORY_SHOP_ID, shopId);
+
+		return (List<Category>) super.queryBy(param);
 	}
 
 	@Override

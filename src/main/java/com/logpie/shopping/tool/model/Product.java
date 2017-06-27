@@ -22,9 +22,6 @@ public class Product extends Model {
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_NAME, type = DataType.STRING)
 	private String name;
 
-	@Column(name = ProductRepository.DB_KEY_PRODUCT_PRICE, type = DataType.FLOAT)
-	private Float price;
-
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_WEIGHT, type = DataType.INTEGER)
 	private Integer weight;
 
@@ -55,7 +52,6 @@ public class Product extends Model {
 	 * 
 	 * @param id
 	 * @param name
-	 * @param price
 	 * @param weight
 	 * @param postDate
 	 * @param brand
@@ -63,13 +59,12 @@ public class Product extends Model {
 	 * @param originalId
 	 * @param shop
 	 */
-	public Product(final Long id, final String name, final Float price,
-			final Integer weight, final Timestamp postDate, final Brand brand,
+	public Product(final Long id, final String name, final Integer weight,
+			final Timestamp postDate, final Brand brand,
 			final SubCategory subCategory, final String originalId,
 			final String note, final Shop shop) {
 		this.id = id;
 		this.name = name;
-		this.price = price;
 		this.weight = weight;
 		this.postDate = postDate;
 		this.brand = brand;
@@ -85,10 +80,6 @@ public class Product extends Model {
 
 	public String getName() {
 		return name;
-	}
-
-	public Float getPrice() {
-		return price;
 	}
 
 	public Integer getWeight() {
@@ -125,10 +116,6 @@ public class Product extends Model {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public void setPrice(Float price) {
-		this.price = price;
 	}
 
 	public void setWeight(Integer weight) {

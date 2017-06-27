@@ -1,5 +1,7 @@
 package com.logpie.shopping.tool.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,15 @@ import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Category;
 import com.logpie.shopping.tool.repository.CategoryRepository;
+import com.logpie.shopping.tool.repository.SubCategoryRepository;
 
 @Service
 public class CategoryService {
+
 	@Autowired
 	private CategoryRepository repository;
+	@Autowired
+	private SubCategoryRepository subRepository;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
@@ -43,7 +49,9 @@ public class CategoryService {
 		logger.trace("QueryCategoryById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
-		return repository.queryOne(id);
+		Category c = repository.queryOne(id);
+		addSubCategoryList(c);
+		return c;
 	}
 
 	public Page<Category> getCategoriesByShopId(final int pageNumber,
@@ -51,6 +59,28 @@ public class CategoryService {
 		logger.trace("QueryCategoriesByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
-		return repository.queryByShopId(pageNumber, shopId);
+		Page<Category> res = repository.queryByShopId(pageNumber, shopId);
+		for (Category c : res) {
+			addSubCategoryList(c);
+		}
+		return res;
+	}
+
+	public List<Category> getCategoriesByShopId(final Long shopId) {
+		logger.trace("QueryCategoriesByShopId service is started...");
+		Assert.notNull(shopId, "Shop id must not be null");
+
+		List<Category> res = repository.queryByShopId(shopId);
+		for (Category c : res) {
+			addSubCategoryList(c);
+		}
+		return res;
+	}
+
+	private void addSubCategoryList(final Category category) {
+		Assert.notNull(category, "Category must not be null");
+
+		category.setSubcategories(subRepository.queryByCategoryId(category
+				.getId()));
 	}
 }

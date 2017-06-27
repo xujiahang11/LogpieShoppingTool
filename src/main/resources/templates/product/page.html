@@ -13,7 +13,7 @@
 	</head>
 	<body class="logpie-font-family font-median bg-light-grey">
 		<div th:replace="header::title(${shop.name},'商品管理','商品列表','')"></div>
-		<div th:replace="aside::contents(1)"></div>
+		<div th:replace="aside::contents(2)"></div>
 		<div class="main">
 			<div class="main-tab light-grey border bg-white">
 				<span class="blue">商品列表</span><span>品牌列表</span><span>类别列表</span>
@@ -23,9 +23,10 @@
 			<div id="list" class="table-content border-left border-right bg-white" style="overflow-y: auto;"></div>
 			<div th:replace="footer::page(2,2)"></div>
 		</div>
-		<!--  <div th:replace="client/form_create::#popup_create_product(${new_product})"></div>
+		<!--  
 		<div th:replace="client/form_edit::#popup_edit_product(${edit_product})"></div> 
-		<div class="border-left border-right empty-list"></div> -->
+		-->
+		<div id="popups"></div>
 		<div id="mask"></div>
 		
 		<script th:src="@{/js/jquery-3.1.1.min.js}"></script>

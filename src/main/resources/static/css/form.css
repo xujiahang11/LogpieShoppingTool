@@ -35,8 +35,9 @@
 
 .popup-div table {
 	table-layout: fixed;
-	margin: 10px 25px;
-	width: 500px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 550px;
 }
 
 .popup-div tr {
@@ -56,17 +57,42 @@
 	padding-left: 5px;
 }
 
+.popup-div input.text-right {
+	padding-left: 0px;
+	padding-right: 5px;
+}
+
 .popup-div .four-columns td {
-	width: 125px;
+	width: 25%;
 }
 
-.popup-div .four-columns td div {
-	width: 100px;
-	margin-left: 25px;
+.popup-div .four-columns td[colspan="2"] {
+	width: 50%;
 }
 
-.popup-div .four-columns input {
-	width: 110px;
+.popup-div .four-columns td[colspan="3"] {
+	width: 75%;
+}
+
+.popup-div .four-columns td:nth-child(1) {
+	padding-left: 25px;
+}
+
+.popup-div .four-columns td:nth-child(3) {
+	padding-left: 20px;
+}
+
+.popup-div .four-columns td input, .popup-div .four-columns td select {
+	width: 120px;
+}
+
+.popup-div .four-columns td:nth-child(4) input{
+	margin-left: -15px;
+}
+
+.popup-div .four-columns td[colspan="3"] input{
+	width: 380px;
+	padding-left: -25px;
 }
 
 .required {
@@ -95,21 +121,39 @@ input.checkbox {
 	text-align: right;
 }
 
-.popup-div .his-btn {
-	width: 80px;
+.popup-div .append-div {
+	background-color: #F2F2F2;
+}
+
+.popup-div .btn {
 	height: 18px;
 	line-height: 18px;
+	width: 90px;
+	font-size: 11px;
+	color: #FFFFFF;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.popup-div .create-btn {
+	background-color: #4D88FF;
+	border: 1px solid #4C88FF;
+}
+
+.popup-div .cancel-btn {
+	background-color: #999999;
+	border: 1px solid #999999;
+}
+
+.popup-div .his-btn {
+	width: 80px;
 	margin-left: 20px;
-	font-size: 11px; 	
 	border: 1px solid #4C88FF;
 }
 
 .popup-div .shortcut-btn {
 	width: 82px;
-	height: 18px;
-	line-height: 18px;
 	margin-left: 26px;
-	font-size: 11px; 
 	border: 1px solid #EEA849;
 }
 
@@ -121,17 +165,8 @@ input.checkbox {
 }
 
 .popup-div .four-columns .confirm-btn {
-	width: 480px;
+	width: 500px;
 	margin: 10px 25px 20px;
-}
-
-.popup-div .cancel-btn {
-	width: 100px;
-	height: 20px;
-	line-height: 20px;
-	margin-top: 12px; 
-	font-size: 12px;
-	border: 1px solid #999999;
 }
 
 .popup-div .unit-icon {

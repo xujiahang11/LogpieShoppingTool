@@ -31,12 +31,12 @@
 	width: 95%;
 }
 
-.create-btn {
+.main .create-btn {
 	position: absolute;
-	width: 100px;
-	height: 24px;
 	right: 3%;
 	top: 70px;
+	width: 100px;
+	height: 24px;
 	line-height: 24px;
 }
 
