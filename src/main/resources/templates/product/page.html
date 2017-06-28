@@ -17,36 +17,45 @@
 		<script th:src="@{/js/product.js}"></script>
 		
 		<script type="text/javascript">
+			var searchTimeRef = null;
+			
 			function searchOnRealTime(event) {
-				var href = window.location.href;
-				var url = href.substring(0, href.lastIndexOf("/")) + "/search";
+				/* 如果ref存在，则清空（即若上一次调用还未来得及触发，则清空） */
+				if(searchTimeRef) {
+					clearTimeout(searchTimeRef);
+				}
 				
-				$.ajax({
-					type : "POST",
-					contentType : "application/x-www-form-urlencoded; charset=UTF-8",
-					url : url,
-					data : {"name": event.target.value},
-					dataType : 'json',
-					success : function(result) {
-						$("#search_result").empty().click(function(event){
-							event.stopPropagation();
-						});
-						
-						if(result.length>0) {
-							$("#search_result").show();
-						}else {
-							$("#search_result").hide();
+				searchTimeRef = setTimeout(function(){
+					var href = window.location.href;
+					var url = href.substring(0, href.lastIndexOf("/")) + "/search";
+					
+					$.ajax({
+						type : "POST",
+						contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+						url : url,
+						data : {"name": event.target.value},
+						dataType : 'json',
+						success : function(result) {
+							$("#search_result").empty().click(function(event){
+								event.stopPropagation();
+							});
+							
+							if(result.length>0) {
+								$("#search_result").show();
+							}else {
+								$("#search_result").hide();
+							}
+							
+							$.each(result, function(i, obj){
+								$("#search_result")
+									.append($('<div></div>').append(obj.name));
+							});
+						},
+						error : function(e) {
+							console.log("ERROR: ", e);
 						}
-						
-						$.each(result, function(i, obj){
-							$("#search_result")
-								.append($('<div></div>').append(obj.name));
-						});
-					},
-					error : function(e) {
-						console.log("ERROR: ", e);
-					}
-				});
+					});
+				}, 500);
 			}
 		</script>
 	</head>
