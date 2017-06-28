@@ -187,11 +187,16 @@ public class SqlUtil {
 			String column = findColumn(c, param);
 			Assert.notNull(column, "Cannot find corresponding column");
 
-			sql.append(column + param.getOperator() + param.valueToString());
+			sql.append(column + " " + param.getOperator() + " "
+					+ param.valueToString());
 		}
 
 		logger.log(Level.INFO, "QUERY BY WHERE CLAUSE: " + sql.toString());
 		return sql.toString();
+	}
+
+	public static String clearIllegalCharacters(final String s) {
+		return s.replaceAll(".*([';]+|(--)+).*", "");
 	}
 
 	private static String joinSQL(final Class<?> c) {

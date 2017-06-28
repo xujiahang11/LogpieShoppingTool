@@ -28,6 +28,12 @@ $(document).ready(function(){
 		tabOnClickEvent($(this));
 	});
 	
+	$(document).click(function(){
+		$("#search_result").empty().hide();
+		$("#popup_create_product").hide();
+		$("#mask").hide();
+	});
+	
 	/* add click event to buttons */
 	$("#btn_create_product").click(function(){
 		showPopup(null, null);
@@ -41,12 +47,17 @@ function loadProductList() {
 }
 
 function showPopup(selectedBrand, selectedSubcategory) {
+	
 	var url = href.substring(0, href.lastIndexOf("/")) + "/creationForm";
 	$("#popups").load(url, function(){
+		
 		/* show pop-up */
 		popUpEvent($("#popup_create_product"), $("#dismiss_create_product"));
 		
-		var form = $("#form_create_product");
+		var form = $("#form_create_product").click(function(event){
+			$("#search_result").empty().hide();
+			event.stopPropagation();
+		});
 		
 		/* reset all options' selected as false */
 		form.find("option").prop("selectd", false);
@@ -230,6 +241,7 @@ function showPopup(selectedBrand, selectedSubcategory) {
 			}, "json");	
 			
 		});
+		
 		
 		/*  set form validation rules
 		 *  var validator = form.validate(productValidationRules);

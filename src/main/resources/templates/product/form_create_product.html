@@ -36,7 +36,10 @@
 							</tr>
 							<tr>
 								<td>商品名称<span class="required">*</span></td>
-								<td colspan="3"><input type="text" th:field="*{name}"/></td>
+								<td colspan="3" class="search" style="position:relative">
+									<input type="text" th:field="*{name}" oninput="searchOnRealTime(event)"/>
+									<div id="search_result" class="border bg-white hide"></div>
+								</td>
 							</tr>
 							<tr>
 								<td>商品价格<span class="required">*</span></td>

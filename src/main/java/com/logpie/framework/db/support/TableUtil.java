@@ -189,7 +189,7 @@ public class TableUtil {
 				|| obj instanceof Timestamp) {
 			return String.valueOf(obj);
 		}
-		return "'" + obj.toString() + "'";
+		return "'" + SqlUtil.clearIllegalCharacters(obj.toString()) + "'";
 	}
 
 	private static Entity getEntityAnnotation(final Class<?> c) {
@@ -234,7 +234,8 @@ public class TableUtil {
 		for (Field field : fields) {
 
 			if (field.isAnnotationPresent(ForeignKeyColumn.class)) {
-				ForeignKeyColumn column = field.getAnnotation(ForeignKeyColumn.class);
+				ForeignKeyColumn column = field
+						.getAnnotation(ForeignKeyColumn.class);
 				res.add(column);
 			}
 		}

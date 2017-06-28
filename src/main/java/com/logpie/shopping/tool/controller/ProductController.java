@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.logpie.framework.db.basic.Page;
@@ -66,6 +67,13 @@ public class ProductController {
 	@RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
 	public @ResponseBody Product getByAJAX(@PathVariable final Long id) {
 		return null;
+	}
+
+	@RequestMapping(path = "/search", method = RequestMethod.POST)
+	public @ResponseBody List<Product> searchByName(
+			@RequestParam("name") final String s) {
+		logger.debug("Get search data: " + s);
+		return service.getProductsByName(s);
 	}
 
 	@RequestMapping(path = "/creationForm", method = RequestMethod.GET)
