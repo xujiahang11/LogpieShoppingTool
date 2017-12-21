@@ -1,0 +1,63 @@
+/* logpie layout profile */
+html, body {
+    height: 100%;
+    margin: 0px;
+    padding-top: 0px;
+}
+
+a {
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+img {
+	vertical-align: middle;
+}
+
+fieldset {
+	margin-left: 0px;
+    margin-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    border: none;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #C0CCDA; 
+    font-size: 12px;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #C0CCDA;
+    font-size: 12px;
+}
+
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+    color: #C0CCDA;
+    font-size: 12px;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #C0CCDA;
+    font-size: 12px;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+th {
+    font-weight: normal;
+}
+
+option {
+    color: #000000;
+}
+
+optgroup {
+    color: #666666;
+    font-style: normal;
+    font-weight: normal;
+}

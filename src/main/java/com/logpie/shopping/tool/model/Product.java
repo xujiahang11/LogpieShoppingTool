@@ -1,6 +1,7 @@
 package com.logpie.shopping.tool.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.logpie.framework.db.annotation.AutoGenerate;
 import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
@@ -22,9 +23,6 @@ public class Product extends Model {
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_NAME, type = DataType.STRING)
 	private String name;
 
-	@Column(name = ProductRepository.DB_KEY_PRODUCT_WEIGHT, type = DataType.INTEGER)
-	private Integer weight;
-
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_POST_DATE, type = DataType.TIMESTAMP)
 	private Timestamp postDate;
@@ -35,14 +33,13 @@ public class Product extends Model {
 	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SUBCATEGORY_ID, referencedEntityClass = SubCategory.class)
 	private SubCategory subCategory;
 
-	@Column(name = ProductRepository.DB_KEY_PRODUCT_ORIGINAL_ID, type = DataType.STRING)
-	private String originalId;
-
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_NOTE, type = DataType.STRING)
 	private String note;
 
 	@ForeignKeyColumn(name = ProductRepository.DB_KEY_PRODUCT_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
+
+	private List<ProductConfig> configs;
 
 	public Product() {
 
@@ -52,24 +49,22 @@ public class Product extends Model {
 	 * 
 	 * @param id
 	 * @param name
-	 * @param weight
 	 * @param postDate
 	 * @param brand
 	 * @param subCategory
 	 * @param originalId
 	 * @param shop
 	 */
-	public Product(final Long id, final String name, final Integer weight,
-			final Timestamp postDate, final Brand brand,
-			final SubCategory subCategory, final String originalId,
-			final String note, final Shop shop) {
+	public Product(final Long id, final String name, final Timestamp postDate,
+			final Brand brand, final SubCategory subCategory,
+			final List<ProductConfig> configs, final String note,
+			final Shop shop) {
 		this.id = id;
 		this.name = name;
-		this.weight = weight;
 		this.postDate = postDate;
 		this.brand = brand;
 		this.subCategory = subCategory;
-		this.originalId = originalId;
+		this.configs = configs;
 		this.note = note;
 		this.shop = shop;
 	}
@@ -80,10 +75,6 @@ public class Product extends Model {
 
 	public String getName() {
 		return name;
-	}
-
-	public Integer getWeight() {
-		return weight;
 	}
 
 	public Timestamp getPostDate() {
@@ -98,8 +89,8 @@ public class Product extends Model {
 		return subCategory;
 	}
 
-	public String getOriginalId() {
-		return originalId;
+	public List<ProductConfig> getConfigs() {
+		return configs;
 	}
 
 	public String getNote() {
@@ -118,10 +109,6 @@ public class Product extends Model {
 		this.name = name;
 	}
 
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
-
 	public void setPostDate(Timestamp postDate) {
 		this.postDate = postDate;
 	}
@@ -134,8 +121,8 @@ public class Product extends Model {
 		this.subCategory = subCategory;
 	}
 
-	public void setOriginalId(String originalId) {
-		this.originalId = originalId;
+	public void setConfigs(List<ProductConfig> configs) {
+		this.configs = configs;
 	}
 
 	public void setNote(String note) {
@@ -145,5 +132,4 @@ public class Product extends Model {
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
-
 }

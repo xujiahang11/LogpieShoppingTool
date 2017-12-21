@@ -29,6 +29,11 @@ public class ClientController {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
+	@RequestMapping(path = "", method = RequestMethod.GET)
+	public String getDefaultPage() {
+		return "redirect:/{shopPath}/clients/1";
+	}
+
 	@RequestMapping(path = "/{page}", method = RequestMethod.GET)
 	public String getAll(@PathVariable final String shopPath,
 			@PathVariable final Integer page, final Model model) {
@@ -39,7 +44,7 @@ public class ClientController {
 		model.addAttribute("clients", clients);
 		model.addAttribute("new_client", new Client());
 		model.addAttribute("edit_client", new Client());
-		return "client/list";
+		return "client/page";
 	}
 
 	@RequestMapping(path = "/id/{id}", method = RequestMethod.GET)

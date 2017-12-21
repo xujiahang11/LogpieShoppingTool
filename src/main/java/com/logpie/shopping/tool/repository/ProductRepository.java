@@ -27,11 +27,9 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 
 	public static final String DB_KEY_PRODUCT_ID = "productId";
 	public static final String DB_KEY_PRODUCT_NAME = "productName";
-	public static final String DB_KEY_PRODUCT_WEIGHT = "productWeight";
 	public static final String DB_KEY_PRODUCT_POST_DATE = "productPostDate";
 	public static final String DB_KEY_PRODUCT_BRAND_ID = "productBrandId";
 	public static final String DB_KEY_PRODUCT_SUBCATEGORY_ID = "productSubCategoryId";
-	public static final String DB_KEY_PRODUCT_ORIGINAL_ID = "productOriginalId";
 	public static final String DB_KEY_PRODUCT_NOTE = "productNote";
 	public static final String DB_KEY_PRODUCT_SHOP_ID = "productShopId";
 
@@ -82,11 +80,9 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 		Product product = new Product();
 		product.setId(rs.getLong(DB_KEY_PRODUCT_ID));
 		product.setName(rs.getString(DB_KEY_PRODUCT_NAME));
-		product.setWeight(rs.getInt(DB_KEY_PRODUCT_WEIGHT));
 		product.setPostDate(rs.getTimestamp(DB_KEY_PRODUCT_POST_DATE));
 		product.setBrand(brandRepository.mapRow(rs, rowNum));
 		product.setSubCategory(subcategoryRepository.mapRow(rs, rowNum));
-		product.setOriginalId(rs.getString(DB_KEY_PRODUCT_ORIGINAL_ID));
 		product.setNote(rs.getString(DB_KEY_PRODUCT_NOTE));
 		product.setShop(shopRepository.mapRow(rs, rowNum));
 

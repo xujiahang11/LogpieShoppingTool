@@ -23,7 +23,7 @@ public class ProductService {
 	@Autowired
 	private SubCategoryService subcategoryService;
 	@Autowired
-	private ProductConfigService sizeService;
+	private ProductConfigService configService;
 
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
@@ -52,7 +52,9 @@ public class ProductService {
 		logger.trace("QueryProductById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
-		return repository.queryOne(id);
+		Product p = repository.queryOne(id);
+		addProductConfigs(p);
+		return p;
 	}
 
 	public List<Product> getProductsByName(final String name) {
@@ -61,7 +63,9 @@ public class ProductService {
 		if (name.equals("")) {
 			return new ArrayList<Product>();
 		}
-		return repository.queryByName(name);
+		List<Product> list = repository.queryByName(name);
+		addProductConfigs(list);
+		return list;
 	}
 
 	public Page<Product> getProductsByShopId(final int pageNumber,
@@ -69,7 +73,9 @@ public class ProductService {
 		logger.trace("QueryProductsByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
-		return repository.queryByShopId(pageNumber, shopId);
+		Page<Product> page = repository.queryByShopId(pageNumber, shopId);
+		addProductConfigs(page);
+		return page;
 	}
 
 	public Page<Product> getProductsByBrandId(final int pageNumber,
@@ -77,6 +83,23 @@ public class ProductService {
 		logger.trace("QueryProductsByBrandId service is started...");
 		Assert.notNull(brandId, "Brand id must not be null");
 
-		return repository.queryByBrandId(pageNumber, brandId);
+		Page<Product> page = repository.queryByBrandId(pageNumber, brandId);
+		addProductConfigs(page);
+		return page;
+	}
+
+	private void addProductConfigs(final Iterable<Product> ite) {
+		Assert.notNull(ite, "List must not be null");
+
+		for (Product product : ite) {
+			addProductConfigs(product);
+		}
+	}
+
+	private void addProductConfigs(final Product product) {
+		Assert.notNull(product, "Product must not be null");
+
+		product.setConfigs(configService.getProductConfigsByProductId(product
+				.getId()));
 	}
 }

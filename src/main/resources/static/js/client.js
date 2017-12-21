@@ -32,7 +32,7 @@ $(document).ready(function(){
 	$(".main-tab").find("span").click(function(){
 		tabOnClickEvent($(this));
 	});
-	
+
 	/* add onclick event to buttons */
 	$("#btn_create_client").click(function(){
 		popUpEvent($("#popup_create_client"), $("#dismiss_create_client"));

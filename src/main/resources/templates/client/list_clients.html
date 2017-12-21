@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<body>
+		<table id="table_clients" class="font-small text-center">
+			<thead>
+				<tr class="border-bottom light-grey bg-light-grey">
+					<th>用户编号</th>
+					<th>用户姓名</th>
+					<th style="width: 150px;">微信名</th>
+					<th>微信号</th>
+					<th>常用地址</th>
+					<th>手机号</th>
+					<th style="width: 140px;">备注</th>
+					<th style="width: 70px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="border-bottom" th:each="client,iterStat:${clients}" th:id="'row-id-' + ${iterStat.index}" th:unless="${#lists.isEmpty(clients)}">
+					<td class="border-right id" th:text="${client.id}"></td>
+					<td th:text="${client.name}"></td>
+					<td th:text="${client.wechatName}"></td>
+					<td th:text="${client.wechatId}"></td>
+					<td><div class="dropdown font-extra-small blue" style="margin-left: 20px;">地址管理<img th:src="@{/img/array_down.svg}" class="img-updown"/></div></td>
+					<td th:text="${client.phone}"></td>
+					<td class="border-right" th:text="${client.note}" style="padding-left: 5px; padding-right: 5px;"></td>
+					<td class="edit"><div class="btn action-btn font-small white bg-grey">修改</div></td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

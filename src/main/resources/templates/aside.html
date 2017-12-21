@@ -2,13 +2,13 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 	<body>
-		<aside th:fragment="contents(index)" class="white bg-navy">
+		<aside th:fragment="contents(shop,index)" class="white bg-navy">
 			<nav>
 				<ul>
-					<a th:href="@{/order/list}" target="_parent"><li><img th:src="@{/img/nav_order.svg}"/>订单管理</li></a>
-					<a th:href="@{/package/list}" target="_parent"><li><img th:src="@{/img/nav_package.svg}"/>物流管理</li></a>
-					<a th:href="@{/product/list}" target="_parent"><li><img th:src="@{/img/nav_merchandise.svg}"/>商品管理</li></a>
-					<a href=""><li><img th:src="@{/img/nav_customer.svg}"/>用户管理</li></a>
+					<a href="" target="_parent"><li><img th:src="@{/img/nav_order.svg}"/>订单管理</li></a>
+					<a href="" target="_parent"><li><img th:src="@{/img/nav_package.svg}"/>物流管理</li></a>
+					<a th:href="@{'/' + ${shop.path} + '/products/1'}" target="_parent"><li><img th:src="@{/img/nav_merchandise.svg}"/>商品管理</li></a>
+					<a th:href="@{'/' + ${shop.path} + '/clients/1'}" target="_parent"><li><img th:src="@{/img/nav_customer.svg}"/>用户管理</li></a>
 					<a href="" target="_parent"><li><img th:src="@{/img/nav_finance.svg}"/>财务图表</li></a>
 					<a href="" target="_parent"><li><img th:src="@{/img/nav_coupon.svg}"/>券码管理</li></a>
 					<a href="" target="_parent"><li><img th:src="@{/img/nav_permission.svg}"/>权限管理</li></a>

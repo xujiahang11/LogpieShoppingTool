@@ -6,3 +6,5 @@
 .gradle/
 *.DS_Store
 .tern-project
+*.iml
+.idea/

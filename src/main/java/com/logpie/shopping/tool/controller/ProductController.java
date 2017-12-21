@@ -44,11 +44,16 @@ public class ProductController {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
+
+	@RequestMapping(path = "", method = RequestMethod.GET)
+	public String getDefaultPage() {
+		return "redirect:/{shopPath}/products/1";
+	}
+
 	@RequestMapping(path = "/{page}", method = RequestMethod.GET)
 	public String getPage(@PathVariable final String shopPath, final Model model) {
 		Shop shop = shopService.getShopByPath(shopPath);
 		model.addAttribute("shop", shop);
-
 		return "product/page";
 	}
 
@@ -67,6 +72,12 @@ public class ProductController {
 	@RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
 	public @ResponseBody Product getByAJAX(@PathVariable final Long id) {
 		return null;
+	}
+
+	@RequestMapping(path = "/config/{cid}", method = RequestMethod.GET)
+	public @ResponseBody ProductConfig getProductConfigById(
+			@PathVariable final Long cid) {
+		return configService.getProductConfigById(cid);
 	}
 
 	@RequestMapping(path = "/search", method = RequestMethod.POST)
@@ -105,7 +116,6 @@ public class ProductController {
 				configService.createProductConfig(config);
 			}
 		}
-
 		return "redirect:/{shopPath}/products/1";
 	}
 }

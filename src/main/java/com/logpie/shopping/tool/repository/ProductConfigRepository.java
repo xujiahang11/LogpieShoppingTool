@@ -22,6 +22,8 @@ public class ProductConfigRepository extends
 	public static final String DB_KEY_CONFIG_ID = "configId";
 	public static final String DB_KEY_CONFIG_DESC = "configDescription";
 	public static final String DB_KEY_CONFIG_PRICE = "configPrice";
+	public static final String DB_KEY_CONFIG_WEIGHT = "configWeight";
+	public static final String DB_KEY_CONFIG_ITEM_NUMBER = "configItemNumber";
 	public static final String DB_KEY_CONFIG_PRODUCT_ID = "configProductId";
 
 	@Autowired
@@ -45,6 +47,8 @@ public class ProductConfigRepository extends
 		config.setId(rs.getLong(DB_KEY_CONFIG_ID));
 		config.setDesc(rs.getString(DB_KEY_CONFIG_DESC));
 		config.setPrice(rs.getFloat(DB_KEY_CONFIG_PRICE));
+		config.setWeight(rs.getFloat(DB_KEY_CONFIG_WEIGHT));
+		config.setItemNumber(rs.getString(DB_KEY_CONFIG_ITEM_NUMBER));
 		config.setProduct(productRepository.mapRow(rs, rowNum));
 		return config;
 	}

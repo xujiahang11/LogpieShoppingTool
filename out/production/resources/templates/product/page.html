@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title th:text="${shop.name}"></title>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/config.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/reset.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/header.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/aside.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+		<link type="text/css" rel="stylesheet" th:href="@{/css/form.css}"/>
+		
+		<script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+		<script th:src="@{/js/jquery.validate.js}"></script>
+		<script th:src="@{/js/global.js}"></script>
+		<script th:src="@{/js/product.js}"></script>
+		
+		
+	</head>
+	<body class="logpie-font-family font-median bg-light-grey">
+		<div th:replace="header::title(${shop.name},'商品管理','商品列表','')"></div>
+		<div th:replace="aside::contents(2)"></div>
+		<div class="main">
+			<div class="main-tab light-grey border bg-white">
+				<span class="blue">商品列表</span><span>品牌列表</span><span>类别列表</span>
+				<div id="btn_create_product" class="btn create-btn font-small white bg-blue">创建商品</div>
+				<div id="main_selected_bar" class="bg-blue" style="width: 56px;"></div>
+			</div>
+			<div id="list" class="table-content border-left border-right bg-white" style="overflow-y: auto;"></div>
+			<div th:replace="footer::page(2,2)"></div>
+		</div>
+		<!--  
+		<div th:replace="client/form_edit::#popup_edit_product(${edit_product})"></div> 
+		-->
+		<div id="popups"></div>
+		<div id="mask"></div>
+	</body>
+</html>

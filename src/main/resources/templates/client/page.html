@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title th:text="${shop.name}"></title>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/config.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/reset.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/header.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/aside.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/form.css}"/>
+
+        <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+        <script th:src="@{/js/jquery.validate.js}"></script>
+        <script th:src="@{/js/global.js}"></script>
+        <script th:src="@{/js/product.js}"></script>
+    </head>
+    <body class="logpie-font-family font-median bg-light-grey">
+        <div th:replace="header::title(${shop.name},'用户管理','用户列表','')"></div>
+        <div th:replace="aside::contents(${shop},3)"></div>
+        <div class="main">
+            <div class="main-tab light-grey border bg-white">
+                <span class="blue">用户列表</span><span>用户分析</span>
+                <div id="btn_create_client" class="btn create-btn font-small white bg-blue">创建用户</div>
+                <div id="main_selected_bar" class="bg-blue" style="width: 56px;"></div>
+            </div>
+            <div class="table-content border-left border-right bg-white" style="overflow-y: auto;">
+                <div th:replace="client/list_clients::#table_clients(${clients})"></div>
+            </div>
+            <div th:replace="footer::page(2,2)"></div>
+        </div>
+        <div th:replace="client/form_create_client::#popup_create_client(${new_client})"></div>
+        <div th:replace="client/form_edit_client::#popup_edit_client(${edit_client})"></div>
+        <div th:replace="address/create_address::#popup_create_address(${new_address})"></div>
+        <div th:replace="address/edit_address::#popup_edit_address(${edit_address})"></div>
+        <div id="popups"></div>
+        <div id="mask"></div>
+
+        <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+        <script th:src="@{/js/jquery.validate.js}"></script>
+        <script th:src="@{/js/global.js}"></script>
+        <script th:src="@{/js/client.js}"></script>
+    </body>
+</html>

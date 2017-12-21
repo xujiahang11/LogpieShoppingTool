@@ -1,0 +1,195 @@
+/* logpie main page layout */
+.main {
+	margin-left: 160px;
+	height: 90%; 
+}
+
+.main-tab {
+	width: 95%;
+	height: 40px;
+	margin-left: 30px;
+	margin-top: 20px;
+}
+
+.main-tab span {
+	line-height: 40px;
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+#main_selected_bar {
+	height: 5px;
+	margin-top:  -4px;
+	margin-left: 20px;
+}
+
+.empty-list {
+	height: 78%;
+	padding-top: 30px;
+	margin-left: 30px;
+	text-align: center;
+	width: 95%;
+}
+
+.main .create-btn {
+	position: absolute;
+	right: 3%;
+	top: 70px;
+	width: 100px;
+	height: 24px;
+	line-height: 24px;
+}
+
+.table-title {
+	margin-left: 30px;
+}
+
+.table-content {
+	height: 448px;
+	width: 95%;
+	margin-left: 30px;
+}
+
+table {
+	width: 100%;
+}
+
+th {
+	height: 25px;
+}
+
+tr {
+	line-height: 30px;
+}
+
+.first-line {
+	height: 40px;
+}
+
+.first-line td {
+	padding-top: 10px;
+}
+
+.second-line {
+	height: 30px;
+}
+
+td a {
+	color: #000000;
+	text-decoration: underline;
+}
+
+.unfold-table {
+	width: 100%;
+}
+
+.unfold-table .border-bottom, .unfold .border-bottom, .unfold.border-bottom {
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.dropdown{
+	cursor: pointer;
+	height: 18px;
+	line-height: 18px;
+	text-align: center;
+	margin-right:10px;
+}
+
+.address span{
+	margin-right: 20px;
+}
+
+.toggle-btn {
+	position: absolute;
+	top: 15px;
+	left: -28px;
+}
+
+.shortcut-btn {
+	width: 50px;
+	height: 15px;
+}
+
+.action-btn {
+	width: 60px;
+	height: 20px;
+	line-height: 20px;
+	vertical-align: middle;
+}
+
+.tag-direct-mail {
+	margin-top: -16px;
+	margin-bottom: 4px;
+}
+
+.tag-stock {
+	margin-top: -14px;
+}
+
+.tag-return {
+	margin-top: -14px;
+}
+
+.img-info, .img-updown{
+	width: 16px;
+	height: 16px;
+	padding-bottom: 1px; 
+	padding-left: 1px;
+}
+
+.page-control {
+	height: 30px;
+	width: 95%;
+	line-height: 30px;
+	margin-left: 30px;
+	border: 1px solid #CCCCCC;
+	text-align: right;
+}
+
+.page-control img{
+	height: 24px;
+	width: 24px;
+}
+
+.page-control input {
+	width: 40px;
+	height: 16px;
+	margin-left: 5px;
+	margin-right: 5px;
+	border: 1px solid #C0CCDA;
+	border-radius:  3px;
+	text-align: center;
+}
+
+.login-table {
+	margin-left: auto; 
+	margin-right: auto;
+}
+
+.login-table td {
+	width: 50%;
+	height: 30px;
+	padding-left: 100px;
+}
+
+.login-table input {
+	width: 175px;
+	height: 25px;
+	padding-left: 25px;
+	color: #FFFFFF;
+	background-color: #273444;
+	border: 1px solid #C0CCDA;
+	border-radius: 3px;
+}
+
+.login-icon {
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	top: 2px;
+	left: 6px;
+}
+
+#item_table select {
+	width: 70px;
+}
