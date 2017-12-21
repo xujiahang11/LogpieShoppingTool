@@ -42,17 +42,4 @@ public class ExpressRepository extends JDBCTemplateRepository<Express> {
 
 		return super.queryBy(request, param);
 	}
-
-	@Override
-	public Express mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Express express = new Express();
-		express.setId(rs.getLong(DB_KEY_EXPRESS_ID));
-		express.setName(rs.getString(DB_KEY_EXPRESS_NAME));
-		express.setIsInternational(rs
-				.getBoolean(DB_KEY_EXPRESS_IS_INTERNATIONAL));
-		express.setShop(shopRepository.mapRow(rs, rowNum));
-		return express;
-	}
-
 }

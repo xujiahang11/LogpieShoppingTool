@@ -44,18 +44,4 @@ public class AdminRepository extends JDBCTemplateRepository<Admin> {
 
 		return super.queryBy(request, param);
 	}
-
-	@Override
-	public Admin mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Admin admin = new Admin();
-		admin.setId(rs.getLong(DB_KEY_ADMIN_ID));
-		admin.setName(rs.getString(DB_KEY_ADMIN_NAME));
-		admin.setPhone(rs.getString(DB_KEY_ADMIN_PHONE));
-		admin.setWechat(rs.getString(DB_KEY_ADMIN_EMAIL));
-		admin.setProfitPercentage(rs.getFloat(DB_KEY_ADMIN_PROFIT_PERCENTAGE));
-		admin.setShop(shopRepository.mapRow(rs, rowNum));
-		return admin;
-	}
-
 }

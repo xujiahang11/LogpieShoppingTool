@@ -43,17 +43,4 @@ public class AddressRepository extends JDBCTemplateRepository<Address> {
 
 		return (List<Address>) super.queryBy(param);
 	}
-
-	@Override
-	public Address mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Address addr = new Address();
-		addr.setId(rs.getLong(DB_KEY_ADDRESS_ID));
-		addr.setAddress(rs.getString(DB_KEY_ADDRESS_ADDR));
-		addr.setRecipent(rs.getString(DB_KEY_ADDRESS_RECIPENT));
-		addr.setPhone(rs.getString(DB_KEY_ADDRESS_PHONE));
-		addr.setZip(rs.getString(DB_KEY_ADDRESS_ZIP));
-		addr.setClient(clientRepository.mapRow(rs, rowNum));
-		return addr;
-	}
 }

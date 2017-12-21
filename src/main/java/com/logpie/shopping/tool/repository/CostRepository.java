@@ -35,18 +35,4 @@ public class CostRepository extends JDBCTemplateRepository<Cost> {
 
 		return null;
 	}
-
-	@Override
-	public Cost mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Cost cost = new Cost();
-		cost.setId(rs.getLong(DB_KEY_COST_ID));
-		cost.setCreationTime(rs.getTimestamp(DB_KEY_COST_CREATION_TIME));
-		cost.setName(rs.getString(DB_KEY_COST_NAME));
-		cost.setType(CostType.fromCode(rs.getString(DB_KEY_COST_TYPE)));
-		cost.setDesc(rs.getString(DB_KEY_COST_DESC));
-		cost.setValue(rs.getFloat(DB_KEY_COST_VALUE));
-		cost.setShop(shopRepository.mapRow(rs, rowNum));
-
-		return cost;
-	}
 }

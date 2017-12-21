@@ -35,15 +35,4 @@ public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
 				DB_KEY_SUBCATEGORY_CATEGORY_ID, categoryId);
 		return (List<SubCategory>) super.queryBy(param);
 	}
-
-	@Override
-	public SubCategory mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		SubCategory subCategory = new SubCategory();
-		subCategory.setId(rs.getLong(DB_KEY_SUBCATEGORY_ID));
-		subCategory.setName(rs.getString(DB_KEY_SUBCATEGORY_NAME));
-		subCategory.setCategory(categoryRepository.mapRow(rs, rowNum));
-
-		return subCategory;
-	}
 }

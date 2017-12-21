@@ -1,14 +1,18 @@
 package com.logpie.framework.db.repository;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import com.logpie.framework.db.support.ReflectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.util.Assert;
@@ -29,6 +33,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 	private JdbcTemplate jdbcTemplate;
 
 	private Class<T> c;
+	private RowMapper<T> rowMapper;
 
 	/**
 	 * initiate repository
@@ -37,6 +42,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 	 */
 	public JDBCTemplateRepository(Class<T> c) {
 		this.c = c;
+		rowMapper = (RowMapper<T>)ReflectionUtil.buildInstanceByDefaultConstructor(c);
 	}
 
 	@Override
@@ -75,7 +81,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 		}
 		Parameter param = new WhereParam(c, TableUtil.getId(c), primaryKey);
 		sql += SqlUtil.whereSQL(c, param);
-		return jdbcTemplate.queryForObject(sql, this);
+		return jdbcTemplate.queryForObject(sql, rowMapper);
 	}
 
 	@Override
@@ -84,7 +90,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 		if (sql == null) {
 			return null;
 		}
-		return jdbcTemplate.query(sql, this);
+		return jdbcTemplate.query(sql, rowMapper);
 	}
 
 	@Override
@@ -92,7 +98,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 		Assert.notNull(pageable, "Paging information must not be null");
 
 		String sql = SqlUtil.queryBySQL(c, pageable);
-		List<T> contents = jdbcTemplate.query(sql, this);
+		List<T> contents = jdbcTemplate.query(sql, rowMapper);
 
 		return new SimplePage<>(pageable, contents, count());
 	}
@@ -103,7 +109,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 		if (sql == null) {
 			return null;
 		}
-		return jdbcTemplate.query(sql, this);
+		return jdbcTemplate.query(sql, rowMapper);
 	}
 
 	@Override
@@ -113,7 +119,7 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 
 		String sql = SqlUtil.queryBySQL(c, pageable, params);
 		System.out.println("SQL --- " + sql);
-		List<T> contents = jdbcTemplate.query(sql, this);
+		List<T> contents = jdbcTemplate.query(sql, rowMapper);
 
 		return new SimplePage<>(pageable, contents, count());
 	}
@@ -139,6 +145,6 @@ public abstract class JDBCTemplateRepository<T extends Model> implements
 		if (sql == null || sql.isEmpty()) {
 			return null;
 		}
-		return jdbcTemplate.query(sql, this);
+		return jdbcTemplate.query(sql, rowMapper);
 	}
 }

@@ -90,28 +90,4 @@ public class PackageRepository extends JDBCTemplateRepository<Package> {
 
 		return super.queryBy(request, param_shop, param_status);
 	}
-
-	@Override
-	public Package mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Package pack = new Package();
-		pack.setId(rs.getLong(DB_KEY_PACKAGE_ID));
-		pack.setExpress(expressRepository.mapRow(rs, rowNum));
-		pack.setTrackingNumber(rs.getString(DB_KEY_PACKAGE_TRACKING_NUMBER));
-		pack.setClient(clientRepository.mapRow(rs, rowNum));
-		pack.setReceiver(rs.getString(DB_KEY_PACKAGE_RECEIVER));
-		pack.setDestination(rs.getString(DB_KEY_PACKAGE_DESTINATION));
-		pack.setIsDirectDelivered(rs
-				.getBoolean(DB_KEY_PACKAGE_IS_DIRECT_DELIVERED));
-		pack.setDate(rs.getTimestamp(DB_KEY_PACKAGE_DATE));
-		pack.setWeight(rs.getInt(DB_KEY_PACKAGE_WEIGHT));
-		pack.setShippingFee(rs.getFloat(DB_KEY_PACKAGE_SHIPPING_FEE));
-		pack.setAdditionalFee(rs.getFloat(DB_KEY_PACKAGE_ADDITIONAL_FEE));
-		pack.setStatus(PackageStatus.fromCode(rs
-				.getString(DB_KEY_PACKAGE_STATUS)));
-		pack.setNote(rs.getString(DB_KEY_PACKAGE_NOTE));
-		pack.setShop(shopRepository.mapRow(rs, rowNum));
-
-		return pack;
-	}
 }

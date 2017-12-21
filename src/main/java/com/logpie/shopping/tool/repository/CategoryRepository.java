@@ -51,14 +51,4 @@ public class CategoryRepository extends JDBCTemplateRepository<Category> {
 		return (List<Category>) super.queryBy(param);
 	}
 
-	@Override
-	public Category mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Category category = new Category();
-		category.setId(rs.getLong(DB_KEY_CATEGORY_ID));
-		category.setName(rs.getString(DB_KEY_CATEGORY_NAME));
-		category.setShop(shopRepository.mapRow(rs, rowNum));
-		return category;
-	}
-
 }

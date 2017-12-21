@@ -17,11 +17,14 @@ import com.logpie.framework.db.annotation.ID;
 import com.logpie.framework.db.basic.KVP;
 import com.logpie.framework.db.basic.Model;
 import com.logpie.framework.db.basic.Table;
+import org.springframework.util.StringUtils;
 
 public class ModelUtil {
 
 	private static final Logger logger = Logger.getLogger(ModelUtil.class
 			.getName());
+	private static final String SET = "set";
+	private static final String GET = "get";
 
 	/**
 	 * get a list of Key-Value Pair objects for model
@@ -104,32 +107,56 @@ public class ModelUtil {
 		Assert.notNull(model, "Model must not be null");
 
 		for (Method method : model.getClass().getMethods()) {
-
-			if (method.getName().startsWith("get")
-					&& method.getName().length() == field.getName().length() + 3) {
-
-				if (method.getName().toLowerCase()
-						.endsWith(field.getName().toLowerCase())) {
-					try {
-						return method.invoke(model);
-					} catch (IllegalAccessException e) {
-						logger.log(Level.SEVERE,
-								"cannot get access to this method");
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						logger.log(Level.SEVERE,
-								"passed illegal argument to this method");
-						e.printStackTrace();
-					} catch (InvocationTargetException e) {
-						logger.log(Level.SEVERE,
-								"this method cannot be invoked");
-						e.printStackTrace();
-					}
+			final String currentMethodName = method.getName().toLowerCase();
+			final String targetMethodName = (GET + field.getName()).toLowerCase();
+			if (currentMethodName.equals(targetMethodName)) {
+				try {
+					return method.invoke(model);
+				} catch (IllegalAccessException e) {
+					logger.log(Level.SEVERE,
+							"cannot get access to this method");
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					logger.log(Level.SEVERE,
+							"passed illegal argument to this method");
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					logger.log(Level.SEVERE,
+							"this method cannot be invoked");
+					e.printStackTrace();
 				}
 			}
 		}
 
 		logger.log(Level.WARNING, "cannot find getter method for this field");
 		return null;
+	}
+
+	public static void runSetter(final Field field, final Object model, final Class<?> valueClazz, final Object value) {
+		Assert.notNull(model, "Model must not be null");
+
+		final String targetMethodName = SET + StringUtils.capitalize(field.getName());
+
+		try {
+			final Method setMethod = model.getClass().getMethod(targetMethodName, valueClazz);
+			setMethod.invoke(model, value);
+			return;
+		} catch (IllegalAccessException e) {
+			logger.log(Level.SEVERE,
+					"Cannot get access to this method, you need to set public to the setters");
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			logger.log(Level.SEVERE,
+					"Passed illegal argument to this method:" + targetMethodName);
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			logger.log(Level.SEVERE,
+					"This method cannot be invoked" + targetMethodName);
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			logger.log(Level.SEVERE, "cannot find setter method: " + targetMethodName);
+			e.printStackTrace();
+		}
+
 	}
 }

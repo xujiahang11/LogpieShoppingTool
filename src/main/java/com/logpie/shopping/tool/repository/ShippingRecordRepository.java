@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.logpie.shopping.tool.model.Package;
+import com.logpie.shopping.tool.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -52,23 +54,14 @@ public class ShippingRecordRepository extends
 	}
 
 	@Override
-	public ShippingRecord mapRow(ResultSet rs, int rowNum) throws SQLException {
-		ShippingRecord record = new ShippingRecord();
-		record.setId(rs.getLong(DB_KEY_SHIPPING_RECORD_ID));
-		record.setPack(packageRepository.mapRow(rs, rowNum));
-		record.setTransaction(transactionRepository.mapRow(rs, rowNum));
-		return record;
-	}
-
-	@Override
 	public List<ShippingRecord> extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 		List<ShippingRecord> recordList = new ArrayList<ShippingRecord>();
 		while (rs.next()) {
 			ShippingRecord record = new ShippingRecord();
 			record.setId(rs.getLong(DB_KEY_SHIPPING_RECORD_ID));
-			record.setPack(packageRepository.mapRow(rs, rs.getRow()));
-			record.setTransaction(transactionRepository.mapRow(rs, rs.getRow()));
+			record.setPack((Package)new Package().mapRow(rs, rs.getRow()));
+			record.setTransaction((Transaction)new Transaction().mapRow(rs, rs.getRow()));
 			recordList.add(record);
 		}
 		return recordList;

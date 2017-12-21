@@ -39,18 +39,4 @@ public class ProductConfigRepository extends
 				DB_KEY_CONFIG_PRODUCT_ID, productId);
 		return (List<ProductConfig>) super.queryBy(param);
 	}
-
-	@Override
-	public ProductConfig mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		ProductConfig config = new ProductConfig();
-		config.setId(rs.getLong(DB_KEY_CONFIG_ID));
-		config.setDesc(rs.getString(DB_KEY_CONFIG_DESC));
-		config.setPrice(rs.getFloat(DB_KEY_CONFIG_PRICE));
-		config.setWeight(rs.getFloat(DB_KEY_CONFIG_WEIGHT));
-		config.setItemNumber(rs.getString(DB_KEY_CONFIG_ITEM_NUMBER));
-		config.setProduct(productRepository.mapRow(rs, rowNum));
-		return config;
-	}
-
 }

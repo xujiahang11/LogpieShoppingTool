@@ -47,22 +47,4 @@ public class ClientRepository extends JDBCTemplateRepository<Client> {
 
 		return super.queryBy(request, param);
 	}
-
-	@Override
-	public Client mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Client client = new Client();
-		client.setId(rs.getLong(DB_KEY_CLIENT_ID));
-		client.setName(rs.getString(DB_KEY_CLIENT_NAME));
-		client.setPhone(rs.getString(DB_KEY_CLIENT_PHONE));
-		client.setWechatDirectedId(rs
-				.getString(DB_KEY_CLIENT_WECHAT_DIRECTED_ID));
-		client.setWechatId(rs.getString(DB_KEY_CLIENT_WECHAT_ID));
-		client.setWechatName(rs.getString(DB_KEY_CLIENT_WECHAT_NAME));
-		client.setNote(rs.getString(DB_KEY_CLIENT_NOTE));
-		client.setRegisterTime(rs.getTimestamp(DB_KEY_CLIENT_REGISTER_TIME));
-		client.setShop(shopRepository.mapRow(rs, rowNum));
-
-		return client;
-	}
 }

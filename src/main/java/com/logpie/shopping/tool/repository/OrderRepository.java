@@ -85,21 +85,4 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 
 		return super.queryBy(request, param_shop, param_status);
 	}
-
-	@Override
-	public Order mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Order order = new Order();
-		order.setId(rs.getLong(DB_KEY_ORDER_ID));
-		order.setDate(rs.getTimestamp(DB_KEY_ORDER_DATE));
-		order.setClient(clientRepository.mapRow(rs, rowNum));
-		order.setCustomer(rs.getString(DB_KEY_ORDER_CUSTOMER));
-		order.setAdmin(adminRepository.mapRow(rs, rowNum));
-		order.setFinalPrice(rs.getFloat(DB_KEY_ORDER_FINAL_PRICE));
-		order.setStatus(OrderStatus.fromCode(rs.getString(DB_KEY_ORDER_STATUS)));
-		order.setNote(rs.getString(DB_KEY_ORDER_NOTE));
-		order.setShop(shopRepository.mapRow(rs, rowNum));
-
-		return order;
-	}
 }

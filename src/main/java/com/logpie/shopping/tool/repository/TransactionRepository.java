@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.logpie.shopping.tool.model.Order;
+import com.logpie.shopping.tool.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -49,34 +51,18 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 	}
 
 	@Override
-	public Transaction mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Transaction transaction = new Transaction();
-
-		transaction.setId(rs.getLong(DB_KEY_TRANSACTION_ID));
-		transaction.setProduct(productRepository.mapRow(rs, rs.getRow()));
-		transaction.setQuantity(rs.getInt(DB_KEY_TRANSACTION_QUANTITY));
-		transaction.setUnitPrice(rs.getFloat(DB_KEY_TRANSACTION_UNIT_PRICE));
-		transaction.setPayment(rs.getFloat(DB_KEY_TRANSACTION_PAYMENT));
-		transaction.setOrder(orderRepository.mapRow(rs, rs.getRow()));
-		transaction
-				.setIsReturned(rs.getBoolean(DB_KEY_TRANSACTION_IS_RETURNED));
-
-		return transaction;
-	}
-
-	@Override
 	public List<Transaction> extractData(ResultSet rs) throws SQLException,
 			DataAccessException {
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		while (rs.next()) {
 			Transaction transaction = new Transaction();
 			transaction.setId(rs.getLong(DB_KEY_TRANSACTION_ID));
-			transaction.setProduct(productRepository.mapRow(rs, rs.getRow()));
+			transaction.setProduct((Product)new Product().mapRow(rs, rs.getRow()));
 			transaction.setQuantity(rs.getInt(DB_KEY_TRANSACTION_QUANTITY));
 			transaction
 					.setUnitPrice(rs.getFloat(DB_KEY_TRANSACTION_UNIT_PRICE));
 			transaction.setPayment(rs.getFloat(DB_KEY_TRANSACTION_PAYMENT));
-			transaction.setOrder(orderRepository.mapRow(rs, rs.getRow()));
+			transaction.setOrder((Order)new Order().mapRow(rs, rs.getRow()));
 			transaction.setIsReturned(rs
 					.getBoolean(DB_KEY_TRANSACTION_IS_RETURNED));
 			transactionList.add(transaction);

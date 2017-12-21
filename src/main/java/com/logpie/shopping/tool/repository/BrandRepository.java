@@ -50,14 +50,4 @@ public class BrandRepository extends JDBCTemplateRepository<Brand> {
 
 		return (List<Brand>) super.queryBy(param);
 	}
-
-	@Override
-	public Brand mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Brand brand = new Brand();
-		brand.setId(rs.getLong(DB_KEY_BRAND_ID));
-		brand.setName(rs.getString(DB_KEY_BRAND_NAME));
-		brand.setShop(shopRepository.mapRow(rs, rowNum));
-		return brand;
-	}
 }

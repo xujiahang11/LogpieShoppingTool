@@ -28,11 +28,14 @@ public @interface Column {
 	 * declare five common types in the database
 	 * 
 	 * @author xujiahang
-	 *
 	 */
 	public enum DataType {
 		STRING, BOOLEAN, INTEGER, LONG, FLOAT, TIMESTAMP
 	}
 
+	/**
+	 * TODO: change to use just java class? public Class<?> type();
+	 * @return
+	 */
 	public DataType type();
 }

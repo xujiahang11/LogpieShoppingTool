@@ -45,19 +45,4 @@ public class ShopRepository extends JDBCTemplateRepository<Shop> {
 		}
 		return res.get(0);
 	}
-
-	@Override
-	public Shop mapRow(ResultSet rs, int rowNum) throws SQLException {
-		Shop shop = new Shop();
-		shop.setId(rs.getLong(DB_KEY_SHOP_ID));
-		shop.setName(rs.getString(DB_KEY_SHOP_NAME));
-		shop.setSmallLogo(rs.getString(DB_KEY_SHOP_SMALL_LOGO));
-		shop.setLogo(rs.getString(DB_KEY_SHOP_LOGO));
-		shop.setDate(rs.getTimestamp(DB_KEY_SHOP_REGISTER_TIME));
-		shop.setPath(rs.getString(DB_KEY_SHOP_PATH));
-		shop.setExp(rs.getInt(DB_KEY_SHOP_EXP));
-
-		return shop;
-	}
-
 }

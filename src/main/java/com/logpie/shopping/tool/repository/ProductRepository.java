@@ -73,19 +73,4 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 
 		return super.queryBy(request, param);
 	}
-
-	@Override
-	public Product mapRow(final ResultSet rs, final int rowNum)
-			throws SQLException {
-		Product product = new Product();
-		product.setId(rs.getLong(DB_KEY_PRODUCT_ID));
-		product.setName(rs.getString(DB_KEY_PRODUCT_NAME));
-		product.setPostDate(rs.getTimestamp(DB_KEY_PRODUCT_POST_DATE));
-		product.setBrand(brandRepository.mapRow(rs, rowNum));
-		product.setSubCategory(subcategoryRepository.mapRow(rs, rowNum));
-		product.setNote(rs.getString(DB_KEY_PRODUCT_NOTE));
-		product.setShop(shopRepository.mapRow(rs, rowNum));
-
-		return product;
-	}
 }
