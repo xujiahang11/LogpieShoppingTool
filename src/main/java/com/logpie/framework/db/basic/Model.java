@@ -46,13 +46,15 @@ public class Model implements RowMapper<Model> {
                 }
                 else {
                     ForeignKeyColumn foreignKeyColumnAnnotation = field.getAnnotation(ForeignKeyColumn.class);
-                    try {
-                        final Class foreignEntityClass = foreignKeyColumnAnnotation.referencedEntityClass();
-                        final RowMapper foreignEntityClassRowMapper = (RowMapper) ReflectionUtil.buildInstanceByDefaultConstructor(foreignEntityClass);
-                        ModelUtil.runSetter(field, mappedObject, foreignEntityClass, foreignEntityClassRowMapper.mapRow(rs, rowNum));
-                    } catch (SQLException e) {
-                        System.out.println("SQLException when trying to get object from ResultSet for key: " + foreignKeyColumnAnnotation.name());
-                        e.printStackTrace();
+                    if(foreignKeyColumnAnnotation != null) {
+                        try {
+                            final Class foreignEntityClass = foreignKeyColumnAnnotation.referencedEntityClass();
+                            final RowMapper foreignEntityClassRowMapper = (RowMapper) ReflectionUtil.buildInstanceByDefaultConstructor(foreignEntityClass);
+                            ModelUtil.runSetter(field, mappedObject, foreignEntityClass, foreignEntityClassRowMapper.mapRow(rs, rowNum));
+                        } catch (SQLException e) {
+                            System.out.println("SQLException when trying to get object from ResultSet for key: " + foreignKeyColumnAnnotation.name());
+                            e.printStackTrace();
+                        }
                     }
                 }
             });
