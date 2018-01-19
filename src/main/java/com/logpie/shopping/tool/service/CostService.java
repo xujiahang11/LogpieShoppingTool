@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class CostService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createCost(final Cost cost) {
+	public Cost createCost(final Cost cost) {
 		logger.trace("createCost service is started...");
 		Assert.notNull(cost, "Cost must not be null");
 
@@ -40,7 +41,7 @@ public class CostService {
 		repository.update(cost);
 	}
 
-	public Cost getCostById(final Long id) {
+	public Cost getCostById(final BigInteger id) {
 		logger.trace("QueryCostById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
@@ -49,7 +50,7 @@ public class CostService {
 
 	// TODO 设计可能用到的按时间查询的方法
 	public List<Cost> getCostsByPeriod(final Timestamp time,
-			final Long duration, final Long shopId) {
+			final Long duration, final BigInteger shopId) {
 		logger.trace("queryCostsByPeriod service is started...");
 		Assert.notNull(shopId, "shop id must not be null");
 

@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.ShippingRecord;
 
 @Repository
@@ -37,7 +38,7 @@ public class ShippingRecordRepository extends
 		super(ShippingRecord.class);
 	}
 
-	public List<ShippingRecord> queryByPackageId(final Long packageId)
+	public List<ShippingRecord> queryByPackageId(final BigInteger packageId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(ShippingRecord.class,
 				DB_KEY_SHIPPING_RECORD_PACKAGE_ID, packageId);
@@ -45,7 +46,7 @@ public class ShippingRecordRepository extends
 		return (List<ShippingRecord>) super.queryBy(param);
 	}
 
-	public List<ShippingRecord> queryByTransactionId(final Long tranId)
+	public List<ShippingRecord> queryByTransactionId(final BigInteger tranId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(ShippingRecord.class,
 				DB_KEY_SHIPPING_RECORD_TRANSACTION_ID, tranId);
@@ -59,9 +60,9 @@ public class ShippingRecordRepository extends
 		List<ShippingRecord> recordList = new ArrayList<ShippingRecord>();
 		while (rs.next()) {
 			ShippingRecord record = new ShippingRecord();
-			record.setId(rs.getLong(DB_KEY_SHIPPING_RECORD_ID));
-			record.setPack((Package)new Package().mapRow(rs, rs.getRow()));
-			record.setTransaction((Transaction)new Transaction().mapRow(rs, rs.getRow()));
+			record.setId((BigInteger) rs.getObject(DB_KEY_SHIPPING_RECORD_ID));
+			record.setPack((Package) new Package().mapRow(rs, rs.getRow()));
+			record.setTransaction((Transaction) new Transaction().mapRow(rs, rs.getRow()));
 			recordList.add(record);
 		}
 		return recordList;

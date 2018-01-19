@@ -7,9 +7,9 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Shop;

@@ -1,21 +1,23 @@
 package com.logpie.shopping.tool.model;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.BrandRepository;
+
+import java.math.BigInteger;
 
 @Entity(name = BrandRepository.DB_TABLE_BRAND)
 public class Brand extends Model {
 	@ID
-	@Column(name = BrandRepository.DB_KEY_BRAND_ID, type = DataType.LONG)
+	@Column(name = BrandRepository.DB_KEY_BRAND_ID, type = DataType.BIGINT)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	private Long id;
+	private BigInteger id;
 
 	@Column(name = BrandRepository.DB_KEY_BRAND_NAME, type = DataType.STRING)
 	private String name;
@@ -33,13 +35,13 @@ public class Brand extends Model {
 	 * @param name
 	 * @param shop
 	 */
-	public Brand(final Long id, final String name, final Shop shop) {
+	public Brand(final BigInteger id, final String name, final Shop shop) {
 		this.id = id;
 		this.name = name;
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -51,7 +53,7 @@ public class Brand extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

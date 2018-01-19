@@ -1,24 +1,25 @@
 package com.logpie.shopping.tool.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.ProductRepository;
 
 @Entity(name = ProductRepository.DB_TABLE_PRODUCT)
 public class Product extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = ProductRepository.DB_KEY_PRODUCT_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = ProductRepository.DB_KEY_PRODUCT_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@Column(name = ProductRepository.DB_KEY_PRODUCT_NAME, type = DataType.STRING)
 	private String name;
@@ -52,10 +53,9 @@ public class Product extends Model {
 	 * @param postDate
 	 * @param brand
 	 * @param subCategory
-	 * @param originalId
 	 * @param shop
 	 */
-	public Product(final Long id, final String name, final Timestamp postDate,
+	public Product(final BigInteger id, final String name, final Timestamp postDate,
 			final Brand brand, final SubCategory subCategory,
 			final List<ProductConfig> configs, final String note,
 			final Shop shop) {
@@ -69,7 +69,7 @@ public class Product extends Model {
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -101,7 +101,7 @@ public class Product extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

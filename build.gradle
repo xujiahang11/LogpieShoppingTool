@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
@@ -17,7 +17,6 @@ apply plugin: 'org.springframework.boot'
 mainClassName = 'com.logpie.shopping.tool.Application'
 
 repositories {
-    mavenCentral()
     jcenter()
     maven { url "https://jitpack.io" }
 }
@@ -28,7 +27,7 @@ targetCompatibility = 1.8
 sourceSets {
     main {
         java {
-            srcDir 'src/main/java'
+            srcDirs 'src/main/java'
         }
     }
 
@@ -47,8 +46,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("mysql:mysql-connector-java")
-    //compile("com.github.xujiahang11:DatabaseUtilLib:v0.1")
-  	//compile("com.github.xujiahang11:LogUtilLib:v0.1-alpha")
+    compile("com.github.xujiahang11:LogpieDBA:v1.0.2-beta")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile("junit:junit:4.11")
@@ -56,13 +54,4 @@ dependencies {
 
 bootRun {
     addResources = true
-}
-
-jar {
-    baseName = 'LogpieShoppingTool'
-    version =  '1.0'
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1'
 }

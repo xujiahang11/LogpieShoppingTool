@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ShopService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createShop(final Shop shop) {
+	public Shop createShop(final Shop shop) {
 		logger.trace("createShop service is started...");
 		Assert.notNull(shop, "Shop must not be null");
 
@@ -45,7 +46,7 @@ public class ShopService {
 		return (List<Shop>) repository.queryAll();
 	}
 
-	public Shop getShopById(final Long id) {
+	public Shop getShopById(final BigInteger id) {
 		logger.trace("QueryShopById service is started...");
 		Assert.notNull(id, "Id must not be null");
 

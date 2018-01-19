@@ -5,11 +5,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
+import com.logpie.dba.api.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Express;
 import com.logpie.shopping.tool.repository.ExpressRepository;
+
+import java.math.BigInteger;
 
 @Service
 public class ExpressService {
@@ -18,7 +20,7 @@ public class ExpressService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createExpress(final Express express) {
+	public Express createExpress(final Express express) {
 		logger.trace("createExpress service is started...");
 		Assert.notNull(express, "Express must not be null");
 
@@ -38,7 +40,7 @@ public class ExpressService {
 		repository.update(express);
 	}
 
-	public Express getExpressById(final Long id) {
+	public Express getExpressById(final BigInteger id) {
 		logger.trace("QueryExpressById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
@@ -46,7 +48,7 @@ public class ExpressService {
 	}
 
 	public Page<Express> getExpressByShopId(final int pageNumber,
-			final Long shopId) {
+			final BigInteger shopId) {
 		logger.trace("QueryExpressByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 

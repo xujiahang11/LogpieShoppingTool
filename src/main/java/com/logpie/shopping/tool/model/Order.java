@@ -1,23 +1,24 @@
 package com.logpie.shopping.tool.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.OrderRepository;
 
 @Entity(name = OrderRepository.DB_TABLE_ORDER)
 public class Order extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = OrderRepository.DB_KEY_ORDER_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = OrderRepository.DB_KEY_ORDER_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@AutoGenerate(strategy = AutoGenerateType.CurrentTime)
 	@Column(name = OrderRepository.DB_KEY_ORDER_DATE, type = DataType.TIMESTAMP)
@@ -60,7 +61,7 @@ public class Order extends Model {
 	 * @param note
 	 * @param shop
 	 */
-	public Order(final Long id, final Timestamp date, final Client client,
+	public Order(final BigInteger id, final Timestamp date, final Client client,
 			final String customer, final Admin admin, final Float finalPrice,
 			final OrderStatus status, final String note, final Shop shop) {
 		this.id = id;
@@ -74,7 +75,7 @@ public class Order extends Model {
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -110,7 +111,7 @@ public class Order extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 
@@ -147,7 +148,7 @@ public class Order extends Model {
 	}
 
 	public enum OrderStatus {
-		TO_BE_SHIPPED("1", "待发货"), TO_BE_TRANFERED("2", "待转寄"), TO_BE_DELIVERED(
+		TO_BE_SHIPPED("1", "待发货"), TO_BE_TRANSFERRED("2", "待转寄"), TO_BE_DELIVERED(
 				"3", "待收货"), TO_BE_CLOSE("4", "待结算");
 
 		private final String code;

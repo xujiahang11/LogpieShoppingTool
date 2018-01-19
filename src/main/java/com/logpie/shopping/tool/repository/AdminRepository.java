@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -7,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.Page;
-import com.logpie.framework.db.basic.PageRequest;
-import com.logpie.framework.db.basic.Pageable;
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Page;
+import com.logpie.dba.api.basic.PageRequest;
+import com.logpie.dba.api.basic.Pageable;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Admin;
 
 @Repository
@@ -36,7 +37,7 @@ public class AdminRepository extends JDBCTemplateRepository<Admin> {
 		super(Admin.class);
 	}
 
-	public Page<Admin> queryByShopId(final int pageNumber, final Long shopId)
+	public Page<Admin> queryByShopId(final int pageNumber, final BigInteger shopId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Admin.class, DB_KEY_ADMIN_SHOP_ID,
 				shopId);

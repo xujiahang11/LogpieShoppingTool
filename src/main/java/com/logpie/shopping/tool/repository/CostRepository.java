@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Cost;
 import com.logpie.shopping.tool.model.Cost.CostType;
 

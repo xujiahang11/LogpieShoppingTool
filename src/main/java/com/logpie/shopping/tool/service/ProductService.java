@@ -1,14 +1,15 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.logpie.dba.api.basic.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Product;
@@ -28,7 +29,7 @@ public class ProductService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createProduct(final Product product) {
+	public Product createProduct(final Product product) {
 		logger.trace("createProduct service is started...");
 		Assert.notNull(product, "Product must not be null");
 
@@ -48,7 +49,7 @@ public class ProductService {
 		repository.update(product);
 	}
 
-	public Product getProductById(final Long id) {
+	public Product getProductById(final BigInteger id) {
 		logger.trace("QueryProductById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
@@ -69,7 +70,7 @@ public class ProductService {
 	}
 
 	public Page<Product> getProductsByShopId(final int pageNumber,
-			final Long shopId) {
+											 final BigInteger shopId) {
 		logger.trace("QueryProductsByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
@@ -79,7 +80,7 @@ public class ProductService {
 	}
 
 	public Page<Product> getProductsByBrandId(final int pageNumber,
-			final Long brandId) {
+			final BigInteger brandId) {
 		logger.trace("QueryProductsByBrandId service is started...");
 		Assert.notNull(brandId, "Brand id must not be null");
 

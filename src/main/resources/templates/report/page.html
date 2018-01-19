@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title th:text="${shop.name}"></title>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/config.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/reset.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/header.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/aside.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/main.css}"/>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/form.css}"/>
+        <script th:src="@{/js/jquery-3.1.1.min.js}"></script>
+        <script th:src="@{/js/global.js}"></script>
+        <script th:src="@{/js/metric.js}"></script>
+    </head>
+    <body class="logpie-font-family font-median bg-light-grey">
+        <div th:replace="header::title(${shop.name},'财务图表','利润曲线','')"></div>
+        <div th:replace="aside::contents(${shop},4)"></div>
+        <div class="main">
+            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-1.jpg"/>
+            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-2.jpg"/>
+            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-3.jpg"/>
+            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-4.jpg"/>
+        </div>
+        <div id="popups"></div>
+        <div id="mask"></div>
+        <div id="metricDiv" th:text="${requestId}" style="visibility: hidden;"></div>
+    </body>
+</html>

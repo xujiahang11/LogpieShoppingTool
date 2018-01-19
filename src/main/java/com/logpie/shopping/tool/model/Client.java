@@ -1,23 +1,24 @@
 package com.logpie.shopping.tool.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.ClientRepository;
 
 @Entity(name = ClientRepository.DB_TABLE_CLIENT)
 public class Client extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = ClientRepository.DB_KEY_CLIENT_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = ClientRepository.DB_KEY_CLIENT_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@Column(name = ClientRepository.DB_KEY_CLIENT_WECHAT_DIRECTED_ID, type = DataType.STRING)
 	private String wechatDirectedId;
@@ -56,14 +57,13 @@ public class Client extends Model {
 	 * @param phone
 	 * @param wechatId
 	 * @param wechatName
-	 * @param taobaoName
 	 * @param note
 	 * @param registerTime
 	 * @param shop
 	 */
-	public Client(Long id, String wechatDirectedId, String name, String phone,
-			String wechatId, String wechatName, String note,
-			Timestamp registerTime, Shop shop) {
+	public Client(BigInteger id, String wechatDirectedId, String name, String phone,
+				  String wechatId, String wechatName, String note,
+				  Timestamp registerTime, Shop shop) {
 		this.id = id;
 		this.wechatDirectedId = wechatDirectedId;
 		this.name = name;
@@ -75,7 +75,7 @@ public class Client extends Model {
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -111,7 +111,7 @@ public class Client extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

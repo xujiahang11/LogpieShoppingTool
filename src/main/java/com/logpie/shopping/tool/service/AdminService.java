@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
+import com.logpie.dba.api.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Admin;
@@ -21,7 +22,7 @@ public class AdminService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createAdmin(final Admin admin) {
+	public Admin createAdmin(final Admin admin) {
 		logger.trace("createAdmin service is started...");
 		Assert.notNull(admin, "Admin must not be null");
 
@@ -46,14 +47,14 @@ public class AdminService {
 		return (List<Admin>) repository.queryAll();
 	}
 
-	public Admin getAdminById(final Long id) {
+	public Admin getAdminById(final BigInteger id) {
 		logger.trace("QueryAdminById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
-	public Page<Admin> getAdminsByShopId(final int pageNumber, final Long shopId) {
+	public Page<Admin> getAdminsByShopId(final int pageNumber, final BigInteger shopId) {
 		logger.trace("QueryAdminsByShopId service is started...");
 		Assert.notNull(shopId, "Shop Id must not be null");
 

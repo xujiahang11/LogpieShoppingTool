@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class AddressService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createAddress(final Address addr) {
+	public Address createAddress(final Address addr) {
 		logger.trace("createAddress service is started...");
 		Assert.notNull(addr, "Address must not be null");
 
@@ -45,7 +46,7 @@ public class AddressService {
 		}
 	}
 
-	public Address getAddressById(final Long id) {
+	public Address getAddressById(final BigInteger id) {
 		logger.trace("QueryAddressById service is started...");
 		Assert.notNull(id, "Address id must not be null");
 
@@ -58,7 +59,7 @@ public class AddressService {
 		return null;
 	}
 
-	public List<Address> getAddressesByClientId(final Long clientId) {
+	public List<Address> getAddressesByClientId(final BigInteger clientId) {
 		logger.trace("QueryAddressesByClientId service is started...");
 		Assert.notNull(clientId, "Client id must not be null");
 

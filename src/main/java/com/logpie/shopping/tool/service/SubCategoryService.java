@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class SubCategoryService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createSubCategory(final SubCategory subCategory) {
+	public SubCategory createSubCategory(final SubCategory subCategory) {
 		logger.trace("createSubCategory service is started...");
 		Assert.notNull(subCategory, "Subcategory must not be null");
 
@@ -42,14 +43,14 @@ public class SubCategoryService {
 		repository.update(subCategory);
 	}
 
-	public SubCategory getSubCategoryById(final Long id) {
+	public SubCategory getSubCategoryById(final BigInteger id) {
 		logger.trace("QuerySubCategoryById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
-	public List<SubCategory> getSubCategoriesByCategoryId(final Long categoryId) {
+	public List<SubCategory> getSubCategoriesByCategoryId(final BigInteger categoryId) {
 		logger.trace("QuerySubCategoriesByCategoryId service is started...");
 		Assert.notNull(categoryId, "Category id must not be null");
 

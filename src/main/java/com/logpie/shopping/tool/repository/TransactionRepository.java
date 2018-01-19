@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Transaction;
 
 @Repository
@@ -42,7 +43,7 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 		super(Transaction.class);
 	}
 
-	public List<Transaction> queryByOrderId(final Long orderId)
+	public List<Transaction> queryByOrderId(final BigInteger orderId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Transaction.class,
 				DB_KEY_TRANSACTION_ORDER_ID, orderId);
@@ -56,13 +57,13 @@ public class TransactionRepository extends JDBCTemplateRepository<Transaction>
 		List<Transaction> transactionList = new ArrayList<Transaction>();
 		while (rs.next()) {
 			Transaction transaction = new Transaction();
-			transaction.setId(rs.getLong(DB_KEY_TRANSACTION_ID));
-			transaction.setProduct((Product)new Product().mapRow(rs, rs.getRow()));
+			transaction.setId((BigInteger) rs.getObject(DB_KEY_TRANSACTION_ID));
+			transaction.setProduct((Product) new Product().mapRow(rs, rs.getRow()));
 			transaction.setQuantity(rs.getInt(DB_KEY_TRANSACTION_QUANTITY));
 			transaction
 					.setUnitPrice(rs.getFloat(DB_KEY_TRANSACTION_UNIT_PRICE));
 			transaction.setPayment(rs.getFloat(DB_KEY_TRANSACTION_PAYMENT));
-			transaction.setOrder((Order)new Order().mapRow(rs, rs.getRow()));
+			transaction.setOrder((Order) new Order().mapRow(rs, rs.getRow()));
 			transaction.setIsReturned(rs
 					.getBoolean(DB_KEY_TRANSACTION_IS_RETURNED));
 			transactionList.add(transaction);

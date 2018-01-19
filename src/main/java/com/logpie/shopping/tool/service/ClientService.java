@@ -5,11 +5,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
+import com.logpie.dba.api.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Client;
 import com.logpie.shopping.tool.repository.ClientRepository;
+
+import java.math.BigInteger;
 
 @Service
 public class ClientService {
@@ -19,7 +21,7 @@ public class ClientService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createClient(final Client client) {
+	public Client createClient(final Client client) {
 		logger.trace("createClient service is started...");
 		Assert.notNull(client, "Client must not be null");
 
@@ -39,7 +41,7 @@ public class ClientService {
 		repository.update(client);
 	}
 
-	public Client getClientById(final Long id) {
+	public Client getClientById(final BigInteger id) {
 		logger.trace("QueryClientById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
@@ -47,7 +49,7 @@ public class ClientService {
 	}
 
 	public Page<Client> getClientsByShopId(final int pageNumber,
-			final Long shopId) {
+			final BigInteger shopId) {
 		logger.trace("QueryClientsByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 

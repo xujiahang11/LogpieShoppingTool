@@ -1,21 +1,23 @@
 package com.logpie.shopping.tool.model;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.AdminRepository;
+
+import java.math.BigInteger;
 
 @Entity(name = AdminRepository.DB_TABLE_ADMIN)
 public class Admin extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = AdminRepository.DB_KEY_ADMIN_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = AdminRepository.DB_KEY_ADMIN_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@Column(name = AdminRepository.DB_KEY_ADMIN_NAME, type = DataType.STRING)
 	private String name;
@@ -45,7 +47,7 @@ public class Admin extends Model {
 	 * @param profitPercentage
 	 * @param shop
 	 */
-	public Admin(Long id, String name, String phone, String wechat,
+	public Admin(BigInteger id, String name, String phone, String wechat,
 			Float profitPercentage, Shop shop) {
 		this.id = id;
 		this.name = name;
@@ -55,7 +57,7 @@ public class Admin extends Model {
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -79,7 +81,7 @@ public class Admin extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

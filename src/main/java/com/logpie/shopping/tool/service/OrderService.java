@@ -5,12 +5,14 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
+import com.logpie.dba.api.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Order;
 import com.logpie.shopping.tool.model.Order.OrderStatus;
 import com.logpie.shopping.tool.repository.OrderRepository;
+
+import java.math.BigInteger;
 
 @Service
 public class OrderService {
@@ -30,7 +32,7 @@ public class OrderService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createOrder(final Order order) {
+	public Order createOrder(final Order order) {
 		logger.trace("createOrder service is started...");
 		Assert.notNull(order, "Order must not be null");
 
@@ -50,14 +52,14 @@ public class OrderService {
 		repository.update(order);
 	}
 
-	public Order getOrderById(final Long id) {
+	public Order getOrderById(final BigInteger id) {
 		logger.trace("getOrderById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
-	public Page<Order> getOrdersByShopId(final int pageNumber, final Long shopId) {
+	public Page<Order> getOrdersByShopId(final int pageNumber, final BigInteger shopId) {
 		logger.trace("getOrdersByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
@@ -65,7 +67,7 @@ public class OrderService {
 	}
 
 	public Page<Order> getOrdersByClientId(final int pageNumber,
-			final Long clientId) {
+			final BigInteger clientId) {
 		logger.trace("getOrdersByClientId service is started...");
 		Assert.notNull(clientId, "Client id must not be null");
 
@@ -73,7 +75,7 @@ public class OrderService {
 	}
 
 	public Page<Order> getOrdersByStatus(final int pageNumber,
-			final Long shopId, final OrderStatus status) {
+			final BigInteger shopId, final OrderStatus status) {
 		logger.trace("getOrdersByStatus service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 		Assert.notNull(status, "Order status must not be null");

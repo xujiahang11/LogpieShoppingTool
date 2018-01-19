@@ -1,23 +1,24 @@
 package com.logpie.shopping.tool.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.PackageRepository;
 
 @Entity(name = PackageRepository.DB_TABLE_PACKAGE)
 public class Package extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = PackageRepository.DB_KEY_PACKAGE_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = PackageRepository.DB_KEY_PACKAGE_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@ForeignKeyColumn(name = PackageRepository.DB_KEY_PACKAGE_SHOP_ID, referencedEntityClass = Shop.class)
 	private Shop shop;
@@ -63,7 +64,7 @@ public class Package extends Model {
 
 	}
 
-	public Package(final Long id, final Express express,
+	public Package(final BigInteger id, final Express express,
 			final String trackingNumber, final Client client,
 			final String receiver, final String destination,
 			final Boolean isDirectDelivered, final Timestamp date,
@@ -86,7 +87,7 @@ public class Package extends Model {
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -142,7 +143,7 @@ public class Package extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

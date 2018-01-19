@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.logpie.framework.db.basic.Page;
+import com.logpie.dba.api.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Brand;
@@ -70,13 +71,13 @@ public class ProductController {
 	}
 
 	@RequestMapping(path = "/id/{id}", method = RequestMethod.GET)
-	public @ResponseBody Product getByAJAX(@PathVariable final Long id) {
+	public @ResponseBody Product getByAJAX(@PathVariable final BigInteger id) {
 		return null;
 	}
 
 	@RequestMapping(path = "/config/{cid}", method = RequestMethod.GET)
 	public @ResponseBody ProductConfig getProductConfigById(
-			@PathVariable final Long cid) {
+			@PathVariable final BigInteger cid) {
 		return configService.getProductConfigById(cid);
 	}
 

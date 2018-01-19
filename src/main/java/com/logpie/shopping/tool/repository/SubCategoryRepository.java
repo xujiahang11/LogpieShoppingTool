@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -8,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.SubCategory;
 
 @Repository
@@ -29,7 +30,7 @@ public class SubCategoryRepository extends JDBCTemplateRepository<SubCategory> {
 		super(SubCategory.class);
 	}
 
-	public List<SubCategory> queryByCategoryId(final Long categoryId)
+	public List<SubCategory> queryByCategoryId(final BigInteger categoryId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(SubCategory.class,
 				DB_KEY_SUBCATEGORY_CATEGORY_ID, categoryId);

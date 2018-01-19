@@ -1,24 +1,25 @@
 package com.logpie.shopping.tool.model;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.CategoryRepository;
 
 @Entity(name = CategoryRepository.DB_TABLE_CATEGORY)
 public class Category extends Model {
 	@ID
-	@Column(name = CategoryRepository.DB_KEY_CATEGORY_ID, type = DataType.LONG)
+	@Column(name = CategoryRepository.DB_KEY_CATEGORY_ID, type = DataType.BIGINT)
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	private Long id;
+	private BigInteger id;
 
 	@Column(name = CategoryRepository.DB_KEY_CATEGORY_NAME, type = DataType.STRING)
 	private String name;
@@ -38,7 +39,7 @@ public class Category extends Model {
 	 * @param name
 	 * @param shop
 	 */
-	public Category(final Long id, final String name, final Shop shop,
+	public Category(final BigInteger id, final String name, final Shop shop,
 			final List<SubCategory> subcategories) {
 		this.id = id;
 		this.name = name;
@@ -46,7 +47,7 @@ public class Category extends Model {
 		setSubcategories(subcategories);
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -62,7 +63,7 @@ public class Category extends Model {
 		return subcategories;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

@@ -1,21 +1,23 @@
 package com.logpie.shopping.tool.model;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.TransactionRepository;
+
+import java.math.BigInteger;
 
 @Entity(name = TransactionRepository.DB_TABLE_TRANSACTION)
 public class Transaction extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = TransactionRepository.DB_KEY_TRANSACTION_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = TransactionRepository.DB_KEY_TRANSACTION_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@Column(name = TransactionRepository.DB_KEY_TRANSACTION_IS_RETURNED, type = DataType.BOOLEAN)
 	private Boolean isReturned;
@@ -39,7 +41,7 @@ public class Transaction extends Model {
 
 	}
 
-	public Transaction(final Long id, final Boolean isReturned,
+	public Transaction(final BigInteger id, final Boolean isReturned,
 			final Product product, final Integer quantity, final Order order,
 			final Float unitPrice, final Float payment) {
 		this.id = id;
@@ -51,7 +53,7 @@ public class Transaction extends Model {
 		this.payment = payment;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -79,7 +81,7 @@ public class Transaction extends Model {
 		return payment;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

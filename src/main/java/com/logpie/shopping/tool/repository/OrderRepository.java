@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -7,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.logpie.framework.db.basic.Page;
-import com.logpie.framework.db.basic.PageRequest;
-import com.logpie.framework.db.basic.Pageable;
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.Sort;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Page;
+import com.logpie.dba.api.basic.PageRequest;
+import com.logpie.dba.api.basic.Pageable;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.Sort;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Order;
 import com.logpie.shopping.tool.model.Order.OrderStatus;
 
@@ -48,7 +49,7 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 		sort = new Sort(Sort.Direction.DESC, DB_KEY_ORDER_DATE);
 	}
 
-	public Page<Order> queryByShopId(final int pageNumber, final Long shopId)
+	public Page<Order> queryByShopId(final int pageNumber, final BigInteger shopId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_SHOP_ID,
 				shopId);
@@ -57,7 +58,7 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 		return super.queryBy(request, param);
 	}
 
-	public Page<Order> queryByAdminId(final int pageNumber, final Long adminId)
+	public Page<Order> queryByAdminId(final int pageNumber, final BigInteger adminId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_ADMIN_ID,
 				adminId);
@@ -66,7 +67,7 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 		return super.queryBy(request, param);
 	}
 
-	public Page<Order> queryByClientId(final int pageNumber, final Long clientId)
+	public Page<Order> queryByClientId(final int pageNumber, final BigInteger clientId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Order.class, DB_KEY_ORDER_CLIENT_ID,
 				clientId);
@@ -75,7 +76,7 @@ public class OrderRepository extends JDBCTemplateRepository<Order> {
 		return super.queryBy(request, param);
 	}
 
-	public Page<Order> queryByStatus(final int pageNumber, final Long shopId,
+	public Page<Order> queryByStatus(final int pageNumber, final BigInteger shopId,
 			final OrderStatus status) throws DataAccessException {
 		Parameter param_shop = new WhereParam(Order.class,
 				DB_KEY_ORDER_SHOP_ID, shopId);

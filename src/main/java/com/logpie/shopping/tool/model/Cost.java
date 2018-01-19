@@ -1,23 +1,24 @@
 package com.logpie.shopping.tool.model;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.CostRepository;
 
 @Entity(name = CostRepository.DB_TABLE_COST)
 public class Cost extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = CostRepository.DB_KEY_COST_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = CostRepository.DB_KEY_COST_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@Column(name = CostRepository.DB_KEY_COST_NAME, type = DataType.STRING)
 	private String name;
@@ -41,7 +42,7 @@ public class Cost extends Model {
 
 	}
 
-	public Cost(final Long id, final String name, final CostType type,
+	public Cost(final BigInteger id, final String name, final CostType type,
 			final String desc, final Float value, final Timestamp creationTime,
 			final Shop shop) {
 		this.id = id;
@@ -53,7 +54,7 @@ public class Cost extends Model {
 		this.shop = shop;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -81,7 +82,7 @@ public class Cost extends Model {
 		return shop;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

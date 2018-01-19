@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -9,13 +10,13 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.util.HtmlUtils;
 
-import com.logpie.framework.db.basic.Page;
-import com.logpie.framework.db.basic.PageRequest;
-import com.logpie.framework.db.basic.Pageable;
-import com.logpie.framework.db.basic.Parameter;
-import com.logpie.framework.db.basic.Sort;
-import com.logpie.framework.db.basic.WhereParam;
-import com.logpie.framework.db.repository.JDBCTemplateRepository;
+import com.logpie.dba.api.basic.Page;
+import com.logpie.dba.api.basic.PageRequest;
+import com.logpie.dba.api.basic.Pageable;
+import com.logpie.dba.api.basic.Sort;
+import com.logpie.dba.api.basic.Parameter;
+import com.logpie.dba.api.basic.WhereParam;
+import com.logpie.dba.api.repository.JDBCTemplateRepository;
 import com.logpie.shopping.tool.model.Product;
 
 @Repository
@@ -56,7 +57,7 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 		return (List<Product>) super.queryBy(param);
 	}
 
-	public Page<Product> queryByShopId(final int pageNumber, final Long shopId)
+	public Page<Product> queryByShopId(final int pageNumber, final BigInteger shopId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Product.class, DB_KEY_PRODUCT_SHOP_ID,
 				shopId);
@@ -65,7 +66,7 @@ public class ProductRepository extends JDBCTemplateRepository<Product> {
 		return super.queryBy(request, param);
 	}
 
-	public Page<Product> queryByBrandId(final int pageNumber, final Long brandId)
+	public Page<Product> queryByBrandId(final int pageNumber, final BigInteger brandId)
 			throws DataAccessException {
 		Parameter param = new WhereParam(Product.class,
 				DB_KEY_PRODUCT_BRAND_ID, brandId);

@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class ShippingRecordService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createRecord(final ShippingRecord record) {
+	public ShippingRecord createRecord(final ShippingRecord record) {
 		logger.trace("createRecord service is started...");
 		Assert.notNull(record, "Record must not be null");
 
@@ -40,21 +41,21 @@ public class ShippingRecordService {
 		repository.update(record);
 	}
 
-	public ShippingRecord getRecordById(final Long id) {
+	public ShippingRecord getRecordById(final BigInteger id) {
 		logger.trace("QueryRecordById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
-	public List<ShippingRecord> getRecordsByPackageId(final Long packageId) {
+	public List<ShippingRecord> getRecordsByPackageId(final BigInteger packageId) {
 		logger.trace("getRecordsByPackageId service is started...");
 		Assert.notNull(packageId, "Package id must not be null");
 
 		return repository.queryByPackageId(packageId);
 	}
 
-	public List<ShippingRecord> getRecordsByTransactionId(final Long tId) {
+	public List<ShippingRecord> getRecordsByTransactionId(final BigInteger tId) {
 		logger.trace("getRecordsByTransactionId service is started...");
 		Assert.notNull(tId, "Transaction id must not be null");
 

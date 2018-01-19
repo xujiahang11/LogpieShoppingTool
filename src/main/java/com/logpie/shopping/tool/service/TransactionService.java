@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class TransactionService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createTransaction(final Transaction t) {
+	public Transaction createTransaction(final Transaction t) {
 		logger.trace("createTransaction service is started...");
 		Assert.notNull(t, "Transaction must not be null");
 
@@ -40,14 +41,14 @@ public class TransactionService {
 		repository.update(t);
 	}
 
-	public Transaction getTransactionById(final Long id) {
+	public Transaction getTransactionById(final BigInteger id) {
 		logger.trace("QueryTransactionById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
 		return repository.queryOne(id);
 	}
 
-	public List<Transaction> getTransactionsByOrderId(final Long orderId) {
+	public List<Transaction> getTransactionsByOrderId(final BigInteger orderId) {
 		logger.trace("queryTransactionsByOrderId service is started...");
 		Assert.notNull(orderId, "Order id must not be null");
 

@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,18 +34,18 @@ public class AddressController {
 
 	@RequestMapping(path = "/id/{clientId}/address", method = RequestMethod.GET)
 	public @ResponseBody List<Address> getListByAJAX(
-			@PathVariable final Long clientId) {
+			@PathVariable final BigInteger clientId) {
 		List<Address> addresses = service.getAddressesByClientId(clientId);
 		return addresses;
 	}
 
 	@RequestMapping(path = "/id/{clientId}/address/{id}", method = RequestMethod.GET)
-	public @ResponseBody Address getByAJAX(@PathVariable final Long id) {
+	public @ResponseBody Address getByAJAX(@PathVariable final BigInteger id) {
 		return service.getAddressById(id);
 	}
 
 	@RequestMapping(path = "/id/{clientId}/address/create", method = RequestMethod.POST)
-	public @ResponseBody String createByAJAX(@PathVariable final Long clientId,
+	public @ResponseBody String createByAJAX(@PathVariable final BigInteger clientId,
 			@RequestBody final Address addr) {
 		addr.setClient(clientService.getClientById(clientId));
 		service.createAddress(addr);

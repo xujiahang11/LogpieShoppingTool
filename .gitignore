@@ -8,4 +8,7 @@
 .tern-project
 .idea/
 *.iml
+*.iws
+*.ipr
 out/
+logs/

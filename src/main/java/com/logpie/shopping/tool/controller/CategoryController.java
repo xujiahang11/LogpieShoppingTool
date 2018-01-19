@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.controller;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class CategoryController {
 
 	@RequestMapping(path = "/category/{cid}/subcategory/create", method = RequestMethod.POST)
 	public @ResponseBody String createSubCategoryByAJAX(
-			@PathVariable final Long cid,
+			@PathVariable final BigInteger cid,
 			@RequestBody final SubCategory subCategory) {
 		Category category = service.getCategoryById(cid);
 		subCategory.setCategory(category);

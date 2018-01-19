@@ -12,33 +12,24 @@ import com.logpie.framework.log.util.LogColor;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface LogEnvironment {
+
+	public LogLevel classLevel();
+
 	public enum LogLevel {
-		TRACE(0), DEBUG(1), INFO(2), ERROR(3);
+		TRACE(0, "TRACE"), DEBUG(1, "DEBUG"), INFO(2, "INFO"), ERROR(3, "ERROR");
 
 		private final int num;
+		private final String name;
 
-		private LogLevel(int num) {
+		private LogLevel(int num, String name) {
 			this.num = num;
+			this.name = name;
 		}
 
 		public int getLevel() {
 			return num;
 		}
 
-		public String getLevelName() {
-			switch (num) {
-			case 0:
-				return LogColor.setGrey("TRACE");
-			case 1:
-				return LogColor.setYellow("DEBUG");
-			case 2:
-				return LogColor.setGreen("INFO");
-			case 3:
-				return LogColor.setRed("ERROR");
-			}
-			return null;
-		}
+		public String getLevelName() { return name; }
 	}
-
-	public LogLevel classLevel();
 }

@@ -1,27 +1,29 @@
 package com.logpie.shopping.tool.model;
 
-import com.logpie.framework.db.annotation.AutoGenerate;
-import com.logpie.framework.db.annotation.AutoGenerate.AutoGenerateType;
-import com.logpie.framework.db.annotation.Column;
-import com.logpie.framework.db.annotation.Column.DataType;
-import com.logpie.framework.db.annotation.Entity;
-import com.logpie.framework.db.annotation.ForeignKeyColumn;
-import com.logpie.framework.db.annotation.ID;
-import com.logpie.framework.db.basic.Model;
+import com.logpie.dba.api.annotation.Entity;
+import com.logpie.dba.api.annotation.ID;
+import com.logpie.dba.api.annotation.ForeignKeyColumn;
+import com.logpie.dba.api.annotation.Column;
+import com.logpie.dba.api.annotation.Column.DataType;
+import com.logpie.dba.api.annotation.AutoGenerate;
+import com.logpie.dba.api.annotation.AutoGenerate.AutoGenerateType;
+import com.logpie.dba.api.basic.Model;
 import com.logpie.shopping.tool.repository.AddressRepository;
+
+import java.math.BigInteger;
 
 @Entity(name = AddressRepository.DB_TABLE_ADDRESS)
 public class Address extends Model {
 	@ID
 	@AutoGenerate(strategy = AutoGenerateType.NumberAutoIncrement)
-	@Column(name = AddressRepository.DB_KEY_ADDRESS_ID, type = DataType.LONG)
-	private Long id;
+	@Column(name = AddressRepository.DB_KEY_ADDRESS_ID, type = DataType.BIGINT)
+	private BigInteger id;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_ADDR, type = DataType.STRING)
 	private String address;
 
-	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPENT, type = DataType.STRING)
-	private String recipent;
+	@Column(name = AddressRepository.DB_KEY_ADDRESS_RECIPIENT, type = DataType.STRING)
+	private String recipient;
 
 	@Column(name = AddressRepository.DB_KEY_ADDRESS_PHONE, type = DataType.STRING)
 	private String phone;
@@ -40,23 +42,22 @@ public class Address extends Model {
 	 * 
 	 * @param id
 	 * @param address
-	 * @param recipent
+	 * @param recipient
 	 * @param phone
 	 * @param zip
 	 * @param client
-	 * @param shop
 	 */
-	public Address(Long id, String address, String recipent, String phone,
+	public Address(BigInteger id, String address, String recipient, String phone,
 			String zip, Client client) {
 		this.id = id;
 		this.address = address;
-		this.recipent = recipent;
+		this.recipient = recipient;
 		this.phone = phone;
 		this.zip = zip;
 		this.client = client;
 	}
 
-	public Long getId() {
+	public BigInteger getId() {
 		return id;
 	}
 
@@ -64,8 +65,8 @@ public class Address extends Model {
 		return address;
 	}
 
-	public String getRecipent() {
-		return recipent;
+	public String getRecipient() {
+		return recipient;
 	}
 
 	public String getPhone() {
@@ -80,7 +81,7 @@ public class Address extends Model {
 		return client;
 	}
 
-	public void setId(Long id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 
@@ -88,8 +89,8 @@ public class Address extends Model {
 		this.address = address;
 	}
 
-	public void setRecipent(String recipent) {
-		this.recipent = recipent;
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
 	}
 
 	public void setPhone(String phone) {

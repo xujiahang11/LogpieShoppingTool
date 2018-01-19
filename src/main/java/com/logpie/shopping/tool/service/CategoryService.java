@@ -1,5 +1,6 @@
 package com.logpie.shopping.tool.service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.logpie.framework.db.basic.Page;
+import com.logpie.dba.api.basic.Page;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 import com.logpie.shopping.tool.model.Category;
@@ -25,7 +26,7 @@ public class CategoryService {
 	private LogpieLogger logger = LogpieLoggerFactory
 			.getLogger(this.getClass());
 
-	public Long createCategory(final Category category) {
+	public Category createCategory(final Category category) {
 		logger.trace("createCategory service is started...");
 		Assert.notNull(category, "Category must not be null");
 
@@ -45,7 +46,7 @@ public class CategoryService {
 		repository.update(category);
 	}
 
-	public Category getCategoryById(final Long id) {
+	public Category getCategoryById(final BigInteger id) {
 		logger.trace("QueryCategoryById service is started...");
 		Assert.notNull(id, "Id must not be null");
 
@@ -55,7 +56,7 @@ public class CategoryService {
 	}
 
 	public Page<Category> getCategoriesByShopId(final int pageNumber,
-			final Long shopId) {
+			final BigInteger shopId) {
 		logger.trace("QueryCategoriesByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
@@ -66,7 +67,7 @@ public class CategoryService {
 		return res;
 	}
 
-	public List<Category> getCategoriesByShopId(final Long shopId) {
+	public List<Category> getCategoriesByShopId(final BigInteger shopId) {
 		logger.trace("QueryCategoriesByShopId service is started...");
 		Assert.notNull(shopId, "Shop id must not be null");
 
