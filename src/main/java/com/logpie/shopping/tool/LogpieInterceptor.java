@@ -15,7 +15,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.logpie.framework.log.util.LogColor;
 import com.logpie.framework.log.util.LogpieLogger;
 import com.logpie.framework.log.util.LogpieLoggerFactory;
 
@@ -24,7 +23,7 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
 	private ApplicationContext appContext;
 
-	private LogpieLogger logger = LogpieLoggerFactory
+	private LogpieLogger LOG = LogpieLoggerFactory
 			.getLogger(LogpieInterceptor.class);
 
 	/*
@@ -37,18 +36,21 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		// set up requestId
+        UUID requestId = UUID.randomUUID();
 		RequestContextHolder.getRequestAttributes().setAttribute("requestId",
-				UUID.randomUUID(), RequestAttributes.SCOPE_REQUEST);
-		String requestMsg = "REQUEST ID --- ";
-		logger.info(requestMsg + RequestContextHolder
-                .getRequestAttributes()
-                .getAttribute("requestId", RequestAttributes.SCOPE_REQUEST).toString());
+				requestId, RequestAttributes.SCOPE_REQUEST);
 
 		// set up request start time for matrix
 		long startTime = System.currentTimeMillis();
 		RequestContextHolder.getRequestAttributes().setAttribute(
 				"requestStartTime", startTime, RequestAttributes.SCOPE_REQUEST);
-        return true;
+
+        String ip = getIpUtil(request);
+		RequestContextHolder.getRequestAttributes().setAttribute("ip", ip, RequestAttributes.SCOPE_REQUEST);
+
+        LOG.info("REQUEST ID --- " + requestId.toString());
+        LOG.info("IP ADDRESS --- " + ip);
+		return true;
 	}
 
 	/*
@@ -74,16 +76,37 @@ public class LogpieInterceptor extends HandlerInterceptorAdapter {
         long requestExecuteTime = endTime
                 - (long) RequestContextHolder.getRequestAttributes()
                 .getAttribute("requestStartTime", RequestAttributes.SCOPE_REQUEST);
-        String performanceMsg = "REQUEST EXECUTION TIME --- ";
-        logger.info(performanceMsg + requestExecuteTime + "ms");
+
+        LOG.info("REQUEST EXECUTION TIME --- " + requestExecuteTime + "ms");
 
         // output logs
         try {
             LogpieLoggerFactory.logToFile(false);
         } catch (IOException e) {
-            logger.error("Cannot write logs to file --- " + LogpieLoggerWriter.getDefaultPath() + LogpieLoggerWriter.getFileName());
+            LOG.error("Failed to append log to --- " + LogpieLoggerWriter.getDefaultPath() + LogpieLoggerWriter.getFileName());
             e.printStackTrace();
         }
         LogpieLoggerFactory.logToConsole(true);
+    }
+
+    private String getIpUtil(HttpServletRequest request) {
+        String ip = request.getHeader("X-FORWARDED-FOR");
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return ip;
     }
 }

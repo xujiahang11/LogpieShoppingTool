@@ -18,10 +18,10 @@
         <div th:replace="header::title(${shop.name},'财务图表','利润曲线','')"></div>
         <div th:replace="aside::contents(${shop},4)"></div>
         <div class="main">
-            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-1.jpg"/>
-            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-2.jpg"/>
-            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-3.jpg"/>
-            <img style="width: 100%" src="https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-338303555546/report-4.jpg"/>
+            <img style="width: 100%" th:src="@{http://{url}/report-1.jpg(url=${imageUrl})}"/>
+            <img style="width: 100%" th:src="@{http://{url}/report-2.jpg(url=${imageUrl})}"/>
+            <img style="width: 100%" th:src="@{http://{url}/report-3.jpg(url=${imageUrl})}"/>
+            <img style="width: 100%" th:src="@{http://{url}/report-4.jpg(url=${imageUrl})}"/>
         </div>
         <div id="popups"></div>
         <div id="mask"></div>
