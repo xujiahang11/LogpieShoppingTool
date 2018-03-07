@@ -12,3 +12,4 @@
 *.ipr
 out/
 logs/
+prototypes/
