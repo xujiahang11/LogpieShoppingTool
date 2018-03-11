@@ -46,7 +46,8 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-starter-jdbc")
     compile("mysql:mysql-connector-java")
-    compile('commons-codec:commons-codec:1.11')
+    compile("commons-codec:commons-codec:1.11")
+    compile("com.thoughtworks.xstream:xstream:1.4.10")
     compile("com.github.xujiahang11:LogpieDBA:v1.0.2-beta")
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
